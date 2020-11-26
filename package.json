@@ -1,0 +1,24 @@
+{
+  "name": "generator-starter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thetribeio/project-generator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thetribeio/project-generator/issues"
+  },
+  "homepage": "https://github.com/thetribeio/project-generator#readme",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "yeoman-generator": "^4.12.0"
+  }
+}
