@@ -1,0 +1,8 @@
+version: '2.1'
+
+jobs: []
+
+workflows:
+  version: '2'
+  build:
+    jobs: []

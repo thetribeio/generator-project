@@ -1,0 +1,10 @@
+version: '2.4'
+
+services:
+    postgres:
+        image: postgres:12.5
+        environment:
+            PGUSER: user
+            PGPASSWORD: password
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: password

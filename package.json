@@ -1,0 +1,24 @@
+{
+  "name": "@thetribe/generator-project",
+  "dependencies": {
+    "ejs": "^3.1.5",
+    "ramda": "^0.27.1",
+    "yaml": "^1.10.0",
+    "yeoman-generator": "^4.12.0"
+  },
+  "devDependencies": {
+    "@thetribe/eslint-config": "^0.4.2",
+    "@tsconfig/node14": "^1.0.0",
+    "@types/ramda": "^0.27.32",
+    "@types/yeoman-generator": "^4.11.3",
+    "@typescript-eslint/parser": "^4.8.2",
+    "copyfiles": "^2.4.0",
+    "eslint": "^7.14.0",
+    "eslint-plugin-import": "^2.22.1",
+    "typescript": "^4.0.5"
+  },
+  "scripts": {
+    "build": "tsc && copyfiles --all 'generators/*/templates/**/*' dist && cp package.json dist/",
+    "lint": "eslint --ext ts generators utils"
+  }
+}

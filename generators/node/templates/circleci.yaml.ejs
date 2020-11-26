@@ -1,0 +1,19 @@
+jobs:
+  <%= name %>-yarn-install:
+    docker:
+      - image: circleci/node:12.16.0
+    working_directory: ~/project/<%= name %>
+    steps:
+      - checkout:
+          path: ~/project
+      - yarn_install
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+              - <%= name %>/node_modules
+
+workflows:
+  version: '2'
+  build:
+    jobs:
+      - <%= name %>-yarn-install

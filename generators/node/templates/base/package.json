@@ -1,0 +1,6 @@
+{
+  "name": "<%= name %>",
+  "dependencies": {
+    "express": "^5.0.0-alpha.8"
+  }
+}

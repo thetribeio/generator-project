@@ -1,0 +1,28 @@
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+        "@thetribe",
+        "plugin:import/typescript"
+    ],
+    "env": {
+        "node": true
+    },
+    "rules": {
+        "class-methods-use-this": "off",
+        "import/extensions": ["error", "ignorePackages", {
+            "cjs": "never",
+            "js": "never",
+            "mjs": "never",
+            "ts": "never"
+        }]
+    },
+    "settings": {
+        "import/extensions": [
+            ".cjs",
+            ".js",
+            ".mjs",
+            ".ts"
+        ]
+    }
+}
