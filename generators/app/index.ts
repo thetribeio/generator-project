@@ -1,8 +1,17 @@
 import Generator from 'yeoman-generator';
 
+enum FrontendChoice {
+    CreateReactApp = 'create-react-app',
+    NextJS = 'next-js',
+}
+
+interface Prompt {
+    frontend: FrontendChoice,
+}
+
 class AppGenerator extends Generator {
     async prompting() {
-        const { frontend } = await this.prompt([
+        const { frontend }: Prompt = await this.prompt([
             {
                 type: 'list',
                 name: 'frontend',
@@ -10,11 +19,11 @@ class AppGenerator extends Generator {
                 choices: [
                     {
                         name: 'Create React App',
-                        value: 'create-react-app',
+                        value: FrontendChoice.CreateReactApp,
                     },
                     {
                         name: 'Next.js',
-                        value: 'next-js',
+                        value: FrontendChoice.NextJS,
                     },
                 ],
             },
@@ -23,10 +32,10 @@ class AppGenerator extends Generator {
         this.composeWith(require.resolve('../node'), { name: 'backend' });
 
         switch (frontend) {
-            case 'create-react-app':
+            case FrontendChoice.CreateReactApp:
                 this.composeWith(require.resolve('../create-react-app'), { name: 'frontend' });
                 break;
-            case 'next-js':
+            case FrontendChoice.NextJS:
                 this.composeWith(require.resolve('../next-js'), { name: 'frontend' });
                 break;
             default:
