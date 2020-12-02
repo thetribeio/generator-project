@@ -16,7 +16,7 @@
     "copyfiles": "^2.4.0",
     "eslint": "^7.14.0",
     "eslint-plugin-import": "^2.22.1",
-    "typescript": "^4.0.5"
+    "typescript": "^4.1.2"
   },
   "scripts": {
     "build": "tsc && copyfiles --all 'generators/*/templates/**/*' dist && cp package.json dist/",
