@@ -1,0 +1,56 @@
+version: '2.1'
+
+executors:
+  node:
+    docker:
+      - image: circleci/node:14.15.1
+
+jobs:
+  yarn-install:
+    executor: node
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-install-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
+            - yarn-install-{{ checksum "package.json" }}
+            - yarn-install
+          paths:
+            - node_modules
+      - run: yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn-install-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules
+
+  lint:
+    executor: node
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: yarn lint
+
+  build:
+    executor: node
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: yarn build
+
+workflows:
+  version: '2'
+  build:
+    jobs:
+      - yarn-install
+      - lint:
+          requires:
+            - yarn-install
+      - build:
+          requires:
+            - lint
