@@ -3,20 +3,17 @@ import YAML from 'yaml';
 import Generator from 'yeoman-generator';
 import { Config, mergeConfig } from './circleci';
 
-interface ContainerConfig {
-    build: string,
-    volumes: string[],
-}
-
 class BaseGenerator extends Generator {
-    configureContainer(name: string, config: ContainerConfig) {
+    async configureDockerCompose(templatePath: string, context: Data) {
+        const config = YAML.parse(await ejs.renderFile(templatePath, context));
+
         const oldConfig = YAML.parse(this.readDestination('docker-compose.yaml'));
 
         const newConfig = {
             ...oldConfig,
             services: {
                 ...oldConfig.services,
-                [name]: config,
+                ...config.services,
             },
         };
 
