@@ -10,12 +10,7 @@ class NodeGenerator extends BaseGenerator {
             { name },
         );
 
-        this.configureContainer(name, {
-            build: name,
-            volumes: [
-                '.:/usr/src/project',
-            ],
-        });
+        this.configureDockerCompose(this.templatePath('docker-compose.yaml.ejs'), { name });
 
         this.configureCircleCI(this.templatePath('circleci.yaml.ejs'), { name });
     }
