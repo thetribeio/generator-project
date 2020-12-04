@@ -29,7 +29,7 @@ class AppGenerator extends Generator {
             },
         ]);
 
-        this.composeWith(require.resolve('../node'), { name: 'backend' });
+        this.composeWith(require.resolve('../express'), { name: 'backend' });
 
         switch (frontend) {
             case FrontendChoice.CreateReactApp:
