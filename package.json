@@ -9,6 +9,7 @@
   "devDependencies": {
     "@thetribe/eslint-config": "^0.4.2",
     "@tsconfig/node14": "^1.0.0",
+    "@types/jest": "^26.0.16",
     "@types/ramda": "^0.27.32",
     "@types/yeoman-generator": "^4.11.3",
     "@typescript-eslint/eslint-plugin": "^4.9.0",
@@ -16,10 +17,13 @@
     "copyfiles": "^2.4.1",
     "eslint": "^7.14.0",
     "eslint-plugin-import": "^2.22.1",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.4.4",
     "typescript": "^4.1.2"
   },
   "scripts": {
     "build": "rm -fr dist && tsc && copyfiles --all 'generators/*/templates/**/*' dist && cp package.json dist/",
-    "lint": "eslint --ext ts generators utils"
+    "lint": "eslint --ext ts generators utils",
+    "test": "jest"
   }
 }
