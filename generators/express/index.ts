@@ -1,6 +1,13 @@
+import { GeneratorOptions } from 'yeoman-generator';
 import BaseGenerator from '../../utils/BaseGenerator';
 
 class ExpressGenerator extends BaseGenerator {
+    constructor(args: string | string[], opts: GeneratorOptions) {
+        super(args, opts);
+
+        this.argument('name', { type: String, required: true });
+    }
+
     async writing() {
         const { name } = this.options;
 

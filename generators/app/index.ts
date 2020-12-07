@@ -29,28 +29,20 @@ class AppGenerator extends Generator {
             },
         ]);
 
-        this.composeWith(require.resolve('../express'), { name: 'backend' });
+        this.composeWith(require.resolve('../root'));
+
+        this.composeWith(require.resolve('../express'), { arguments: ['backend'] });
 
         switch (frontend) {
             case FrontendChoice.CreateReactApp:
-                this.composeWith(require.resolve('../create-react-app'), { name: 'frontend' });
+                this.composeWith(require.resolve('../create-react-app'), { arguments: ['frontend'] });
                 break;
             case FrontendChoice.NextJS:
-                this.composeWith(require.resolve('../next-js'), { name: 'frontend' });
+                this.composeWith(require.resolve('../next-js'), { arguments: ['frontend'] });
                 break;
             default:
                 throw new Error('Invalid frontend');
         }
-    }
-
-    writing() {
-        this.fs.copyTpl(
-            this.templatePath('base'),
-            this.destinationPath(),
-            undefined,
-            undefined,
-            { globOptions: { dot: true } },
-        );
     }
 }
 
