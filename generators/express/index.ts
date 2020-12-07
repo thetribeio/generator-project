@@ -8,6 +8,8 @@ class NodeGenerator extends BaseGenerator {
             this.templatePath('base'),
             this.destinationPath(name),
             { name },
+            undefined,
+            { globOptions: { dot: true } },
         );
 
         this.configureDockerCompose(this.templatePath('docker-compose.yaml.ejs'), { name });
