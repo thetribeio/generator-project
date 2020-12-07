@@ -43,6 +43,14 @@ jobs:
           at: .
       - run: yarn build
 
+  test:
+    executor: node
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: yarn test
+
 workflows:
   version: '2'
   build:
@@ -52,5 +60,8 @@ workflows:
           requires:
             - yarn-install
       - build:
+          requires:
+            - lint
+      - test:
           requires:
             - lint

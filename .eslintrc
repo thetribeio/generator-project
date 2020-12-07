@@ -31,5 +31,13 @@
             ".mjs",
             ".ts"
         ]
-    }
+    },
+    "overrides": [
+        {
+            "files": ["**/__tests__/*.ts"],
+            "env": {
+                "jest": true
+            }
+        }
+    ]
 }
