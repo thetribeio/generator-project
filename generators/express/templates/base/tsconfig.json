@@ -1,6 +1,6 @@
 
 {
-    "extends": "@tsconfig/node<%= nodeVersion.split('.')[0] %>/tsconfig.json",
+    "extends": "@tsconfig/node14/tsconfig.json",
     "compilerOptions": {
         "allowSyntheticDefaultImports": true,
         "importHelpers": true,
