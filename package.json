@@ -9,7 +9,7 @@
   "devDependencies": {
     "@thetribe/eslint-config": "^0.4.2",
     "@tsconfig/node14": "^1.0.0",
-    "@types/jest": "^26.0.16",
+    "@types/jest": "^26.0.17",
     "@types/ramda": "^0.27.32",
     "@types/yeoman-generator": "^4.11.3",
     "@types/yeoman-test": "^2.0.5",
