@@ -21,6 +21,7 @@
         "generators/**/*"
     ],
     "exclude": [
-        "generators/*/templates"
+        "generators/*/templates",
+        "**/__tests__"
     ]
 }
