@@ -32,6 +32,7 @@ project_configuration:
   branch: develop
   contact: thomas.barusseau@thetribe.io
 ```
+- `roles_path` allows ansible ansible to find roles in both the `roles` and `roles-lib` directories.
 
 ## Generating `vault_pass.txt`
 
@@ -67,13 +68,12 @@ staging_host ansible_host=127.0.0.1 ansible_user=root ansible_python_interpreter
 
 ## Roles
 
-theTribe uses a roles library. An ansible role is like a library that contains
+theTribe uses a roles library. An ansible role is like a function that contains
 predefined actions, so you don't have to rewrite everything everytime.
 
-Ansible only looks for roles in the `roles` folder. If you look into `ansible/roles/`,
-you will see that there are symbolic links to the `roles-lib/` folder.
+This library is loaded into the project using the `role-lib` submodule.
 
-This way, ansible can find the roles from the roles library.
+Ansible will looks for roles in both the `roles`, and `roles-lib` folders.
 
 If you want to create custom roles for your project, just create a new folder in `roles/`
 and take notes from the already existing roles in the `roles-lib` folder.
