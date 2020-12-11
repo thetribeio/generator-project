@@ -1,0 +1,60 @@
+- hosts: server
+  tasks:
+    - import_role:
+        name: postgresql
+      vars:
+        dbs:
+          <%= name %>:
+            owner: <%= name %>
+        users:
+          <%= name %>:
+            password: '{{ <%= name.replace('-', '_') %>.database_password }}'
+    - import_role:
+        name: nodejs
+      vars:
+        version: 14
+    - group:
+        name: <%= name %>
+        state: present
+    - user:
+        name: <%= name %>
+        state: present
+        group: <%= name %>
+    - import_role:
+        name: envfile
+      vars:
+        path: /home/<%= name %>/env
+        env: '{{ <%= name %>.env }}'
+    - name: Configure env
+      lineinfile:
+        path: /home/<%= name %>/.bashrc
+        line: set -a; source /home/<%= name %>/env; set +a
+    - import_role:
+        name: service
+      vars:
+        command: /usr/bin/node /home/<%= name %>/current/dist
+        description: <%= name %>
+        service: <%= name %>
+        user: <%= name %>
+        group: <%= name %>
+        env: '{{ <%= name.replace('-', '_') %>.env }}'
+    - import_role:
+        name: site
+      vars:
+        email: '{{ contact_email }}'
+        site: <%= name %>
+        domain: '{{ <%= name.replace('-', '_') %>.domain }}'
+        config: |
+          root /home/<%= name %>/current/dist;
+
+          client_max_body_size 25M;
+
+          location / {
+              proxy_pass http://localhost:3000/;
+              proxy_set_header Host $host;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header X-Forwarded-Proto $scheme;
+          }
+  tags:
+    - <%= name %>

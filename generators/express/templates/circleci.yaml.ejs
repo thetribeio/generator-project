@@ -6,14 +6,86 @@ jobs:
     steps:
       - checkout:
           path: ~/project
-      - yarn_install
+      - restore_cache:
+          keys:
+            - yarn-install-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
+            - yarn-install-{{ checksum "package.json" }}
+            - yarn-install
+          paths:
+            - node_modules
+      - run:
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn_install-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
       - persist_to_workspace:
           root: ~/project
           paths:
               - <%= name %>/node_modules
+
+  <%= name %>-lint:
+    docker:
+      - image: circleci/node:14.15.1
+    working_directory: ~/project/<%= name %>
+    steps:
+      - checkout:
+          path: ~/project
+      - attach_workspace:
+          at: ~/project
+      - run:
+          command: yarn lint
+
+  <%= name %>-build:
+    docker:
+      - image: circleci/node:14.15.1
+    working_directory: ~/project/<%= name %>
+    steps:
+      - checkout:
+          path: ~/project
+      - attach_workspace:
+          at: ~/project
+      - run:
+          command: yarn build
+          environment:
+            NODE_ENV: production
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+              - <%= name %>/dist
+
+  <%= name %>-archive:
+    docker:
+      - image: circleci/node:14.15.1
+    working_directory: ~/project/<%= name %>
+    steps:
+      - checkout:
+          path: ~/project
+      - attach_workspace:
+          at: ~/project
+      - run:
+          command: yarn install --prod --frozen-lockfile
+      - run:
+          name: Create archive
+          command: |
+            tar -czf archive.tar.gz \
+              dist/ \
+              node_modules/ \
+      - store_artifacts:
+          path: archive.tar.gz
+          destination: <%= name %>.tar.gz
 
 workflows:
   version: '2'
   build:
     jobs:
       - <%= name %>-yarn-install
+      - <%= name %>-lint:
+          requires:
+            - <%= name %>-yarn-install
+      - <%= name %>-build:
+          requires:
+            - <%= name %>-lint
+      - <%= name %>-archive:
+          requires:
+            - <%= name %>-build

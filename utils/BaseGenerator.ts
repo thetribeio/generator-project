@@ -1,33 +1,66 @@
 import ejs, { Data } from 'ejs';
-import YAML from 'yaml';
+import YAML, { Options } from 'yaml';
 import Generator from 'yeoman-generator';
 import { Config, mergeConfig } from './circleci';
+import indent from './indent';
 
 class BaseGenerator extends Generator {
     async configureDockerCompose(templatePath: string, context: Data) {
-        const config = YAML.parse(await ejs.renderFile(templatePath, context));
-
-        const oldConfig = YAML.parse(this.readDestination('docker-compose.yaml'));
-
-        const newConfig = {
-            ...oldConfig,
-            services: {
-                ...oldConfig.services,
-                ...config.services,
-            },
-        };
-
-        this.writeDestination('docker-compose.yaml', YAML.stringify(newConfig, { indent: 4 }));
+        await this.extendYAML(
+            templatePath,
+            'docker-compose.yaml',
+            context,
+            (oldConfig, config) => ({
+                ...oldConfig,
+                services: {
+                    ...oldConfig.services,
+                    ...config.services,
+                },
+            }),
+            { indent: 4 },
+        );
     }
 
     async configureCircleCI(templatePath: string, context: Data) {
-        const config = YAML.parse(await ejs.renderFile(templatePath, context));
+        await this.extendYAML(
+            templatePath,
+            '.circleci/config.yml',
+            context,
+            (oldConfig, config) => mergeConfig(Config.fromRaw(oldConfig), Config.fromRaw(config)).toRaw(),
+            { indent: 2 },
+        );
+    }
 
-        const oldConfig = YAML.parse(this.readDestination('.circleci/config.yml'));
+    async configureAnsible(templatePath: string, context: Data): Promise<void> {
+        const paths = ['deployment.yaml', 'provision.yaml', 'group_vars/all.yaml', 'group_vars/staging.yaml'];
 
-        const newConfig = mergeConfig(Config.fromRaw(oldConfig), Config.fromRaw(config)).toRaw();
+        await Promise.all(paths.map(async (path: string): Promise<void> => {
+            await this.appendTemplate(`${templatePath}/${path}.ejs`, `ansible/${path}`, context);
+        }));
+    }
 
-        this.writeDestination('.circleci/config.yml', YAML.stringify(newConfig, { indent: 2 }));
+    private async appendTemplate(from: string, to: string, context: Data): Promise<void> {
+        this.fs.append(this.destinationPath(to), await this.renderTemplateToString(from, context));
+    }
+
+    private async extendYAML(
+        template: string,
+        destination: string,
+        context: Data,
+        merger: (a: any, b: any) => any,
+        options: Options = {},
+    ): Promise<void> {
+        const config = YAML.parse(await this.renderTemplateToString(template, context));
+
+        const oldConfig = YAML.parse(this.readDestination(destination));
+
+        const newConfig = merger(config, oldConfig);
+
+        this.writeDestination(destination, YAML.stringify(newConfig, options));
+    }
+
+    private renderTemplateToString(path: string, context: Data): Promise<string> {
+        return ejs.renderFile(this.templatePath(path), { indent, ...context });
     }
 }
 

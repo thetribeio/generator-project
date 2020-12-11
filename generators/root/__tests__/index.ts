@@ -16,4 +16,8 @@ describe('When running the generator', () => {
     test('It generates an ansible configuration', async () => {
         await fs.promises.access(path.join(root, 'ansible', 'staging'), fs.constants.R_OK);
     });
+
+    test('It generates an ansible vault pass', async () => {
+        await fs.promises.access(path.join(root, 'ansible', 'vault_pass.txt'), fs.constants.R_OK);
+    });
 });

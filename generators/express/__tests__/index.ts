@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import YAML from 'yaml';
 import helpers from 'yeoman-test';
 import run from '../../../utils/run';
 
@@ -21,5 +22,11 @@ describe('When running the generator', () => {
 
     test('It generates a project which correctly builds', async () => {
         await run('yarn', ['build'], { cwd: path.resolve(root, 'test') });
+    });
+
+    test('It extends the ansible configuration', async () => {
+        const all = YAML.parse(await fs.promises.readFile(path.resolve(root, 'ansible/group_vars/all.yaml'), 'utf8'));
+
+        expect(all.test).toBeDefined();
     });
 });
