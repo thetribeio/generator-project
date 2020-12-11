@@ -1,6 +1,6 @@
 import BaseGenerator from '../../utils/BaseGenerator';
 
-class NodeGenerator extends BaseGenerator {
+class ExpressGenerator extends BaseGenerator {
     async writing() {
         const { name } = this.options;
 
@@ -18,4 +18,4 @@ class NodeGenerator extends BaseGenerator {
     }
 }
 
-export default NodeGenerator;
+export default ExpressGenerator;
