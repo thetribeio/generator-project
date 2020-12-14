@@ -26,6 +26,8 @@
   "scripts": {
     "build": "rm -fr dist && tsc && copyfiles --all 'generators/*/templates/**/*' dist && cp package.json dist/",
     "lint": "eslint --ext ts generators utils",
-    "test": "jest"
+    "test": "yarn test:utils && yarn test:generators",
+    "test:generators": "jest --runInBand generators",
+    "test:utils": "jest utils"
   }
 }

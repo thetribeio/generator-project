@@ -1,5 +1,6 @@
 import { GeneratorOptions } from 'yeoman-generator';
 import BaseGenerator from '../../utils/BaseGenerator';
+import run from '../../utils/run';
 
 class ExpressGenerator extends BaseGenerator {
     constructor(args: string | string[], opts: GeneratorOptions) {
@@ -22,6 +23,14 @@ class ExpressGenerator extends BaseGenerator {
         await this.configureDockerCompose(this.templatePath('docker-compose.yaml.ejs'), { name });
 
         await this.configureCircleCI(this.templatePath('circleci.yaml.ejs'), { name });
+    }
+
+    async install(): Promise<void> {
+        const { name } = this.options;
+
+        await run('yarn', ['install', '--frozen-lockfile'], {
+            cwd: this.destinationPath(name),
+        });
     }
 }
 
