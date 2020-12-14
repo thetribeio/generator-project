@@ -1,7 +1,7 @@
 import BaseGenerator from '../../utils/BaseGenerator';
 
-class NodeGenerator extends BaseGenerator {
-    writing() {
+class ExpressGenerator extends BaseGenerator {
+    async writing() {
         const { name } = this.options;
 
         this.fs.copyTpl(
@@ -12,10 +12,10 @@ class NodeGenerator extends BaseGenerator {
             { globOptions: { dot: true } },
         );
 
-        this.configureDockerCompose(this.templatePath('docker-compose.yaml.ejs'), { name });
+        await this.configureDockerCompose(this.templatePath('docker-compose.yaml.ejs'), { name });
 
-        this.configureCircleCI(this.templatePath('circleci.yaml.ejs'), { name });
+        await this.configureCircleCI(this.templatePath('circleci.yaml.ejs'), { name });
     }
 }
 
-export default NodeGenerator;
+export default ExpressGenerator;
