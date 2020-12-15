@@ -1,8 +1,8 @@
 # @thetribe/generator-project
 
 
-## Why do we do the project generator 
-During the bootstrap of each project we write a lot of configurations boilerplate - spending each time a few days doing the same taks again and again
+## Why do we do the project generator ?
+During the bootstrap of each project we write a lot of configuration boilerplate - spending each time a few days doing the same tasks again and again
 
 The generator is here to make us more efficient when starting a new project by generating a scaffolded project: 
 
@@ -24,12 +24,12 @@ More languages/tools will come in the future. You can refer/share your input in 
 
 The main tool behind the generator is [Yeoman](https://yeoman.io/)
 
-It allows us to leverage the concept of a `generator`. A class exposed by Yeoman that allow us to : 
+It allows us to leverage the concept of a `generator`. A class exposed by Yeoman allowing us to : 
 * create prompts for the user
 * invoke other generator 
 * create and generate files/templates
 
-As per our project structure we currently have several differents generators
+As per our project structure we currently have several generators
 
 **AppGenerator :** 
 
