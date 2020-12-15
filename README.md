@@ -1,8 +1,6 @@
 # @thetribe/generator-project
 
 
-## Vocabulary between generator and project ? 
-
 ## Why do we do the project generator 
 During the bootstrap of each project we write a lot of configurations boilerplate - spending each time a few days doing the same taks again and again
 
@@ -31,37 +29,60 @@ It allows us to leverage the concept of a `generator`. A class exposed by Yeoman
 * invoke other generator 
 * create and generate files/templates
 
-As per our project structure we currently have 4 generators
+As per our project structure we currently have several differents generators
 
-#### AppGenerator : 
+**AppGenerator :** 
 
-This is the root generator : 
+This is the base generator, that rules them all : 
 - responsible to collect most of the project information from the user through prompts, 
 - configuring the project devOps tooling (ansible, docker-compose, circleCi)
 - responsible for calling the sub Generators
 
-#### NodeGenerator : 
+**RootGenerator :** A root generator which can be invoked to generate a bare project see [Manual mode](#manual-mode) 
 
-The sub-generator for the backend responsible to create/template backend files for the project 
+**NodeGenerator :**  The sub-generator for the backend responsible to create/template backend files for the project 
 
-#### CreateReactAppGenerator and NextjsGenerator : 
-
-Both of them are sub-generators responsible for their respective frontend stack, providing the templated files to the project
+**CreateReactAppGenerator and NextjsGenerator :** Both of them are sub-generators responsible for their respective frontend stack, providing the templated files to the project
 
 
 ## Yeoman concept to know to start contributing
 
+Yeoman is mainly based on the `generator` concept. A Generator is basically a class with built in method called during its lifecycle
 
+Those built in methods allow you to : 
+* leverage prompts in the CLI to get user input
+* interact with the file system and use templates
+* composition with others generators
+* pass arguments/options from the CLI
+
+see https://yeoman.io/authoring/ for more information
+ 
 
 ## Testing approach
 
+For the tests we aim to test :
+- utils function
+- output files and templates are properly created
+- linters on output files
+- sub-generators are being called
+- prompts input are properly forwarded / trigger expected behaviours
+
+This is not an exhaustive list, rather common sense test approach :)  
 
 
 ## If you encounter an issue while using the generator 
 
+If you encounter any issue while using the generator or contributing on it. 
+
+Please create a new trello card using the **Generator Issue** model card in the triage column from the [Generator Trello Board](https://trello.com/b/T2yA4yFF/generateur-scrum-board)
+
 
 ## Useful resources 
-
+* [CI project](https://app.circleci.com/pipelines/github/thetribeio/generator-project)
+* [Yeoman authoring guide](https://yeoman.io/authoring/)
+* [Yeoman full API](https://yeoman.github.io/generator/)
+* [Generator Trello Board](https://trello.com/b/T2yA4yFF/generateur-scrum-board)
+* [Slack channel ](https://app.slack.com/client/T0EMTFESW/C019M7EEBT5/thread/C0EMTFF50-1607075028.358400)
 
 ## Install the project
 
