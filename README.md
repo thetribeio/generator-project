@@ -20,16 +20,25 @@ The current MVP covers the most used technologies which are :
 
 More languages/tools will come in the future. You can refer/share your input in the [trello board](https://trello.com/b/T2yA4yFF/generateur-scrum-board)
 
-## Project structure and concept
 
-The main tool behind the generator is [Yeoman](https://yeoman.io/)
+## Yeoman concept 
 
-It allows us to leverage the concept of a `generator`. A class exposed by Yeoman allowing us to : 
-* create prompts for the user
-* invoke other generator 
-* create and generate files/templates
+The tool behind the generator is [Yeoman](https://yeoman.io/)
 
-As per our project structure we currently have several generators
+Its main concept is the `generator` class with built in method called during its lifecycle
+
+Those built in methods allow you to : 
+* leverage prompts in the CLI to get user input
+* interact with the file system and use templates
+* composition with others generators
+* pass arguments/options from the CLI
+
+see https://yeoman.io/authoring/ for more information
+ 
+
+## Project structure 
+
+In our project structure we currently have several generators
 
 **AppGenerator :** 
 
@@ -40,23 +49,11 @@ This is the base generator, that rules them all :
 
 **RootGenerator :** A root generator which can be invoked to generate a bare project see [Manual mode](#manual-mode) 
 
-**NodeGenerator :**  The sub-generator for the backend responsible to create/template backend files for the project 
+**ExpressGenerator :**  The sub-generator for the backend responsible to create/template backend files for the project 
 
 **CreateReactAppGenerator and NextjsGenerator :** Both of them are sub-generators responsible for their respective frontend stack, providing the templated files to the project
 
 
-## Yeoman concept to know to start contributing
-
-Yeoman is mainly based on the `generator` concept. A Generator is basically a class with built in method called during its lifecycle
-
-Those built in methods allow you to : 
-* leverage prompts in the CLI to get user input
-* interact with the file system and use templates
-* composition with others generators
-* pass arguments/options from the CLI
-
-see https://yeoman.io/authoring/ for more information
- 
 
 ## Testing approach
 
@@ -74,7 +71,7 @@ This is not an exhaustive list, rather common sense test approach :)
 
 If you encounter any issue while using the generator or contributing on it. 
 
-Please create a new trello card using the **Generator Issue** model card in the triage column from the [Generator Trello Board](https://trello.com/b/T2yA4yFF/generateur-scrum-board)
+Please create a new trello card using the **Generator Issue** model card in the "triage" column from the [Generator Trello Board](https://trello.com/b/T2yA4yFF/generateur-scrum-board)
 
 
 ## Useful resources 
