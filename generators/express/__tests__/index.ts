@@ -9,7 +9,10 @@ describe('When running the generator', () => {
     beforeAll(async () => {
         root = await helpers.run(path.resolve(__dirname, '../../root'));
 
-        await helpers.run(path.resolve(__dirname, '..')).cd(root).withArguments(['test']);
+        await helpers.run(path.resolve(__dirname, '..'))
+            .cd(root)
+            .withOptions({ skipInstall: false })
+            .withArguments(['test']);
     });
 
     afterAll(async () => {
