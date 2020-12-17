@@ -13,6 +13,12 @@ class NextJSGenerator extends Generator {
             name,
         });
     }
+
+    install(): void {
+        const { name } = this.options;
+
+        this.yarnInstall(undefined, { frozenLockfile: true }, { cwd: this.destinationPath(name) });
+    }
 }
 
 export default NextJSGenerator;
