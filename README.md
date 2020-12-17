@@ -79,7 +79,7 @@ Please create a new trello card using the **Generator Issue** model card in the 
 * [Yeoman authoring guide](https://yeoman.io/authoring/)
 * [Yeoman full API](https://yeoman.github.io/generator/)
 * [Generator Trello Board](https://trello.com/b/T2yA4yFF/generateur-scrum-board)
-* [Slack channel ](https://app.slack.com/client/T0EMTFESW/C019M7EEBT5/thread/C0EMTFF50-1607075028.358400)
+* [Slack channel](https://app.slack.com/client/T0EMTFESW/C019M7EEBT5/thread/C0EMTFF50-1607075028.358400)
 
 ## Install the project
 
