@@ -1,0 +1,9 @@
+---
+# Put the variables that only concern the staging target here
+agenda_dynamic:
+  bo:
+    hostname: staging.bo.agenda-dynamic.thetribe.io
+  app:
+    hostname: staging.app.agenda-dynamic.thetribe.io
+
+branch: develop
