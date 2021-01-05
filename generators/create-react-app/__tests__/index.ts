@@ -23,4 +23,8 @@ describe('When running the generator', () => {
     test('It generates a project which correctly builds', async () => {
         await run('yarn', ['build'], { cwd: path.resolve(root, 'test') });
     });
+
+    test('It generates a project which correctly lints', async () => {
+        await run('yarn', ['lint'], { cwd: path.resolve(root, 'test') });
+    });
 });
