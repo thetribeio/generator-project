@@ -1,0 +1,4 @@
+<%= name.replace('-', '_') %>:
+  database_password: !vault |
+<%= indent(databasePassword, 4) %>
+  domain: <%= domain %>

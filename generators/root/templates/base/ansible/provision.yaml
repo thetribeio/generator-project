@@ -1,6 +1,1 @@
 ---
-- hosts: staging_host
-  tasks:
-    - name: Print a nice message
-      debug:
-        msg: Hello, world!

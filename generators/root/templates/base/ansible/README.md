@@ -34,20 +34,6 @@ project_configuration:
 ```
 - `roles_path` allows ansible ansible to find roles in both the `roles` and `roles-lib` directories.
 
-## Generating `vault_pass.txt`
-
-If you're not on a UNIX environment, you're on your own.
-
-Run this command:
-```bash
-< /dev/urandom tr -cd "[:print:]" | head -c 64 >vault_pass.txt
-```
-
-If you're on MacOS, run this command:
-```bash
-openssl rand -base64 64 >vault_pass.txt
-```
-
 ## Inventory files
 
 You usually have one inventory file per target: `staging`, `production`...

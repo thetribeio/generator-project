@@ -10,3 +10,9 @@ insert_final_newline = true
 
 [{package.json,yarn.lock}]
 indent_size = 2
+
+[generators/*/templates/circleci.yaml.ejs]
+indent_size = 2
+
+[generators/*/templates/ansible/**/*.yaml.ejs]
+indent_size = 2
