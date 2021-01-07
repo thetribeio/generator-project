@@ -551,10 +551,10 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
-"@thetribe/eslint-config-typescript@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config-typescript/-/eslint-config-typescript-0.2.0.tgz#5720d012e47ca29314a144e7591772ee3a235e27"
-  integrity sha512-c4QHsicdpqUa6Bz6fc+NGeAx/shVC/iIKzHVc8+WslEDDVL/X5mou6LrFyjz2Eeq6+mwuHv2irRRrnjg4WEwHA==
+"@thetribe/eslint-config-typescript@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config-typescript/-/eslint-config-typescript-0.2.1.tgz#eeccb80a3c22c4acf41a559f743ccbff40ac3a0c"
+  integrity sha512-pNwt6kC21sIBb21HABykCzwAVlAdGkVg00ebBBCZe/3CrgAm73EeD4JteTGJJSWSrwBqnxzqVEXBWdz19l+N3Q==
   dependencies:
     "@thetribe/eslint-config" "^0.4.2"
 
