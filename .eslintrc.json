@@ -1,0 +1,18 @@
+{
+    "root": true,
+    "extends": "@thetribe/eslint-config-typescript",
+    "env": {
+        "node": true
+    },
+    "rules": {
+        "class-methods-use-this": "off"
+    },
+    "overrides": [
+        {
+            "files": ["**/__tests__/*.ts"],
+            "env": {
+                "jest": true
+            }
+        }
+    ]
+}
