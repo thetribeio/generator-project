@@ -2,6 +2,7 @@
   tasks:
     - import_role:
         name: build
+      delegate_to: localhost
     - import_role:
         name: deploy
       vars:
