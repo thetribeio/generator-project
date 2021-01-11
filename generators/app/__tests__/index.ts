@@ -19,6 +19,12 @@ describe('When running the generator with Create React App', () => {
 
         expect(config.dependencies.express).toBeDefined();
     });
+
+    test('It generates a Create React App frontend', async () => {
+        const config = JSON.parse(await fs.promises.readFile(path.resolve(root, 'frontend', 'package.json'), 'utf8'));
+
+        expect(config.dependencies['react-scripts']).toBeDefined();
+    });
 });
 
 describe('When running the generator with Next.js', () => {
