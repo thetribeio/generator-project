@@ -3,3 +3,5 @@ services:
         build: <%= name %>/docker
         volumes:
             - ./<%= name %>:/usr/src/project/<%= name %>
+        ports:
+            - 3000:3000

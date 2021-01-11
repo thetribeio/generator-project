@@ -1,0 +1,15 @@
+import * as Sentry from '@sentry/node';
+import app from './app';
+import version from './version';
+
+Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    environment: process.env.SENTRY_ENVIRONMENT,
+    release: version ? `<%= projectName %>-<%= name %>@${version}` : undefined,
+});
+
+const port: number = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+
+app.listen(port, () => {
+    console.info(`Server listening on port ${port}`);
+});

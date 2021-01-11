@@ -46,14 +46,20 @@ class ExpressGenerator extends BaseGenerator {
         this.fs.copyTpl(
             this.templatePath('base'),
             this.destinationPath(name),
-            { name },
+            {
+                name,
+                projectName: this.config.get('projectName'),
+            },
             undefined,
             { globOptions: { dot: true } },
         );
 
         await this.configureDockerCompose('docker-compose.yaml.ejs', { name });
 
-        await this.configureCircleCI('circleci.yaml.ejs', { name });
+        await this.configureCircleCI('circleci.yaml.ejs', {
+            name,
+            projectName: this.config.get('projectName'),
+        });
 
         await this.configureAnsible('ansible', {
             databasePassword: await vault.encrypt(databasePassword),
