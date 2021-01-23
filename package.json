@@ -12,7 +12,7 @@
     "@thetribe/eslint-config-typescript": "^0.2.1",
     "@tsconfig/node14": "^1.0.0",
     "@types/jest": "^26.0.20",
-    "@types/ramda": "^0.27.34",
+    "@types/ramda": "^0.27.35",
     "@types/yeoman-generator": "^4.11.3",
     "@types/yeoman-test": "^2.0.5",
     "@typescript-eslint/eslint-plugin": "^4.12.0",
