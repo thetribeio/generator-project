@@ -4,48 +4,48 @@
         name: postgresql
       vars:
         dbs:
-          <%= name %>:
-            owner: <%= name %>
+          <%= packageName %>:
+            owner: <%= packageName %>
         users:
-          <%= name %>:
-            password: '{{ <%= name.replace('-', '_') %>.database_password }}'
+          <%= packageName %>:
+            password: '{{ <%= packageName.replace('-', '_') %>.database_password }}'
     - import_role:
         name: nodejs
       vars:
         version: 14
     - group:
-        name: <%= name %>
+        name: <%= packageName %>
         state: present
     - user:
-        name: <%= name %>
+        name: <%= packageName %>
         state: present
-        group: <%= name %>
+        group: <%= packageName %>
     - import_role:
         name: envfile
       vars:
-        path: /home/<%= name %>/env
-        env: '{{ <%= name %>.env }}'
+        path: /home/<%= packageName %>/env
+        env: '{{ <%= packageName %>.env }}'
     - name: Configure env
       lineinfile:
-        path: /home/<%= name %>/.bashrc
-        line: set -a; source /home/<%= name %>/env; set +a
+        path: /home/<%= packageName %>/.bashrc
+        line: set -a; source /home/<%= packageName %>/env; set +a
     - import_role:
         name: service
       vars:
-        command: /usr/bin/node /home/<%= name %>/current/dist
-        description: <%= name %>
-        service: <%= name %>
-        user: <%= name %>
-        group: <%= name %>
-        env: '{{ <%= name.replace('-', '_') %>.env }}'
+        command: /usr/bin/node /home/<%= packageName %>/current/dist
+        description: <%= packageName %>
+        service: <%= packageName %>
+        user: <%= packageName %>
+        group: <%= packageName %>
+        env: '{{ <%= packageName.replace('-', '_') %>.env }}'
     - import_role:
         name: site
       vars:
         email: '{{ contact_email }}'
-        site: <%= name %>
-        domain: '{{ <%= name.replace('-', '_') %>.domain }}'
+        site: <%= packageName %>
+        domain: '{{ <%= packageName.replace('-', '_') %>.domain }}'
         config: |
-          root /home/<%= name %>/current/dist;
+          root /home/<%= packageName %>/current/dist;
 
           client_max_body_size 25M;
 
@@ -57,4 +57,4 @@
               proxy_set_header X-Forwarded-Proto $scheme;
           }
   tags:
-    - <%= name %>
+    - <%= packageName %>

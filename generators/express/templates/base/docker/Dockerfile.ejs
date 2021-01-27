@@ -6,8 +6,8 @@ ARG UID=1000
 RUN useradd --uid $UID --create-home user
 USER user
 
-WORKDIR /usr/src/project/<%= name %>
+WORKDIR /usr/src/project/<%= packageName %>
 
-ENV PATH="/usr/src/project/<%= name %>/node_modules/.bin:${PATH}"
+ENV PATH="/usr/src/project/<%= packageName %>/node_modules/.bin:${PATH}"
 
 CMD ["yarn", "start"]

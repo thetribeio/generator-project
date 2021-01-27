@@ -1,23 +1,17 @@
-import Generator, { GeneratorOptions } from 'yeoman-generator';
+import PackageGenerator from '../../utils/PackageGenerator';
 
-class NextJSGenerator extends Generator {
-    constructor(args: string | string[], opts: GeneratorOptions) {
-        super(args, opts);
-
-        this.argument('name', { type: String, required: true });
-    }
-
+class NextJSGenerator extends PackageGenerator {
     writing() {
-        const { name } = this.options;
-        this.fs.copyTpl(this.templatePath('base'), this.destinationPath(name), {
-            name,
+        const { packageName } = this.options;
+        this.fs.copyTpl(this.templatePath('base'), this.destinationPath(packageName), {
+            packageName,
         });
     }
 
     install(): void {
-        const { name } = this.options;
+        const { packageName } = this.options;
 
-        this.yarnInstall(undefined, { frozenLockfile: true }, { cwd: this.destinationPath(name) });
+        this.yarnInstall(undefined, { frozenLockfile: true }, { cwd: this.destinationPath(packageName) });
     }
 }
 

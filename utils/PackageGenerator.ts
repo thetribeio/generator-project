@@ -1,10 +1,24 @@
 import ejs, { Data } from 'ejs';
 import YAML, { Options } from 'yaml';
-import Generator from 'yeoman-generator';
+import Generator, { GeneratorOptions } from 'yeoman-generator';
 import { Config, mergeConfig } from './circleci';
 import indent from './indent';
 
-class BaseGenerator extends Generator {
+interface PackageGeneratorOption extends GeneratorOptions {
+    packageName: string;
+}
+
+class PackageGenerator extends Generator<PackageGeneratorOption> {
+    constructor(args: string | string[], opts: PackageGeneratorOption) {
+        super(args, opts);
+
+        this.argument('packageName', { type: String, required: true });
+
+        if (!/^[a-z0-9-]+$/.test(this.options.name)) {
+            throw new Error('Package name can only contains lowercase numbers, numbers and dashes');
+        }
+    }
+
     async configureDockerCompose(templatePath: string, context: Data) {
         await this.extendYAML(
             templatePath,
@@ -64,4 +78,4 @@ class BaseGenerator extends Generator {
     }
 }
 
-export default BaseGenerator;
+export default PackageGenerator;

@@ -6,14 +6,14 @@
     - import_role:
         name: deploy
       vars:
-        path: /home/<%= name %>
-        artifact: <%= name %>.tar.gz
-        environment: '{{ <%= name.replace('-', '_') %>.env }}'
+        path: /home/<%= packageName %>
+        artifact: <%= packageName %>.tar.gz
+        environment: '{{ <%= packageName.replace('-', '_') %>.env }}'
   vars:
-    job_name: <%= name %>-archive
+    job_name: <%= packageName %>-archive
     repository_name: <%= repositoryName %>
   vars_files:
     - vars/circleci.yaml
     - vars/github.yaml
   tags:
-    - <%= name %>
+    - <%= packageName %>
