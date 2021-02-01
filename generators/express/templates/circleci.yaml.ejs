@@ -45,6 +45,7 @@ jobs:
           path: ~/project
       - attach_workspace:
           at: ~/project
+      - run: echo "export default '${CIRCLE_SHA1}'" > src/version.ts
       - run:
           command: yarn build
           environment:
@@ -75,6 +76,19 @@ jobs:
           path: archive.tar.gz
           destination: <%= name %>.tar.gz
 
+  <%= name %>-sentry-release:
+    docker:
+      - image: getsentry/sentry-cli:1.61.0
+        entrypoint: ''
+        environment:
+          SENTRY_PROJECT: <%= projectName %>-<%= name %>
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run: sentry-cli releases new <%= projectName %>-<%= name %>@${CIRCLE_SHA1}
+      - run: sentry-cli releases files <%= projectName %>-<%= name %>@${CIRCLE_SHA1} upload-sourcemaps <%= name %>/dist
+      - run: sentry-cli releases finalize <%= projectName %>-<%= name %>@${CIRCLE_SHA1}
+
 workflows:
   version: '2'
   build:
@@ -89,3 +103,12 @@ workflows:
       - <%= name %>-archive:
           requires:
             - <%= name %>-build
+      - <%= name %>-sentry-release:
+          context: sentry
+          requires:
+            - <%= name %>-build
+          filters:
+            branches:
+              only:
+                - develop
+                - master

@@ -3,6 +3,7 @@ import Generator from 'yeoman-generator';
 import run from '../../utils/run';
 
 interface Prompt {
+    projectName: string,
     repositoryName: string,
     contactEmail: string,
 }
@@ -14,9 +15,15 @@ class RootGenerator extends Generator {
         this.#answers = await this.prompt([
             {
                 type: 'input',
+                name: 'projectName',
+                message: 'Project name',
+                default: this.appname,
+            },
+            {
+                type: 'input',
                 name: 'repositoryName',
                 message: 'Repository name',
-                default: `thetribeio/${this.appname}`,
+                default: ({ projectName }: Prompt) => `thetribeio/${projectName}`,
             },
             {
                 type: 'input',
@@ -25,8 +32,9 @@ class RootGenerator extends Generator {
             },
         ]);
 
-        const { repositoryName } = this.#answers as Prompt;
+        const { projectName, repositoryName } = this.#answers as Prompt;
 
+        this.config.set('projectName', projectName);
         this.config.set('repositoryName', repositoryName);
     }
 
