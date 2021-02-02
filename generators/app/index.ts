@@ -40,8 +40,6 @@ class AppGenerator extends Generator {
             case FrontendChoice.NextJS:
                 this.composeWith(require.resolve('../next-js'), { arguments: ['frontend'] });
                 break;
-            default:
-                throw new Error('Invalid frontend');
         }
     }
 }

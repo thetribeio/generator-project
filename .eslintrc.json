@@ -4,6 +4,9 @@
     "env": {
         "node": true
     },
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
     "overrides": [
         {
             "files": ["**/__tests__/*.ts"],
