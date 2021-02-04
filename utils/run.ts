@@ -2,8 +2,8 @@ import { spawn, SpawnOptionsWithoutStdio } from 'child_process';
 
 const run = (
     command: string,
-    args: string[],
-    options: SpawnOptionsWithoutStdio,
+    args: string[] = [],
+    options: SpawnOptionsWithoutStdio = {},
 ): Promise<void> => new Promise((resolve, reject) => {
     const process = spawn(command, args, options);
 
@@ -17,7 +17,7 @@ const run = (
         if (code === 0) {
             resolve();
         } else {
-            reject(new Error(Buffer.concat(err).toString('utf8')));
+            reject(new Error(Buffer.concat(err).toString('utf8').trimEnd()));
         }
     });
 });
