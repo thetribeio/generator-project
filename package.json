@@ -29,7 +29,7 @@
     "build": "rm -fr dist && tsc --project tsconfig.build.json && copyfiles --all --exclude '**/node_modules/**' 'generators/*/templates/**/*' dist && cp package.json dist/",
     "lint": "eslint --ext ts generators utils",
     "test": "yarn test:utils && yarn test:generators",
-    "test:generators": "jest --runInBand --testTimeout 60000 generators",
+    "test:generators": "jest --runInBand --testTimeout 120000 generators",
     "test:utils": "jest utils",
     "test:utils:coverage": "yarn test:utils --coverage --collectCoverageFrom 'utils/**/*'"
   }

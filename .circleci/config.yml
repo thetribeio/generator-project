@@ -49,7 +49,17 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-cache-{{ .Branch }}
+            - yarn-cache
       - run: yarn test
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-cache-{{ .Branch }}
+          paths:
+            - ~/.cache/yarn
 
 workflows:
   version: '2'
