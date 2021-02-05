@@ -1,28 +1,22 @@
-import Generator, { GeneratorOptions } from 'yeoman-generator';
+import PackageGenerator from '../../utils/PackageGenerator';
 
-class CreateReactAppGenerator extends Generator {
-    constructor(args: string | string[], opts: GeneratorOptions) {
-        super(args, opts);
-
-        this.argument('name', { type: String, required: true });
-    }
-
+class CreateReactAppGenerator extends PackageGenerator {
     writing(): void {
-        const { name } = this.options;
+        const { packageName } = this.options;
 
         this.fs.copyTpl(
             this.templatePath('base'),
-            this.destinationPath(name),
-            { name },
+            this.destinationPath(packageName),
+            { packageName },
             undefined,
             { globOptions: { dot: true } },
         );
     }
 
     install(): void {
-        const { name } = this.options;
+        const { packageName } = this.options;
 
-        this.yarnInstall(undefined, { frozenLockfile: true }, { cwd: this.destinationPath(name) });
+        this.yarnInstall(undefined, { frozenLockfile: true }, { cwd: this.destinationPath(packageName) });
     }
 }
 

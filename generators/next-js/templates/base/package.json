@@ -1,5 +1,5 @@
 {
-  "name": "<%= name %>",
+  "name": "<%= packageName %>",
   "dependencies": {
     "next": "^10.0.6",
     "react": "^17.0.1",

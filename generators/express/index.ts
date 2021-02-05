@@ -1,40 +1,29 @@
 import { Vault } from 'ansible-vault';
 import cryptoRandomString from 'crypto-random-string';
-import { GeneratorOptions } from 'yeoman-generator';
-import BaseGenerator from '../../utils/BaseGenerator';
+import PackageGenerator from '../../utils/PackageGenerator';
 
 interface Prompt {
     domain: string,
 }
 
-class ExpressGenerator extends BaseGenerator {
+class ExpressGenerator extends PackageGenerator {
     #answers: Prompt|null = null;
 
-    constructor(args: string | string[], opts: GeneratorOptions) {
-        super(args, opts);
-
-        this.argument('name', { type: String, required: true });
-
-        if (!/^[a-z0-9-]+$/.test(this.options.name)) {
-            throw new Error('Name argument can only contains lowercase numbers, numbers and dashes');
-        }
-    }
-
     async prompting() {
-        const { name } = this.options;
+        const { packageName } = this.options;
 
         this.#answers = await this.prompt([
             {
                 type: 'input',
                 name: 'domain',
-                message: `The domain for ${name}`,
-                default: `${name}.${this.appname}.thetribe.io`,
+                message: `The domain for ${packageName}`,
+                default: `${packageName}.${this.appname}.thetribe.io`,
             },
         ]);
     }
 
     async writing() {
-        const { name } = this.options;
+        const { packageName } = this.options;
         const { domain } = this.#answers as Prompt;
 
         const vault = new Vault({ password: this.readDestination('ansible/vault_pass.txt') });
@@ -45,34 +34,34 @@ class ExpressGenerator extends BaseGenerator {
 
         this.fs.copyTpl(
             this.templatePath('base'),
-            this.destinationPath(name),
+            this.destinationPath(packageName),
             {
-                name,
+                packageName,
                 projectName: this.config.get('projectName'),
             },
             undefined,
             { globOptions: { dot: true } },
         );
 
-        await this.configureDockerCompose('docker-compose.yaml.ejs', { name });
+        await this.configureDockerCompose('docker-compose.yaml.ejs', { packageName });
 
         await this.configureCircleCI('circleci.yaml.ejs', {
-            name,
+            packageName,
             projectName: this.config.get('projectName'),
         });
 
         await this.configureAnsible('ansible', {
             databasePassword: await vault.encrypt(databasePassword),
             domain,
-            name,
+            packageName,
             repositoryName: this.config.get('repositoryName'),
         });
     }
 
     install(): void {
-        const { name } = this.options;
+        const { packageName } = this.options;
 
-        this.yarnInstall(undefined, { frozenLockfile: true }, { cwd: this.destinationPath(name) });
+        this.yarnInstall(undefined, { frozenLockfile: true }, { cwd: this.destinationPath(packageName) });
     }
 }
 

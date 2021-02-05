@@ -1,7 +1,7 @@
 services:
-    <%= name %>:
-        build: <%= name %>/docker
+    <%= packageName %>:
+        build: <%= packageName %>/docker
         volumes:
-            - ./<%= name %>:/usr/src/project/<%= name %>
+            - ./<%= packageName %>:/usr/src/project/<%= packageName %>
         ports:
             - 3000:3000
