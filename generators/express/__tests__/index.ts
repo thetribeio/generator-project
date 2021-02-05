@@ -25,6 +25,10 @@ describe('When running the generator', () => {
         await run('yarn', ['build'], { cwd: path.resolve(root, 'test') });
     });
 
+    test('It generates a project which correctly lints', async () => {
+        await run('yarn', ['lint'], { cwd: path.resolve(root, 'test') });
+    });
+
     test('It extends the ansible configuration', async () => {
         const all = YAML.parse(await fs.promises.readFile(path.resolve(root, 'ansible/group_vars/all.yaml'), 'utf8'));
 
