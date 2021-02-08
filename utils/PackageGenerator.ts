@@ -68,7 +68,7 @@ class PackageGenerator extends Generator<PackageGeneratorOption> {
 
         const oldConfig = YAML.parse(this.readDestination(destination));
 
-        const newConfig = merger(config, oldConfig);
+        const newConfig = merger(oldConfig, config);
 
         this.writeDestination(destination, YAML.stringify(newConfig, options));
     }
