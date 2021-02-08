@@ -4,6 +4,6 @@ services:
         volumes:
             - ./<%= packageName %>:/usr/src/project/<%= packageName %>
         environment:
-            PORT: 8080
+            PORT: ${<%= packageName.replace('-', '_').toUpperCase() %>_PORT:-8080}
         ports:
-            - 8080:8080
+            - ${<%= packageName.replace('-', '_').toUpperCase() %>_PORT:-8080}:${<%= packageName.replace('-', '_').toUpperCase() %>_PORT:-8080}

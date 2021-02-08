@@ -3,5 +3,7 @@ services:
         build: <%= packageName %>/docker
         volumes:
             - ./<%= packageName %>:/usr/src/project/<%= packageName %>
+        environment:
+            PORT: ${<%= packageName.replace('-', '_').toUpperCase() %>_PORT:-3000}
         ports:
-            - 3000:3000
+            - ${<%= packageName.replace('-', '_').toUpperCase() %>_PORT:-3000}:${<%= packageName.replace('-', '_').toUpperCase() %>_PORT:-3000}
