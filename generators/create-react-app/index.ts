@@ -1,7 +1,7 @@
 import PackageGenerator from '../../utils/PackageGenerator';
 
 class CreateReactAppGenerator extends PackageGenerator {
-    writing(): void {
+    async writing(): Promise<void> {
         const { packageName } = this.options;
 
         this.fs.copyTpl(
@@ -11,6 +11,8 @@ class CreateReactAppGenerator extends PackageGenerator {
             undefined,
             { globOptions: { dot: true } },
         );
+
+        await this.configureDockerCompose('docker-compose.yaml.ejs', { packageName });
     }
 
     install(): void {

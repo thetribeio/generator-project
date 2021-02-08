@@ -1,0 +1,9 @@
+services:
+    <%= packageName %>:
+        build: <%= packageName %>/docker
+        volumes:
+            - ./<%= packageName %>:/usr/src/project/<%= packageName %>
+        environment:
+            PORT: ${<%= packageName.replace('-', '_').toUpperCase() %>_PORT:-8080}
+        ports:
+            - ${<%= packageName.replace('-', '_').toUpperCase() %>_PORT:-8080}:${<%= packageName.replace('-', '_').toUpperCase() %>_PORT:-8080}
