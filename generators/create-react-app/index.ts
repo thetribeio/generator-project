@@ -13,6 +13,11 @@ class CreateReactAppGenerator extends PackageGenerator {
         );
 
         await this.configureDockerCompose('docker-compose.yaml.ejs', { packageName });
+
+        await this.configureCircleCI('circleci.yaml.ejs', {
+            packageName,
+            projectName: this.config.get('projectName'),
+        });
     }
 
     install(): void {
