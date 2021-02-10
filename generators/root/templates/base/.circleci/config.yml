@@ -1,5 +1,10 @@
 version: '2.1'
 
+executors:
+  node:
+    docker:
+      - image: circleci/node:14.15.1
+
 jobs: []
 
 workflows:
