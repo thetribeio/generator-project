@@ -46,7 +46,10 @@ class RootGenerator extends Generator {
         this.fs.copyTpl(
             this.templatePath('base'),
             this.destinationPath(),
-            { contactEmail },
+            {
+                contactEmail,
+                projectName: this.config.get('projectName'),
+            },
             undefined,
             { globOptions: { dot: true } },
         );
