@@ -5,6 +5,7 @@ import Workflow from '../Workflow';
 test('It keeps workflow from first config if second is not present', () => {
     const firstConfig = new Config({
         version: '2',
+        executors: {},
         jobs: {},
         workflowsVersion: '2',
         workflows: {
@@ -18,6 +19,7 @@ test('It keeps workflow from first config if second is not present', () => {
 
     const secondConfig = new Config({
         version: '2',
+        executors: {},
         jobs: {},
         workflowsVersion: '2',
         workflows: {},
@@ -31,6 +33,7 @@ test('It keeps workflow from first config if second is not present', () => {
 test('It keeps workflow from second config if first is not present', () => {
     const firstConfig = new Config({
         version: '2',
+        executors: {},
         jobs: {},
         workflowsVersion: '2',
         workflows: {},
@@ -38,6 +41,7 @@ test('It keeps workflow from second config if first is not present', () => {
 
     const secondConfig = new Config({
         version: '2',
+        executors: {},
         jobs: {},
         workflowsVersion: '2',
         workflows: {
@@ -57,6 +61,7 @@ test('It keeps workflow from second config if first is not present', () => {
 test('It merges jobs of the same workflow from different configs', () => {
     const firstConfig = new Config({
         version: '2',
+        executors: {},
         jobs: {},
         workflowsVersion: '2',
         workflows: {
@@ -70,6 +75,7 @@ test('It merges jobs of the same workflow from different configs', () => {
 
     const secondConfig = new Config({
         version: '2',
+        executors: {},
         jobs: {},
         workflowsVersion: '2',
         workflows: {
@@ -85,4 +91,31 @@ test('It merges jobs of the same workflow from different configs', () => {
 
     expect(mergedConfig.workflows.build.jobs.firstJob).toBeDefined();
     expect(mergedConfig.workflows.build.jobs.secondJob).toBeDefined();
+});
+
+test('It merges executors from different configs', () => {
+    const firstConfig = new Config({
+        version: '2',
+        executors: {
+            first: {},
+        },
+        jobs: {},
+        workflowsVersion: '2',
+        workflows: {},
+    });
+
+    const secondConfig = new Config({
+        version: '2',
+        executors: {
+            second: {},
+        },
+        jobs: {},
+        workflowsVersion: '2',
+        workflows: {},
+    });
+
+    const mergedConfig = mergeConfig(firstConfig, secondConfig);
+
+    expect(mergedConfig.executors.first).toBeDefined();
+    expect(mergedConfig.executors.second).toBeDefined();
 });

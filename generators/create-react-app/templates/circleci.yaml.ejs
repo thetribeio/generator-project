@@ -50,7 +50,7 @@ jobs:
       - persist_to_workspace:
           root: ~/project
           paths:
-              - <%= packageName %>/dist
+              - <%= packageName %>/build
 
   <%= packageName %>-archive:
     executor: node
@@ -61,13 +61,10 @@ jobs:
       - attach_workspace:
           at: ~/project
       - run:
-          command: yarn install --prod --frozen-lockfile
-      - run:
           name: Create archive
           command: |
             tar --create --gzip --file=archive.tar.gz --owner=0 --group=0 \
-              dist/ \
-              node_modules/ \
+              build/ \
       - store_artifacts:
           path: archive.tar.gz
           destination: <%= packageName %>.tar.gz
@@ -82,7 +79,7 @@ jobs:
       - attach_workspace:
           at: ~/project
       - run: sentry-cli releases new <%= projectName %>-<%= packageName %>@${CIRCLE_SHA1}
-      - run: sentry-cli releases files <%= projectName %>-<%= packageName %>@${CIRCLE_SHA1} upload-sourcemaps <%= packageName %>/dist
+      - run: sentry-cli releases files <%= projectName %>-<%= packageName %>@${CIRCLE_SHA1} upload-sourcemaps <%= packageName %>/build
       - run: sentry-cli releases finalize <%= projectName %>-<%= packageName %>@${CIRCLE_SHA1}
 
 workflows:
