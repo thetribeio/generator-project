@@ -1,0 +1,18 @@
+- hosts: server
+  tasks:
+    - import_role:
+        name: build
+      delegate_to: localhost
+    - import_role:
+        name: deploy
+      vars:
+        path: /home/<%= packageName %>
+        artifact_path: <%= packageName %>.tar.gz
+  vars:
+    job_name: <%= packageName %>-archive
+    repository_name: <%= repositoryName %>
+  vars_files:
+    - vars/circleci.yaml
+    - vars/github.yaml
+  tags:
+    - <%= packageName %>

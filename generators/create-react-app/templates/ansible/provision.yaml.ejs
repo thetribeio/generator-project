@@ -1,0 +1,31 @@
+- hosts: server
+  tasks:
+    - group:
+        name: <%= packageName %>
+        state: present
+    - user:
+        name: <%= packageName %>
+        state: present
+        group: <%= packageName %>
+    - import_role:
+        name: site
+      vars:
+        email: '{{ contact_email }}'
+        site: <%= packageName %>
+        domain: '{{ <%= packageName.replace('-', '_') %>.domain }}'
+        config: |
+          root /home/<%= packageName %>/current/build;
+
+          location / {
+              try_files $uri /index.html;
+
+              add_header cache-control "no-store";
+          }
+
+          location /static/ {
+              try_files $uri =404;
+
+              add_header cache-control "public, max-age=31536000, immutable";
+          }
+  tags:
+    - <%= packageName %>
