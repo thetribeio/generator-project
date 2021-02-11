@@ -42,7 +42,7 @@ jobs:
           path: ~/project
       - attach_workspace:
           at: ~/project
-      - run: echo "export default '${CIRCLE_SHA1}'" > src/version.ts
+      - run: echo "export default '${CIRCLE_SHA1}';" > src/version.ts
       - run:
           command: yarn build
           environment:
