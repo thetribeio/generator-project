@@ -10,29 +10,6 @@ Note that you probably don't need to touch this file! Below is just explanations
 - `inventory` sets the inventory to the inventory script that fetch server data from terraform.
 - `vault_password_file` indicates where the vault's password is stored. This file should never
   appear in git's history, so it should be added to `.gitignore`.
-- `hash_behaviour` allows ansible to merge configuration objects. You can for exemple define
-  something like this in `group_vars/all.yaml`:
-```yaml
----
-project_configuration:
-  folder: /var/www/myproject
-  branch: master
-```
-  And have additional `project_configuration` fields in `group_vars/staging.yaml`:
-```yaml
----
-project_configuration:
-  branch: develop
-  contact: thomas.barusseau@thetribe.io
-```
-  Which would result in the following object when running with the `staging` inventory:
-```yaml
----
-project_configuration:
-  folder: /var/www/myproject
-  branch: develop
-  contact: thomas.barusseau@thetribe.io
-```
 - `roles_path` allows ansible ansible to find roles in both the `roles` and `roles-lib` directories.
 
 ## Roles

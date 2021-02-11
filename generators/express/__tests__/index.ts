@@ -40,6 +40,6 @@ describe('When running the generator', () => {
     test('It extends the ansible configuration', async () => {
         const all = YAML.parse(await fs.promises.readFile(path.resolve(root, 'ansible/group_vars/all.yaml'), 'utf8'));
 
-        expect(all.test).toBeDefined();
+        expect(all.test_env).toBeDefined();
     });
 });

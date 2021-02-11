@@ -12,7 +12,7 @@
       vars:
         email: '{{ contact_email }}'
         site: <%= packageName %>
-        domain: '{{ <%= packageName.replace('-', '_') %>.domain }}'
+        domain: '{{ <%= packageName.replace('-', '_') %>_domain }}'
         config: |
           root /home/<%= packageName %>/current/build;
 
