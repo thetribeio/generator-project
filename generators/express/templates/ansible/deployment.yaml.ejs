@@ -7,8 +7,8 @@
         name: deploy
       vars:
         path: /home/<%= packageName %>
-        artifact: <%= packageName %>.tar.gz
-        environment: '{{ <%= packageName.replace('-', '_') %>_env }}'
+        artifact_path: <%= packageName %>.tar.gz
+      environment: '{{ <%= packageName.replace('-', '_') %>_env }}'
   vars:
     job_name: <%= packageName %>-archive
     repository_name: <%= repositoryName %>
