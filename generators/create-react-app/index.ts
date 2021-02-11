@@ -27,7 +27,10 @@ class CreateReactAppGenerator extends PackageGenerator {
         this.fs.copyTpl(
             this.templatePath('base'),
             this.destinationPath(packageName),
-            { packageName },
+            {
+                packageName,
+                projectName: this.config.get('projectName'),
+            },
             undefined,
             { globOptions: { dot: true } },
         );

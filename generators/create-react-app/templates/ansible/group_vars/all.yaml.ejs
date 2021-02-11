@@ -1,1 +1,4 @@
-<%= packageName.replace('-', '_') %>: ~
+<%= packageName.replace('-', '_') %>:
+  data:
+    sentry-dsn: ~ # Add your sentry DSN here
+    sentry-environment: '{{ environment_name }}'
