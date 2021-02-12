@@ -49,6 +49,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run: sudo apt install ansible
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:

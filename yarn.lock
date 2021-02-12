@@ -959,13 +959,6 @@ ansi-styles@^4.0.0, ansi-styles@^4.1.0:
   dependencies:
     color-convert "^2.0.1"
 
-ansible-vault@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/ansible-vault/-/ansible-vault-1.0.1.tgz#c4e33c74ac0a0405f10ead93c1993377214592eb"
-  integrity sha512-rPPH7BpOEtyp14VIRYX/aOVCk0WFiWlz+hgEej9aZNIsFN+CO4vSq2F8Sh0GLTrI7wX8IPO6hYI04GTlDkjbTQ==
-  dependencies:
-    binascii "0.0.2"
-
 anymatch@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/anymatch/-/anymatch-2.0.0.tgz#bcb24b4f37934d9aa7ac17b4adaf89e7c76ef2eb"
@@ -1214,7 +1207,7 @@ binaryextensions@^2.1.2:
   resolved "https://registry.yarnpkg.com/binaryextensions/-/binaryextensions-2.3.0.tgz#1d269cbf7e6243ea886aa41453c3651ccbe13c22"
   integrity sha512-nAihlQsYGyc5Bwq6+EsubvANYGExeJKHDO3RjnvwU042fawQTQfM3Kxn7IHUXQOz4bzfwsGYYHGSvXyW4zOGLg==
 
-binascii@0.0.2:
+binascii@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/binascii/-/binascii-0.0.2.tgz#a7f8a8801dbccf8b1756b743daa0fee9e2d9e0ee"
   integrity sha1-p/iogB28z4sXVrdD2qD+6eLZ4O4=

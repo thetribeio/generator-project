@@ -1,6 +1,7 @@
 import ejs, { Data } from 'ejs';
 import YAML, { Options } from 'yaml';
 import Generator, { GeneratorOptions } from 'yeoman-generator';
+import { createEncrypt } from './ansible';
 import { Config, mergeConfig } from './circleci';
 import indent from './indent';
 
@@ -46,10 +47,15 @@ class PackageGenerator extends Generator<PackageGeneratorOption> {
     }
 
     async configureAnsible(templatePath: string, context: Data): Promise<void> {
+        const extendedContext = {
+            encrypt: createEncrypt(this.readDestination('ansible/vault_pass.txt').trim()),
+            ...context,
+        };
+
         const paths = ['deployment.yaml', 'provision.yaml', 'group_vars/all.yaml', 'group_vars/staging.yaml'];
 
         await Promise.all(paths.map(async (path: string): Promise<void> => {
-            await this.appendTemplate(`${templatePath}/${path}.ejs`, `ansible/${path}`, context);
+            await this.appendTemplate(`${templatePath}/${path}.ejs`, `ansible/${path}`, extendedContext);
         }));
     }
 
