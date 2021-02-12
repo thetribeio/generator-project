@@ -1,5 +1,5 @@
-import { Vault } from 'ansible-vault';
 import cryptoRandomString from 'crypto-random-string';
+import { encrypt } from '../../utils/ansible';
 import PackageGenerator from '../../utils/PackageGenerator';
 
 interface Prompt {
@@ -26,7 +26,7 @@ class ExpressGenerator extends PackageGenerator {
         const { packageName } = this.options;
         const { domain } = this.#answers as Prompt;
 
-        const vault = new Vault({ password: this.readDestination('ansible/vault_pass.txt') });
+        const vaultPass = this.readDestination('ansible/vault_pass.txt');
 
         // We use only alphanumeric characters in database password because special
         // characters often causes problems in configuration files
@@ -51,7 +51,7 @@ class ExpressGenerator extends PackageGenerator {
         });
 
         await this.configureAnsible('ansible', {
-            databasePassword: await vault.encrypt(databasePassword),
+            databasePassword: await encrypt(vaultPass, databasePassword),
             domain,
             packageName,
             repositoryName: this.config.get('repositoryName'),
