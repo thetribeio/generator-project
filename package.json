@@ -2,7 +2,7 @@
   "name": "@thetribe/generator-project",
   "dependencies": {
     "ansible-vault": "^1.0.1",
-    "crypto-random-string": "^3.3.0",
+    "crypto-random-string": "^3.3.1",
     "ejs": "^3.1.6",
     "ramda": "^0.27.1",
     "yaml": "^1.10.0",
