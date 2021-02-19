@@ -8,8 +8,10 @@ describe('When running the generator', () => {
     let root: string;
 
     beforeAll(async () => {
-        root = await helpers.run(path.resolve(__dirname, '../../root'))
+        const result = await helpers.run(path.resolve(__dirname, '../../root'))
             .withPrompts({ contactEmail: 'test@example.com' });
+
+        root = result.cwd;
 
         await helpers.run(path.resolve(__dirname, '..'))
             .cd(root)
