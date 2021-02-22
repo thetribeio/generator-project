@@ -8,7 +8,7 @@
             owner: <%= packageName %>
         users:
           <%= packageName %>:
-            password: '{{ <%= packageName.replace('-', '_') %>.database_password }}'
+            password: '{{ <%= packageName.replace('-', '_') %>_database_password }}'
     - import_role:
         name: nodejs
       vars:
@@ -24,7 +24,7 @@
         name: envfile
       vars:
         path: /home/<%= packageName %>/env
-        env: '{{ <%= packageName %>.env }}'
+        env: '{{ <%= packageName %>_env }}'
     - name: Configure env
       lineinfile:
         path: /home/<%= packageName %>/.bashrc
@@ -37,13 +37,13 @@
         service: <%= packageName %>
         user: <%= packageName %>
         group: <%= packageName %>
-        env: '{{ <%= packageName.replace('-', '_') %>.env }}'
+        env: '{{ <%= packageName.replace('-', '_') %>_env }}'
     - import_role:
         name: site
       vars:
         email: '{{ contact_email }}'
         site: <%= packageName %>
-        domain: '{{ <%= packageName.replace('-', '_') %>.domain }}'
+        domain: '{{ <%= packageName.replace('-', '_') %>_domain }}'
         config: |
           root /home/<%= packageName %>/current/dist;
 

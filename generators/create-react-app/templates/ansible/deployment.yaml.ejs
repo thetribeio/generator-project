@@ -8,7 +8,11 @@
       vars:
         path: /home/<%= packageName %>
         artifact_path: <%= packageName %>.tar.gz
-      environment: '{{ <%= packageName.replace('-', '_') %>_env }}'
+        before_finalize:
+          - >
+            sed --in-place --expression='s#<div id="root"[^>]*>#<div id="root"
+            {%- for key, value in <%= packageName.replace('-', '_') %>_data|dictsort %} data-{{ key }}="{{ value }}"{% endfor -%}
+            >#g' build/index.html
   vars:
     job_name: <%= packageName %>-archive
     repository_name: <%= repositoryName %>

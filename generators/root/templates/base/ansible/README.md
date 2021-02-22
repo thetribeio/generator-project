@@ -7,50 +7,10 @@ they're listed in here. It will probably be the easiest order to implement ansib
 
 Note that you probably don't need to touch this file! Below is just explanations.
 
+- `inventory` sets the inventory to the inventory script that fetch server data from terraform.
 - `vault_password_file` indicates where the vault's password is stored. This file should never
   appear in git's history, so it should be added to `.gitignore`.
-- `hash_behaviour` allows ansible to merge configuration objects. You can for exemple define
-  something like this in `group_vars/all.yaml`:
-```yaml
----
-project_configuration:
-  folder: /var/www/myproject
-  branch: master
-```
-  And have additional `project_configuration` fields in `group_vars/staging.yaml`:
-```yaml
----
-project_configuration:
-  branch: develop
-  contact: thomas.barusseau@thetribe.io
-```
-  Which would result in the following object when running with the `staging` inventory:
-```yaml
----
-project_configuration:
-  folder: /var/www/myproject
-  branch: develop
-  contact: thomas.barusseau@thetribe.io
-```
 - `roles_path` allows ansible ansible to find roles in both the `roles` and `roles-lib` directories.
-
-## Inventory files
-
-You usually have one inventory file per target: `staging`, `production`...
-
-Let's check `staging`:
-
-```
-[staging]
-staging_host ansible_host=127.0.0.1 ansible_user=root ansible_python_interpreter=python3
-```
-
-- `[staging]` is the inventory's name (just use the filename)
-- `staging_host` is the name of the remote host, and will be used in playbooks
-- `ansible_host` is the IP address of the remote host
-- `ansible_user` is the user that should be used when ansible will connect through SSH
-- `ansible_python_interpreter` tells ansible which python version it should use. Some
-  servers might only have python2.7, for example
 
 ## Roles
 
