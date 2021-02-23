@@ -16,7 +16,7 @@ describe('When running the generator', () => {
 
         await helpers.run(__dirname)
             .cd(root)
-            .withOptions({ skipInstall: false, twig: true })
+            .withOptions({ twig: true })
             .withArguments(['test']);
     });
 
