@@ -5,12 +5,12 @@ import { createEncrypt } from './ansible';
 import { Config, mergeConfig } from './circleci';
 import indent from './indent';
 
-interface PackageGeneratorOption extends GeneratorOptions {
+interface PackageGeneratorOptions extends GeneratorOptions {
     packageName: string;
 }
 
-class PackageGenerator extends Generator<PackageGeneratorOption> {
-    constructor(args: string | string[], opts: PackageGeneratorOption) {
+class PackageGenerator extends Generator<PackageGeneratorOptions> {
+    constructor(args: string | string[], opts: PackageGeneratorOptions) {
         super(args, opts);
 
         this.argument('packageName', { type: String, required: true });
