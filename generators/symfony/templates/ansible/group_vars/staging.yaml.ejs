@@ -1,0 +1,3 @@
+<%= packageName.replace('-', '_') %>_database_password: !vault |
+<%= indent(encrypt(databasePassword), 2) %>
+<%= packageName.replace('-', '_') %>_domain: <%= domain %>

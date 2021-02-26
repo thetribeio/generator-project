@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: false
+
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{Entity,Kernel.php}'
+
+    # Controllers are imported separately to make them public
+    App\Controller\:
+        resource: '../src/Controller'
+        public: true

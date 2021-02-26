@@ -4,6 +4,9 @@ executors:
   node:
     docker:
       - image: circleci/node:14.15.5
+  php:
+    docker:
+      - image: circleci/php:7.4.16
 
 jobs: []
 

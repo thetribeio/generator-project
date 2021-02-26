@@ -2,17 +2,20 @@ import ejs, { Data as TemplateData, Options as TemplateOptions } from 'ejs';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { CopyOptions } from 'mem-fs-editor';
 import YAML, { Options } from 'yaml';
+import { strOptions } from 'yaml/types';
 import Generator, { GeneratorOptions } from 'yeoman-generator';
 import { createEncrypt } from './ansible';
 import { Config, mergeConfig } from './circleci';
 import indent from './indent';
 
+strOptions.fold.lineWidth = 0;
+
 interface PackageGeneratorOptions extends GeneratorOptions {
     packageName: string;
 }
 
-class PackageGenerator extends Generator<PackageGeneratorOptions> {
-    constructor(args: string | string[], opts: PackageGeneratorOptions) {
+class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptions> extends Generator<T> {
+    constructor(args: string | string[], opts: T) {
         super(args, opts);
 
         this.argument('packageName', { type: String, required: true });
@@ -105,4 +108,5 @@ class PackageGenerator extends Generator<PackageGeneratorOptions> {
     }
 }
 
+export type { PackageGeneratorOptions };
 export default PackageGenerator;

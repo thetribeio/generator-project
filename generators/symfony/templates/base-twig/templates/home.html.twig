@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('home.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('home.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <h1 class="home-title" data-colorizer>
+        {{ 'home.welcome'|trans({ name: name }) }}
+    </h1>
+{% endblock %}

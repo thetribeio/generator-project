@@ -1,0 +1,9 @@
+/.php_cs
+/.php_cs.cache
+/node_modules/
+/phpunit.xml
+/public/assets/
+/public/bundles/
+/var/
+/vendor/
+/yarn-error.log

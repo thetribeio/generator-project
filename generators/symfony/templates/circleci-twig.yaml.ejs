@@ -1,0 +1,127 @@
+version: 2.1
+
+jobs:
+  <%= packageName %>-build-assets:
+    executor: node
+    working_directory: ~/project/<%= packageName %>
+    steps:
+      - checkout:
+          path: ~/project
+      - attach_workspace:
+          at: ~/project
+      - run: yarn build
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - <%= packageName %>/public/assets
+            - <%= packageName %>/var/manifest.json
+
+  <%= packageName %>-lint-js:
+    executor: node
+    working_directory: ~/project/<%= packageName %>
+    steps:
+      - checkout:
+          path: ~/project
+      - attach_workspace:
+          at: ~/project
+      - run: yarn lint:js
+
+  <%= packageName %>-lint-scss:
+    executor: node
+    working_directory: ~/project/<%= packageName %>
+    steps:
+      - checkout:
+          path: ~/project
+      - attach_workspace:
+          at: ~/project
+      - run: yarn lint:scss
+
+  <%= packageName %>-lint-twig:
+    executor: php
+    working_directory: ~/project/<%= packageName %>
+    environment:
+      APP_ENV: prod
+    steps:
+      - checkout:
+          path: ~/project
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Lint
+          command: bin/console lint:twig templates
+
+  <%= packageName %>-build:
+    executor: php
+    environment:
+      APP_ENV: prod
+    working_directory: ~/project/<%= packageName %>
+    steps:
+      - checkout:
+          path: ~/project
+      - attach_workspace:
+          at: ~/project
+      - run: composer install --ignore-platform-reqs --no-scripts --no-dev --optimize-autoloader --classmap-authoritative
+      - run: bin/console cache:warmup
+      - run: bin/console assets:install
+      - run:
+          name: Create archive
+          command: |
+            tar -czf archive.tar.gz --owner=0 --group=0 \
+              bin/console \
+              config/bootstrap.php \
+              config/bundles.php \
+              migrations/ \
+              public/ \
+              src/ \
+              templates/ \
+              var/cache/prod/ \
+              var/manifest.json \
+              vendor/ \
+      - store_artifacts:
+          path: archive.tar.gz
+
+  <%= packageName %>-yarn-install:
+    executor: node
+    working_directory: ~/project/<%= packageName %>
+    steps:
+      - checkout:
+          path: ~/project
+      - restore_cache:
+          keys:
+            - yarn-install-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
+            - yarn-install-{{ checksum "package.json" }}
+            - yarn-install
+          paths:
+            - node_modules
+      - run:
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn-install-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - <%= packageName %>/node_modules
+
+workflows:
+  version: '2'
+  build:
+    jobs:
+      - <%= packageName %>-build:
+          requires:
+            - <%= packageName %>-php-dependencies
+            - <%= packageName %>-build-assets
+      - <%= packageName %>-build-assets:
+          requires:
+            - <%= packageName %>-yarn-install
+      - <%= packageName %>-lint-js:
+          requires:
+            - <%= packageName %>-yarn-install
+      - <%= packageName %>-lint-scss:
+          requires:
+            - <%= packageName %>-yarn-install
+      - <%= packageName %>-lint-twig:
+          requires:
+            - <%= packageName %>-php-dependencies
+      - <%= packageName %>-yarn-install

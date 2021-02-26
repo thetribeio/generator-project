@@ -1,0 +1,105 @@
+version: 2.1
+
+jobs:
+  <%= packageName %>-php-dependencies:
+    docker:
+      - image: composer/composer:2.0.11
+    working_directory: ~/project/<%= packageName %>
+    steps:
+      - checkout:
+          path: ~/project
+      - restore_cache:
+          key: vendor-{{ checksum "composer.json" }}-{{ checksum "composer.lock" }}
+          paths:
+            - vendor
+      - run: composer install --ignore-platform-reqs --no-scripts
+      - save_cache:
+          key: vendor-{{ checksum "composer.json" }}-{{ checksum "composer.lock" }}
+          paths:
+            - vendor
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - <%= packageName %>/vendor
+
+  <%= packageName %>-php-lint:
+    executor: php
+    working_directory: ~/project/<%= packageName %>
+    steps:
+      - checkout:
+          path: ~/project
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: PHP-CS-Fixer
+          command: vendor/bin/php-cs-fixer fix --dry-run --diff --using-cache no
+      - run:
+          name: PHPStan
+          command: vendor/bin/phpstan analyse src tests
+
+  <%= packageName %>-migrations:
+    docker:
+      - image: circleci/php:8.0.2
+        environment:
+          DATABASE_URL: postgresql://thetribe:424242@localhost:5432/thetribe
+      - image: postgres:12.5
+        environment:
+          POSTGRES_USER: thetribe
+          POSTGRES_PASSWORD: 424242
+    working_directory: ~/project/<%= packageName %>
+    steps:
+      - checkout:
+          path: ~/project
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Install pdo_pgsql php extension
+          command: sudo apt update && sudo apt install --yes libpq-dev && sudo docker-php-ext-install pdo_pgsql
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run: bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+      - run: bin/console doctrine:schema:validate
+
+  <%= packageName %>-build:
+    executor: php
+    environment:
+      APP_ENV: prod
+    working_directory: ~/project/<%= packageName %>
+    steps:
+      - checkout:
+          path: ~/project
+      - attach_workspace:
+          at: ~/project
+      - run: composer install --ignore-platform-reqs --no-scripts --no-dev --optimize-autoloader --classmap-authoritative
+      - run: bin/console cache:warmup
+      - run: bin/console assets:install
+      - run:
+          name: Create archive
+          command: |
+            tar -czf archive.tar.gz --owner=0 --group=0 \
+              bin/console \
+              config/bootstrap.php \
+              config/bundles.php \
+              migrations/ \
+              public/ \
+              src/ \
+              var/cache/prod/ \
+              vendor/ \
+      - store_artifacts:
+          path: archive.tar.gz
+
+workflows:
+  version: '2'
+  build:
+    jobs:
+      - <%= packageName %>-build:
+          requires:
+            - <%= packageName %>-php-dependencies
+      - <%= packageName %>-php-dependencies
+      - <%= packageName %>-php-lint:
+          requires:
+            - <%= packageName %>-php-dependencies
+      - <%= packageName %>-migrations:
+          requires:
+            - <%= packageName %>-php-dependencies
