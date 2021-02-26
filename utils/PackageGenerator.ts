@@ -1,4 +1,6 @@
-import ejs, { Data } from 'ejs';
+import ejs, { Data as TemplateData, Options as TemplateOptions } from 'ejs';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { CopyOptions } from 'mem-fs-editor';
 import YAML, { Options } from 'yaml';
 import Generator, { GeneratorOptions } from 'yeoman-generator';
 import { createEncrypt } from './ansible';
@@ -20,7 +22,17 @@ class PackageGenerator extends Generator<PackageGeneratorOptions> {
         }
     }
 
-    async configureDockerCompose(templatePath: string, context: Data) {
+    renderTemplate(
+        source: string | string[],
+        destination?: string | string[],
+        context: TemplateData = {},
+        templateOptions?: TemplateOptions | string,
+        copyOptions?: CopyOptions,
+    ): void {
+        super.renderTemplate(source, destination, this.getContext(context), templateOptions, copyOptions);
+    }
+
+    async configureDockerCompose(templatePath: string, context: TemplateData = {}) {
         await this.extendYAML(
             templatePath,
             'docker-compose.yaml',
@@ -36,7 +48,7 @@ class PackageGenerator extends Generator<PackageGeneratorOptions> {
         );
     }
 
-    async configureCircleCI(templatePath: string, context: Data) {
+    async configureCircleCI(templatePath: string, context: TemplateData = {}) {
         await this.extendYAML(
             templatePath,
             '.circleci/config.yml',
@@ -46,7 +58,7 @@ class PackageGenerator extends Generator<PackageGeneratorOptions> {
         );
     }
 
-    async configureAnsible(templatePath: string, context: Data): Promise<void> {
+    async configureAnsible(templatePath: string, context: TemplateData = {}): Promise<void> {
         const extendedContext = {
             encrypt: createEncrypt(this.readDestination('ansible/vault_pass.txt').trim()),
             ...context,
@@ -59,14 +71,14 @@ class PackageGenerator extends Generator<PackageGeneratorOptions> {
         }));
     }
 
-    private async appendTemplate(from: string, to: string, context: Data): Promise<void> {
+    private async appendTemplate(from: string, to: string, context: TemplateData): Promise<void> {
         this.fs.append(this.destinationPath(to), await this.renderTemplateToString(from, context));
     }
 
     private async extendYAML(
         template: string,
         destination: string,
-        context: Data,
+        context: TemplateData,
         merger: (a: any, b: any) => any,
         options: Options = {},
     ): Promise<void> {
@@ -79,8 +91,17 @@ class PackageGenerator extends Generator<PackageGeneratorOptions> {
         this.writeDestination(destination, YAML.stringify(newConfig, options));
     }
 
-    private renderTemplateToString(path: string, context: Data): Promise<string> {
-        return ejs.renderFile(this.templatePath(path), { indent, ...context });
+    private renderTemplateToString(path: string, context: TemplateData): Promise<string> {
+        return ejs.renderFile(this.templatePath(path), this.getContext(context));
+    }
+
+    private getContext(context: TemplateData): TemplateData {
+        return {
+            indent,
+            packageName: this.options.packageName,
+            projectName: this.config.get('projectName'),
+            ...context,
+        };
     }
 }
 
