@@ -3759,6 +3759,21 @@ mem-fs-editor@^7.0.1:
     through2 "^3.0.2"
     vinyl "^2.2.1"
 
+mem-fs-editor@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/mem-fs-editor/-/mem-fs-editor-8.0.0.tgz#cd8402fa009df302656422f71831ccd8e30319e7"
+  integrity sha512-0+6Zp44EmPpF01MZOlY0kt7JTndjdvALo4jA7Kk9GPCuqGzGnBmWtcE44Cwzj1aru57IN5/LKIWd1lIvaT6sKw==
+  dependencies:
+    commondir "^1.0.1"
+    deep-extend "^0.6.0"
+    ejs "^3.1.5"
+    globby "^11.0.1"
+    isbinaryfile "^4.0.0"
+    multimatch "^5.0.0"
+    normalize-path "^3.0.0"
+    through2 "^4.0.2"
+    vinyl "^2.2.1"
+
 mem-fs@^1.1.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/mem-fs/-/mem-fs-1.2.0.tgz#5f29b2d02a5875cd14cd836c388385892d556cde"
@@ -3878,6 +3893,17 @@ multimatch@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/multimatch/-/multimatch-4.0.0.tgz#8c3c0f6e3e8449ada0af3dd29efb491a375191b3"
   integrity sha512-lDmx79y1z6i7RNx0ZGCPq1bzJ6ZoDDKbvh7jxr9SJcWLkShMzXrHbYVpTdnhNM5MXpDUxCQ4DgqVttVXlBgiBQ==
+  dependencies:
+    "@types/minimatch" "^3.0.3"
+    array-differ "^3.0.0"
+    array-union "^2.1.0"
+    arrify "^2.0.1"
+    minimatch "^3.0.4"
+
+multimatch@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/multimatch/-/multimatch-5.0.0.tgz#932b800963cea7a31a033328fa1e0c3a1874dbe6"
+  integrity sha512-ypMKuglUrZUD99Tk2bUQ+xNQj43lPEfAeX2o9cTteAmShXy2VHDJpuwu1o0xqoKCt9jLVAvwyFKdLTPXKAfJyA==
   dependencies:
     "@types/minimatch" "^3.0.3"
     array-differ "^3.0.0"
@@ -4463,7 +4489,7 @@ read-pkg@^5.0.0, read-pkg@^5.2.0:
     parse-json "^5.0.0"
     type-fest "^0.6.0"
 
-"readable-stream@2 || 3":
+"readable-stream@2 || 3", readable-stream@3:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.6.0.tgz#337bbda3adc0706bd3e024426a286d4b4b2c9198"
   integrity sha512-BViHy7LKeTz4oNnkcLJ+lVSL6vpiFeX6/d3oSH8zCW7UxP2onchk+vTGB143xuFjHS3deTgkKoXXymXqymiIdA==
@@ -5196,6 +5222,13 @@ through2@^3.0.0, through2@^3.0.1, through2@^3.0.2:
     inherits "^2.0.4"
     readable-stream "2 || 3"
 
+through2@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/through2/-/through2-4.0.2.tgz#a7ce3ac2a7a8b0b966c80e7c49f0484c3b239764"
+  integrity sha512-iOqSav00cVxEEICeD7TjLB1sueEL+81Wpzp2bY17uZjZN0pWZPuo4suZ/61VujxmqSGFfgOcNuTZ85QJwNZQpw==
+  dependencies:
+    readable-stream "3"
+
 "through@>=2.2.7 <3", through@^2.3.6:
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
@@ -5707,7 +5740,7 @@ yargs@^16.1.0:
     y18n "^5.0.5"
     yargs-parser "^20.2.2"
 
-yeoman-environment@^2.10.3, yeoman-environment@^2.9.5:
+yeoman-environment@^2.9.5:
   version "2.10.3"
   resolved "https://registry.yarnpkg.com/yeoman-environment/-/yeoman-environment-2.10.3.tgz#9d8f42b77317414434cc0e51fb006a4bdd54688e"
   integrity sha512-pLIhhU9z/G+kjOXmJ2bPFm3nejfbH+f1fjYRSOteEXDBrv1EoJE/e+kuHixSXfCYfTkxjYsvRaDX+1QykLCnpQ==
@@ -5732,7 +5765,7 @@ yeoman-environment@^2.10.3, yeoman-environment@^2.9.5:
     untildify "^3.0.3"
     yeoman-generator "^4.8.2"
 
-yeoman-generator@^4.12.0, yeoman-generator@^4.13.0:
+yeoman-generator@^4.13.0:
   version "4.13.0"
   resolved "https://registry.yarnpkg.com/yeoman-generator/-/yeoman-generator-4.13.0.tgz#a6caeed8491fceea1f84f53e31795f25888b4672"
   integrity sha512-f2/5N5IR3M2Ozm+QocvZQudlQITv2DwI6Mcxfy7R7gTTzaKgvUpgo/pQMJ+WQKm0KN0YMWCFOZpj0xFGxevc1w==
@@ -5800,13 +5833,12 @@ yeoman-generator@^4.8.2:
     grouped-queue "^1.1.0"
     yeoman-environment "^2.9.5"
 
-yeoman-test@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/yeoman-test/-/yeoman-test-4.0.2.tgz#2040da8cafa3eb328c77c0c98819750c536d5158"
-  integrity sha512-XK6iiDRH+gp/flqw0Q5UDG1PXAMvkc0wQjJVvEGqUb6sRax2UOUS6tf4MrkNTFJh2mrfY7PK/a/qU6UPIgrNxA==
+yeoman-test@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/yeoman-test/-/yeoman-test-5.1.0.tgz#c4b8ff11176f599db0eb2e1be41d3701934def8f"
+  integrity sha512-lcXcNRleJrIhohoKcRwmj9i8JO0lsYTySprwCfgZV1THeHJRqUsBEhHVgMr7DVB+coMoIkxk99wpn/bsOvpz4w==
   dependencies:
     inquirer "^7.3.3"
     lodash "^4.17.19"
+    mem-fs-editor "^8.0.0"
     sinon "^9.0.2"
-    yeoman-environment "^2.10.3"
-    yeoman-generator "^4.12.0"
