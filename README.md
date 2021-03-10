@@ -93,6 +93,7 @@ Build the project with `yarn build`
 
 - Install yeoman: `yarn global add yo`
 - Go the dist directory and link the built generator: `(cd dist && yarn link)`
+- Create a new directory for your project and go to it
 - Yo can now test your generator by following the [usage documentation](#usage)
 
 ## Usage
@@ -112,3 +113,9 @@ You can add more components to an existing project with the following commands:
  - `yo @thetribe/project:create-react-app [name]`
  - `yo @thetribe/project:express [name]`
  - `yo @thetribe/project:next-js [name]`
+
+### Push your project
+
+- Create a new GitHub repository with the name you specified in the configuration
+- Create an inital commit in your project folder
+- And push it with `git push --set-upstream origin master`
