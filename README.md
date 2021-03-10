@@ -97,6 +97,8 @@ Build the project with `yarn build`
 
 ## Usage
 
+- Create a new directory for your project and go to it
+
 ### Guided mode
 
 Run `yo @thetribe/project` and follow the prompts to generate your project
@@ -112,3 +114,9 @@ You can add more components to an existing project with the following commands:
  - `yo @thetribe/project:create-react-app [name]`
  - `yo @thetribe/project:express [name]`
  - `yo @thetribe/project:next-js [name]`
+
+### Push your project
+
+- Create a new GitHub repository with the name you specified in the configuration
+- Create an inital commit in your project folder
+- And push it with `git push --set-upstream origin master`
