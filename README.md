@@ -93,10 +93,11 @@ Build the project with `yarn build`
 
 - Install yeoman: `yarn global add yo`
 - Go the dist directory and link the built generator: `(cd dist && yarn link)`
-- Create a new directory for your project and go to it
 - Yo can now test your generator by following the [usage documentation](#usage)
 
 ## Usage
+
+- Create a new directory for your project and go to it
 
 ### Guided mode
 
