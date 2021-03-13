@@ -5,7 +5,7 @@
     "crypto-random-string": "^3.3.1",
     "ejs": "^3.1.6",
     "ramda": "^0.27.1",
-    "yaml": "^1.10.0",
+    "yaml": "^1.10.2",
     "yeoman-generator": "^4.13.0"
   },
   "devDependencies": {
