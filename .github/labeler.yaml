@@ -1,0 +1,8 @@
+generator/create-react-app:
+  - generator/create-react-app/**/*
+
+generator/express:
+  - generator/express/**/*
+
+generator/next-js:
+  - generator/next-js/**/*
