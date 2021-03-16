@@ -29,28 +29,15 @@ class ExpressGenerator extends PackageGenerator {
         // characters often causes problems in configuration files
         const databasePassword = cryptoRandomString({ length: 64, type: 'alphanumeric' });
 
-        this.fs.copyTpl(
-            this.templatePath('base'),
-            this.destinationPath(packageName),
-            {
-                packageName,
-                projectName: this.config.get('projectName'),
-            },
-            undefined,
-            { globOptions: { dot: true } },
-        );
+        this.renderTemplate('base', packageName, undefined, undefined, { globOptions: { dot: true } });
 
-        await this.configureDockerCompose('docker-compose.yaml.ejs', { packageName });
+        await this.configureDockerCompose('docker-compose.yaml.ejs');
 
-        await this.configureCircleCI('circleci.yaml.ejs', {
-            packageName,
-            projectName: this.config.get('projectName'),
-        });
+        await this.configureCircleCI('circleci.yaml.ejs');
 
         await this.configureAnsible('ansible', {
             databasePassword,
             domain,
-            packageName,
             repositoryName: this.config.get('repositoryName'),
         });
     }

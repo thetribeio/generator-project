@@ -24,27 +24,14 @@ class CreateReactAppGenerator extends PackageGenerator {
         const { packageName } = this.options;
         const { domain } = this.#answers as Prompt;
 
-        this.fs.copyTpl(
-            this.templatePath('base'),
-            this.destinationPath(packageName),
-            {
-                packageName,
-                projectName: this.config.get('projectName'),
-            },
-            undefined,
-            { globOptions: { dot: true } },
-        );
+        this.renderTemplate('base', packageName, undefined, undefined, { globOptions: { dot: true } });
 
-        await this.configureDockerCompose('docker-compose.yaml.ejs', { packageName });
+        await this.configureDockerCompose('docker-compose.yaml.ejs');
 
-        await this.configureCircleCI('circleci.yaml.ejs', {
-            packageName,
-            projectName: this.config.get('projectName'),
-        });
+        await this.configureCircleCI('circleci.yaml.ejs');
 
         await this.configureAnsible('ansible', {
             domain,
-            packageName,
             repositoryName: this.config.get('repositoryName'),
         });
     }
