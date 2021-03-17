@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d5c5ef2a5f0f2b271d3d3e4df0f35c9f",
+    "content-hash": "0f5ab2cd734ff2d02151ea52a09978b8",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -7921,16 +7921,16 @@
         },
         {
             "name": "thetribe/coding-standard",
-            "version": "v0.1.3",
+            "version": "v0.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thetribeio/php-coding-standard.git",
-                "reference": "ed6f8f7b26237ba2a158a9a0ac58ba149e837e85"
+                "reference": "17a857a65be02cf6ba6127c91ea134424d1b3c8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thetribeio/php-coding-standard/zipball/ed6f8f7b26237ba2a158a9a0ac58ba149e837e85",
-                "reference": "ed6f8f7b26237ba2a158a9a0ac58ba149e837e85",
+                "url": "https://api.github.com/repos/thetribeio/php-coding-standard/zipball/17a857a65be02cf6ba6127c91ea134424d1b3c8b",
+                "reference": "17a857a65be02cf6ba6127c91ea134424d1b3c8b",
                 "shasum": ""
             },
             "type": "library",
@@ -7950,7 +7950,11 @@
                 }
             ],
             "description": "PHP coding standard",
-            "time": "2020-09-28T18:05:37+00:00"
+            "support": {
+                "issues": "https://github.com/thetribeio/php-coding-standard/issues",
+                "source": "https://github.com/thetribeio/php-coding-standard/tree/v0.1.4"
+            },
+            "time": "2021-03-12T11:21:48+00:00"
         },
         {
             "name": "twig/twig",
