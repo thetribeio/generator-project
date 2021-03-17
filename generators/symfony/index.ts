@@ -1,6 +1,6 @@
 import cryptoRandomString from 'crypto-random-string';
+import execa from 'execa';
 import PackageGenerator, { PackageGeneratorOptions } from '../../utils/PackageGenerator';
-import run from '../../utils/run';
 
 interface Options extends PackageGeneratorOptions {
     twig: boolean;
@@ -65,7 +65,7 @@ class SymfonyGenerator extends PackageGenerator<Options> {
     async install(): Promise<void> {
         const { packageName } = this.options;
 
-        await run('composer', ['install', '--ignore-platform-reqs', '--no-scripts'], { cwd: this.destinationPath(packageName) });
+        await execa('composer', ['install', '--ignore-platform-reqs', '--no-scripts'], { cwd: this.destinationPath(packageName) });
 
         if (this.options.twig) {
             this.yarnInstall(undefined, { frozenLockfile: true }, { cwd: this.destinationPath(packageName) });

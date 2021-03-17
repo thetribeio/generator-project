@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
+import execa from 'execa';
 import YAML from 'yaml';
 import helpers from 'yeoman-test';
-import run from '../../../utils/run';
 
 describe('When running the generator', () => {
     let root: string;
@@ -24,11 +24,11 @@ describe('When running the generator', () => {
     });
 
     test('It generates a project which correctly builds', async () => {
-        await run('yarn', ['build'], { cwd: path.resolve(root, 'test') });
+        await execa('yarn', ['build'], { cwd: path.resolve(root, 'test') });
     });
 
     test('It generates a project which correctly lints', async () => {
-        await run('yarn', ['lint'], { cwd: path.resolve(root, 'test') });
+        await execa('yarn', ['lint'], { cwd: path.resolve(root, 'test') });
     });
 
     test('It generates a docker-compose.yaml with a version fields', async () => {
