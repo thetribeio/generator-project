@@ -1,11 +1,11 @@
 generator/create-react-app:
-  - generator/create-react-app/**/*
+  - generators/create-react-app/**/*
 
 generator/express:
-  - generator/express/**/*
+  - generators/express/**/*
 
 generator/next-js:
-  - generator/next-js/**/*
+  - generators/next-js/**/*
 
 generator/symfony:
-  - generator/symfony/**/*
+  - generators/symfony/**/*
