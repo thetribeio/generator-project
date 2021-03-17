@@ -2,8 +2,8 @@ import crypto from 'crypto';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
+import execa from 'execa';
 import { createEncrypt } from '../ansible';
-import run from '../run';
 
 test.each([
     ['foo', 'bar'],
@@ -21,7 +21,7 @@ test.each([
         await fs.promises.writeFile(path.join(dir, 'password'), password);
         await fs.promises.writeFile(path.join(dir, 'encrypted'), encrypted);
 
-        const decrypted = await run(
+        const { stdout: decrypted } = await execa(
             'ansible-vault',
             ['decrypt', '--vault-password-file', 'password', '--output', '-', 'encrypted'],
             { cwd: dir },

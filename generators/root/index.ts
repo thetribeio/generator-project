@@ -1,6 +1,6 @@
 import cryptoRandomString from 'crypto-random-string';
+import execa from 'execa';
 import Generator from 'yeoman-generator';
-import run from '../../utils/run';
 
 interface Prompt {
     projectName: string,
@@ -58,13 +58,13 @@ class RootGenerator extends Generator {
     }
 
     async install() {
-        await run('git', ['init'], {
+        await execa('git', ['init'], {
             cwd: this.destinationPath(),
         });
-        await run('git', ['remote', 'add', 'origin', `git@github.com:${this.config.get('repositoryName')}.git`], {
+        await execa('git', ['remote', 'add', 'origin', `git@github.com:${this.config.get('repositoryName')}.git`], {
             cwd: this.destinationPath(),
         });
-        await run('git', ['submodule', 'add', 'git@github.com:thetribeio/ansible-roles.git', 'roles-lib'], {
+        await execa('git', ['submodule', 'add', 'git@github.com:thetribeio/ansible-roles.git', 'roles-lib'], {
             cwd: this.destinationPath('ansible'),
         });
     }
