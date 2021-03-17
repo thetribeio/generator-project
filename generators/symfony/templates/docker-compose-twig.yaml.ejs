@@ -1,0 +1,19 @@
+version: '2.4'
+
+services:
+    <%= packageName %>-nginx:
+        build: <%= packageName %>/docker/nginx
+        depends_on:
+            - <%= packageName %>-php
+        volumes_from:
+            - <%= packageName %>-php
+
+    <%= packageName %>-node:
+        build: <%= packageName %>/docker/node
+        command: yarn start
+        depends_on:
+            - <%= packageName %>-nginx
+        volumes_from:
+            - <%= packageName %>-php
+        ports:
+            - 8080:8080

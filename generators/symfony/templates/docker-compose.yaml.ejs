@@ -1,0 +1,20 @@
+version: '2.4'
+
+services:
+    <%= packageName %>-nginx:
+        build: <%= packageName %>/docker/nginx
+        depends_on:
+            - <%= packageName %>-php
+        volumes_from:
+            - <%= packageName %>-php
+        ports:
+            - 8080:80
+
+    <%= packageName %>-php:
+        build: <%= packageName %>/docker/php
+        environment:
+            DATABASE_URL: "postgresql://user:password@postgres:5432/thetribe"
+        depends_on:
+            - postgres
+        volumes:
+            - ./<%= packageName %>:/usr/src/project/<%= packageName %>

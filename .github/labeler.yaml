@@ -6,3 +6,6 @@ generator/express:
 
 generator/next-js:
   - generator/next-js/**/*
+
+generator/symfony:
+  - generator/symfony/**/*

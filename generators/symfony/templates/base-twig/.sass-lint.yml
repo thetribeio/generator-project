@@ -1,0 +1,29 @@
+files:
+    include: 'assets/**/*.scss'
+options:
+    merge-default-rules: false
+rules:
+    attribute-quotes: 2
+    brace-style: 2
+    class-name-format: [2, { allow-leading-underscore: false }]
+    declarations-before-nesting: 2
+    empty-line-between-blocks: 2
+    final-newline: 2
+    hex-notation: 2
+    indentation: [2, { size: 4 }]
+    no-ids: 2
+    no-important: 2
+    no-invalid-hex: 2
+    no-trailing-whitespace: 2
+    no-vendor-prefixes: 2
+    one-declaration-per-line: 2
+    pseudo-element: 2
+    single-line-per-selector: 2
+    space-after-colon: 2
+    space-after-comma: 2
+    space-around-operator: 2
+    space-before-brace: 2
+    space-before-colon: 2
+    space-between-parens: 2
+    trailing-semicolon: 2
+    zero-unit: 2

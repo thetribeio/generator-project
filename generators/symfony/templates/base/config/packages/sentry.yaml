@@ -1,0 +1,8 @@
+parameters:
+    env(SENTRY_DSN): ~
+    env(SENTRY_ENVIRONMENT): development
+
+sentry:
+    dsn: '%env(SENTRY_DSN)%'
+    options:
+        environment: '%env(SENTRY_ENVIRONMENT)%'
