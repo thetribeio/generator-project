@@ -1,0 +1,16 @@
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "extends": "@thetribe/eslint-config-react-typescript",
+    "env": {
+        "browser": true
+    },
+    "overrides": [
+        {
+            "files": ["**/*.test.{ts,tsx}"],
+            "env": {
+              "jest": true
+            }
+       }
+    ]
+}

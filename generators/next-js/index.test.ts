@@ -24,6 +24,10 @@ describe('When running the generator', () => {
         await fs.promises.rm(root, { recursive: true });
     });
 
+    test('It generates a project which correctly lints', async () => {
+        await execa('yarn', ['lint'], { cwd: path.resolve(root, 'test') });
+    });
+
     test('It generates a project which correctly builds', async () => {
         await execa('yarn', ['build'], { cwd: path.resolve(root, 'test') });
     });
