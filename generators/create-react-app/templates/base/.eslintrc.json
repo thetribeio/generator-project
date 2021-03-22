@@ -1,6 +1,5 @@
 {
     "root": true,
-    "parser": "@typescript-eslint/parser",
     "extends": "@thetribe/eslint-config-react-typescript",
     "env": {
         "browser": true
