@@ -6,7 +6,7 @@ describe('When running the generator', () => {
     let root: string;
 
     beforeAll(async () => {
-        const result = await helpers.run(path.resolve(__dirname, '..'))
+        const result = await helpers.run(__dirname)
             .withPrompts({ contactEmail: 'test@example.com' });
 
         root = result.cwd;

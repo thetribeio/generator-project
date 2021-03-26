@@ -6,7 +6,7 @@ describe('When running the generator with Create React App', () => {
     let root: string;
 
     beforeAll(async () => {
-        const result = await helpers.run(path.resolve(__dirname, '..'))
+        const result = await helpers.run(__dirname)
             .withPrompts({ backend: 'express', contactEmail: 'test@example.com', frontend: 'create-react-app' });
 
         root = result.cwd;
@@ -33,7 +33,7 @@ describe('When running the generator with Next.js', () => {
     let root: string;
 
     beforeAll(async () => {
-        const result = await helpers.run(path.resolve(__dirname, '..'))
+        const result = await helpers.run(__dirname)
             .withPrompts({ backend: 'express', contactEmail: 'test@example.com', frontend: 'next-js' });
 
         root = result.cwd;
