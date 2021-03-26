@@ -1,6 +1,7 @@
 import cryptoRandomString from 'crypto-random-string';
 import execa from 'execa';
 import Generator from 'yeoman-generator';
+import { validateProjectName } from '../../utils/validation';
 
 interface Prompt {
     projectName: string,
@@ -18,6 +19,7 @@ class RootGenerator extends Generator {
                 name: 'projectName',
                 message: 'Project name',
                 default: this.appname,
+                validate: validateProjectName,
             },
             {
                 type: 'input',
