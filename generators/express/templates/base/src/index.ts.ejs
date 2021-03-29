@@ -8,7 +8,7 @@ Sentry.init({
     release: version ? `<%= projectName %>-<%= packageName %>@${version}` : undefined,
 });
 
-const port: number = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+const port: number = process.env.PORT ? parseInt(process.env.PORT, 10) : 4000;
 
 app.listen(port, () => {
     console.info(`Server listening on port ${port}`);
