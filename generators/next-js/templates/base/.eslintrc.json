@@ -8,8 +8,8 @@
         {
             "files": ["**/*.test.{ts,tsx}"],
             "env": {
-                "jest": true
+              "jest": true
             }
-        }
+       }
     ]
 }

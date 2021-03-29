@@ -38,14 +38,14 @@ Run `yo @thetribe/project:root` to generate a bare root project and then
 ### Add more components
 
 You can add more components to an existing project with the following commands:
- - `yo @thetribe/project:create-react-app [name]`
- - `yo @thetribe/project:express [name]`
- - `yo @thetribe/project:next-js [name]`
+- `yo @thetribe/project:create-react-app [name]`
+- `yo @thetribe/project:express [name]`
+- `yo @thetribe/project:next-js [name]`
 
 ### Push your project
 
 - Create a new GitHub repository with the name you specified in the configuration
-- Create an inital commit in your project folder
+- Create an initial commit in your project folder
 - And push it with `git push --set-upstream origin master`
 
 ## If you encounter an issue while using the generator
