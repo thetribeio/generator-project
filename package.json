@@ -1,6 +1,9 @@
 {
   "name": "@thetribe/generator-project",
   "version": "0.1.0",
+  "engines": {
+    "node": ">=14"
+  },
   "dependencies": {
     "binascii": "^0.0.2",
     "crypto-random-string": "^3.3.1",
