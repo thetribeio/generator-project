@@ -18,7 +18,7 @@ class RootGenerator extends Generator {
                 type: 'input',
                 name: 'projectName',
                 message: 'Project name',
-                default: this.appname,
+                default: this.appname.replace(/ /g, '-'),
                 validate: validateProjectName,
             },
             {

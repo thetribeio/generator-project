@@ -9,13 +9,14 @@ class CreateReactAppGenerator extends PackageGenerator {
 
     async prompting() {
         const { packageName } = this.options;
+        const projectName = this.config.get('projectName');
 
         this.#answers = await this.prompt([
             {
                 type: 'input',
                 name: 'domain',
                 message: `The domain for ${packageName}`,
-                default: `${packageName}.${this.appname}.thetribe.io`,
+                default: `${packageName}.${projectName}.thetribe.io`,
             },
         ]);
     }
