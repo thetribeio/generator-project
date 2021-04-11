@@ -9,7 +9,7 @@
         "ext-mbstring": "*",
         "ext-pdo_pgsql": "*",
         "doctrine/doctrine-bundle": "^2.3.1",
-        "doctrine/doctrine-migrations-bundle": "^3.1.0",
+        "doctrine/doctrine-migrations-bundle": "^3.1.1",
         "doctrine/orm": "^2.8.4",
         "sensio/framework-extra-bundle": "^6.1",
         "sentry/sentry-symfony": "^3.5.3",
