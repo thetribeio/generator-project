@@ -1687,13 +1687,13 @@
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-"@thetribe/eslint-config-react-typescript@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config-react-typescript/-/eslint-config-react-typescript-0.1.0.tgz#667a70799405496414c935b8397a32e017094ccc"
-  integrity sha512-4/9Cr/WvnGA+woMHAw6Jpmc7NTnsE1amBEULkw+O3esSOYq3OXbDVtNvp2hdaHz4JWXcpkz7bYrOGx2Ti/PHmg==
+"@thetribe/eslint-config-react-typescript@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config-react-typescript/-/eslint-config-react-typescript-0.2.0.tgz#f1da8a1d8ac16dbcabff7da09753f18aa8617da2"
+  integrity sha512-iYtTz406jmupFRHSmN+od4sBlpWs5tbdA/qCNW2mmj9KSHFR0DVNKvyneOcH7b6m6ErKLulzkxZ2drWt3AhGvw==
   dependencies:
     "@thetribe/eslint-config-react" "^0.4.2"
-    "@thetribe/eslint-config-typescript" "^0.2.1"
+    "@thetribe/eslint-config-typescript" "^0.3.0"
 
 "@thetribe/eslint-config-react@^0.4.2":
   version "0.4.2"
@@ -1703,10 +1703,10 @@
     "@thetribe/eslint-config" "^0.4.2"
     eslint-config-airbnb "^18.1.0"
 
-"@thetribe/eslint-config-typescript@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config-typescript/-/eslint-config-typescript-0.2.1.tgz#eeccb80a3c22c4acf41a559f743ccbff40ac3a0c"
-  integrity sha512-pNwt6kC21sIBb21HABykCzwAVlAdGkVg00ebBBCZe/3CrgAm73EeD4JteTGJJSWSrwBqnxzqVEXBWdz19l+N3Q==
+"@thetribe/eslint-config-typescript@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config-typescript/-/eslint-config-typescript-0.3.0.tgz#047008961c55ea702d33a4db10fbbc8b16c5f2f9"
+  integrity sha512-3Q2UviEu9I+nCLlOqzFzQmU2QxRc7yrVxQUroJ4h2flcD3FtVe+woBywYpu+rKiLlI75BhsDNqWiSkvAmreTpg==
   dependencies:
     "@thetribe/eslint-config" "^0.4.2"
 

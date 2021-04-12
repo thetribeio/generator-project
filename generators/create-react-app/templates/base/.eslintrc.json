@@ -1,6 +1,9 @@
 {
     "root": true,
     "extends": "@thetribe/eslint-config-react-typescript",
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
     "env": {
         "browser": true
     },
