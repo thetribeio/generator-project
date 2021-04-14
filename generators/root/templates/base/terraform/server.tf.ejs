@@ -28,4 +28,5 @@ resource "scaleway_instance_server" "server_compute" {
     name              = "<%= projectName %>-${terraform.workspace}"
     security_group_id = scaleway_instance_security_group.server_security_group.id
     ip_id             = scaleway_instance_ip.server_public_ip.id
+    tags              = ["<%= projectName %>", terraform.workspace]
 }
