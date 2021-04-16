@@ -1,0 +1,107 @@
+jobs:
+  <%= packageName %>-yarn-install:
+    executor: node
+    working_directory: ~/project/<%= packageName %>
+    steps:
+      - checkout:
+          path: ~/project
+      - restore_cache:
+          keys:
+            - yarn-install-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
+            - yarn-install-{{ checksum "package.json" }}
+            - yarn-install
+          paths:
+            - node_modules
+      - run:
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn_install-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+              - <%= packageName %>/node_modules
+
+  <%= packageName %>-lint:
+    executor: node
+    working_directory: ~/project/<%= packageName %>
+    steps:
+      - checkout:
+          path: ~/project
+      - attach_workspace:
+          at: ~/project
+      - run:
+          command: yarn lint
+
+  <%= packageName %>-build:
+    executor: node
+    working_directory: ~/project/<%= packageName %>
+    steps:
+      - checkout:
+          path: ~/project
+      - attach_workspace:
+          at: ~/project
+      - run: echo "export default '${CIRCLE_SHA1}';" > version.ts
+      - run:
+          command: yarn build
+          environment:
+            NODE_ENV: production
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+              - <%= packageName %>/build
+
+  <%= packageName %>-archive:
+    executor: node
+    working_directory: ~/project/<%= packageName %>
+    steps:
+      - checkout:
+          path: ~/project
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Create archive
+          command: |
+            tar --create --gzip --file=archive.tar.gz --owner=0 --group=0 \
+              build/ \
+      - store_artifacts:
+          path: archive.tar.gz
+          destination: <%= packageName %>.tar.gz
+
+  <%= packageName %>-sentry-release:
+    docker:
+      - image: getsentry/sentry-cli:1.61.0
+        entrypoint: ''
+        environment:
+          SENTRY_PROJECT: <%= projectName %>-<%= packageName %>
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run: sentry-cli releases new <%= projectName %>-<%= packageName %>@${CIRCLE_SHA1}
+      - run: sentry-cli releases files <%= projectName %>-<%= packageName %>@${CIRCLE_SHA1} upload-sourcemaps <%= packageName %>/build
+      - run: sentry-cli releases finalize <%= projectName %>-<%= packageName %>@${CIRCLE_SHA1}
+
+workflows:
+  version: '2'
+  build:
+    jobs:
+      - <%= packageName %>-yarn-install
+      - <%= packageName %>-lint:
+          requires:
+            - <%= packageName %>-yarn-install
+      - <%= packageName %>-build:
+          requires:
+            - <%= packageName %>-lint
+      - <%= packageName %>-archive:
+          requires:
+            - <%= packageName %>-build
+      - <%= packageName %>-sentry-release:
+          context: sentry
+          requires:
+            - <%= packageName %>-build
+          filters:
+            branches:
+              only:
+                - develop
+                - master
