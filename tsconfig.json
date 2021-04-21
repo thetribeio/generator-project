@@ -18,7 +18,8 @@
     },
     "include": [
         "generators/**/*",
-        "utils/**/*"
+        "utils/**/*",
+        "tests-utils/**/*",
     ],
     "exclude": [
         "generators/*/templates"

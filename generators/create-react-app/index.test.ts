@@ -1,8 +1,9 @@
 import fs from 'fs';
 import path from 'path';
-import execa from 'execa';
 import YAML from 'yaml';
 import helpers from 'yeoman-test';
+import { Config } from '../../utils/circleci';
+import Executor from '../../tests-utils/execute';
 
 describe('When running the generator', () => {
     let root: string;
@@ -15,7 +16,6 @@ describe('When running the generator', () => {
 
         await helpers.run(__dirname)
             .cd(root)
-            .withOptions({ skipInstall: false })
             .withArguments(['test']);
     });
 
@@ -23,12 +23,14 @@ describe('When running the generator', () => {
         await fs.promises.rm(root, { recursive: true });
     });
 
-    test('It generates a project which correctly builds', async () => {
-        await execa('yarn', ['build'], { cwd: path.resolve(root, 'test') });
-    });
+    test('It generates a project which correctly pass the CI', async () => {
+        const configPath = path.resolve(root, '.circleci/config.yml');
+        const config = Config.fromRaw(YAML.parse(await fs.promises.readFile(configPath, 'utf8')));
 
-    test('It generates a project which correctly lints', async () => {
-        await execa('yarn', ['lint'], { cwd: path.resolve(root, 'test') });
+        // Ignore release job since it requires pushing to a running sentry instance
+        delete config.workflows.build.jobs['test-sentry-release'];
+
+        await new Executor().execute(config, 'build', root);
     });
 
     test('It generates a docker-compose.yaml with a version fields', async () => {
