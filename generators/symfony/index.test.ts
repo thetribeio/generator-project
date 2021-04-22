@@ -16,8 +16,11 @@ describe('When running the generator', () => {
 
         await helpers.run(__dirname)
             .cd(root)
-            .withOptions({ skipInstall: false, twig: true })
+            .withOptions({ twig: true })
             .withArguments(['test']);
+
+        await execa('composer', ['install', '--ignore-platform-reqs', '--no-scripts'], { cwd: path.resolve(root, 'test') });
+        await execa('yarn', ['install', '--frozen-lockfile'], { cwd: path.resolve(root, 'test') });
     });
 
     afterAll(async () => {

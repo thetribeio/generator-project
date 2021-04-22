@@ -42,12 +42,6 @@ class ExpressGenerator extends PackageGenerator {
             repositoryName: this.config.get('repositoryName'),
         });
     }
-
-    install(): void {
-        const { packageName } = this.options;
-
-        this.yarnInstall(undefined, { frozenLockfile: true }, { cwd: this.destinationPath(packageName) });
-    }
 }
 
 export default ExpressGenerator;

@@ -16,8 +16,9 @@ describe('When running the generator', () => {
 
         await helpers.run(__dirname)
             .cd(root)
-            .withOptions({ skipInstall: false })
             .withArguments([packageName]);
+
+        await execa('yarn', ['install', '--frozen-lockfile'], { cwd: path.resolve(root, 'test') });
     });
 
     afterAll(async () => {
