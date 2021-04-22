@@ -9,7 +9,10 @@ services:
             - <%= packageName %>-php
 
     <%= packageName %>-node:
-        build: <%= packageName %>/docker/node
+        build:
+            context: <%= packageName %>/docker/node
+            args:
+                UID: ${UID:-1000}
         command: yarn start
         depends_on:
             - <%= packageName %>-nginx

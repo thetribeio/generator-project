@@ -8,12 +8,8 @@ class NextJSGenerator extends PackageGenerator {
         await this.configureDockerCompose('docker-compose.yaml.ejs');
 
         await this.configureCircleCI('circleci.yaml.ejs');
-    }
 
-    async install(): Promise<void> {
-        const { packageName } = this.options;
-
-        await this.spawnCommand('yarn', ['install', '--frozen-lockfile'], { cwd: this.destinationPath(packageName) });
+        await this.configureScripts('script');
     }
 }
 

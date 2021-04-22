@@ -1,0 +1,7 @@
+# Setup env variables passed to the docker config
+export UID=$(id -u)
+
+# Detect docker rootless mode
+if [ "$DOCKER_HOST" = "unix:///run/user/$UID/docker.sock" ]; then
+    export UID=0
+fi

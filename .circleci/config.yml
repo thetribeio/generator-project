@@ -38,29 +38,27 @@ jobs:
           at: .
       - run: yarn build
 
-  test:
+  test-utils:
     executor: node
     steps:
       - checkout
       - attach_workspace:
           at: .
-      - run: sudo apt install ansible apt-transport-https
-      - php/install-php:
-          version: '8.0'
-      - run: sudo apt install php8.0-intl php8.0-mbstring
-      - php/install-composer:
-          install-version: 2.0.11
-      - restore_cache:
-          name: Restore Yarn Package Cache
-          keys:
-            - yarn-cache-{{ .Branch }}
-            - yarn-cache
-      - run: yarn test
-      - save_cache:
-          name: Save Yarn Package Cache
-          key: yarn-cache-{{ .Branch }}
-          paths:
-            - ~/.cache/yarn
+      - run: sudo apt install ansible
+      - run: yarn test:utils
+
+  test-generators:
+    machine:
+      image: ubuntu-2004:202104-01
+    steps:
+      - node/install:
+          install-npm: false
+          install-yarn: true
+          node-version: 14.15.1
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: yarn test:generators
 
 workflows:
   version: '2'
@@ -72,7 +70,10 @@ workflows:
             - yarn-install
       - build:
           requires:
-            - lint
-      - test:
+            - yarn-install
+      - test-utils:
           requires:
-            - lint
+            - yarn-install
+      - test-generators:
+          requires:
+            - yarn-install

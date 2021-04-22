@@ -11,7 +11,10 @@ services:
             - 8080:80
 
     <%= packageName %>-php:
-        build: <%= packageName %>/docker/php
+        build:
+            context: <%= packageName %>/docker/php
+            args:
+                UID: ${UID:-1000}
         environment:
             DATABASE_URL: "postgresql://user:password@postgres:5432/thetribe"
         depends_on:

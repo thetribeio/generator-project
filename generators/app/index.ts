@@ -87,6 +87,10 @@ class AppGenerator extends Generator {
                 break;
         }
     }
+
+    end(): void {
+        this.log('Your project was successfully generated, you can now start it with the ./script/server command.');
+    }
 }
 
 export default AppGenerator;

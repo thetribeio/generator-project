@@ -1,0 +1,5 @@
+
+docker-compose run --rm --no-deps <%= packageName %>-php composer install --ignore-platform-reqs --no-scripts
+<% if (twig) { %>
+docker-compose run --rm --no-deps <%= packageName %>-node yarn install --frozen-lockfile
+<% } %>

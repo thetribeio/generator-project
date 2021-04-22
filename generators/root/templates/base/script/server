@@ -1,0 +1,12 @@
+#!/bin/sh
+# Launch the application and any extra required processes locally.
+
+set -e
+
+cd $(dirname $(dirname $0))
+
+script/update
+
+. script/lib/docker
+
+docker-compose up

@@ -60,16 +60,8 @@ class SymfonyGenerator extends PackageGenerator<Options> {
             repositoryName: this.config.get('repositoryName'),
             twig: this.options.twig,
         });
-    }
 
-    async install(): Promise<void> {
-        const { packageName } = this.options;
-
-        await this.spawnCommand('composer', ['install', '--ignore-platform-reqs', '--no-scripts'], { cwd: this.destinationPath(packageName) });
-
-        if (this.options.twig) {
-            await this.spawnCommand('yarn', ['install', '--frozen-lockfile'], { cwd: this.destinationPath(packageName) });
-        }
+        await this.configureScripts('script', { twig: this.options.twig });
     }
 }
 
