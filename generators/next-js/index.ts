@@ -7,10 +7,10 @@ class NextJSGenerator extends PackageGenerator {
         await this.configureDockerCompose('docker-compose.yaml.ejs', { packageName });
     }
 
-    install(): void {
+    async install(): Promise<void> {
         const { packageName } = this.options;
 
-        this.yarnInstall(undefined, { frozenLockfile: true }, { cwd: this.destinationPath(packageName) });
+        await this.spawnCommand('yarn', ['install', '--frozen-lockfile'], { cwd: this.destinationPath(packageName) });
     }
 }
 
