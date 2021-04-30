@@ -50,8 +50,8 @@ You can add more components to an existing project with the following commands:
 
 ## If you encounter an issue while using the generator
 
-If you encounter any issue while using the generator or contributing on it please create a issue in this repository.
+If you encounter any issue while using the generator or contributing on it please create an issue in this repository.
 
 ## Contributing
 
-You can contribute to this repository by following the [contributing guide](CONTRIBUTING.md)
+You can contribute to this repository by following the [contributing guide](doc/CONTRIBUTING.md)

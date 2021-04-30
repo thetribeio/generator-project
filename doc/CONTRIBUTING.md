@@ -27,7 +27,7 @@ This is the base generator, that rules them all :
 
 ### RootGenerator:
 
-A root generator which can be invoked to generate a bare project see [Manual mode](README.md#manual-mode)
+A root generator which can be invoked to generate a bare project see [Manual mode](../README.md#manual-mode)
 
 ### ExpressGenerator:
 
@@ -67,4 +67,4 @@ Build the project with `yarn build`
 
 - Install yeoman: `yarn global add yo`
 - Go the dist directory and link the built generator: `(cd dist && yarn link)`
-- Yo can now test your generator by following the [usage documentation](README.md#usage)
+- Yo can now test your generator by following the [usage documentation](../README.md#usage)
