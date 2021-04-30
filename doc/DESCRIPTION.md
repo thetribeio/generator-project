@@ -6,6 +6,10 @@ At theTribe we have different needs over different technologies, but some part o
 
 This generator is our answer to mutualise them while having the flexibility to choose the appropriate front end and backend. 
 
+We use Yeoman under the hood, which allow us to provide a CLI experience with prompts where you will be asked 
+a few questions to choose the stack you want to use and some variables for your project identity
+
+
 ### Current features 
 
 The current MVP covers the most used technologies which are:
