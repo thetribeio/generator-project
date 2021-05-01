@@ -1,18 +1,19 @@
 {
-  "root": true,
-  "extends": "@thetribe/eslint-config-react-typescript",
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  },
-  "env": {
-    "browser": true
-  },
-  "overrides": [
-    {
-      "files": ["**/*.test.{ts,tsx}"],
-      "env": {
-        "jest": true
-      }
-    }
-  ]
+    "root": true,
+    "extends": "@thetribe/eslint-config-react-typescript",
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
+    "env": {
+        "browser": true
+    },
+    "ignorePatterns": ["next.config.js"],
+    "overrides": [
+        {
+            "files": ["**/*.test.{ts,tsx}"],
+            "env": {
+                "jest": true
+            }
+        }
+    ]
 }
