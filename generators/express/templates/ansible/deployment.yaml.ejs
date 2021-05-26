@@ -5,10 +5,12 @@
       delegate_to: localhost
     - import_role:
         name: deploy
+      environment: '{{ <%= packageName.replace('-', '_') %>_env }}'
       vars:
         path: /home/<%= packageName %>
         artifact_path: <%= packageName %>.tar.gz
-      environment: '{{ <%= packageName.replace('-', '_') %>_env }}'
+        after_finalize:
+          - systemctl restart <%= packageName %>
   vars:
     job_name: <%= packageName %>-archive
     repository_name: <%= repositoryName %>
