@@ -28,3 +28,7 @@ You can add more components to an existing project with the following commands:
 ## If you encounter an issue while using the generator
 
 If you encounter any issue while using the generator or contributing on it please create an issue in this repository.
+
+## If you want to contribute to the generator 
+
+You can follow our [contribution guidelines](../CONTRIBUTING.md)

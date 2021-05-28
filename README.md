@@ -27,4 +27,4 @@ You can use the generator by following the [quickstart guide](doc/QUICKSTART.md)
 
 ## Contributing
 
-You can contribute to this repository by following the [contributing guide](doc/CONTRIBUTING.md)
+You can contribute to this repository by following the [contributing guide](CONTRIBUTING.md)

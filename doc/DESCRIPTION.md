@@ -14,13 +14,13 @@ a few questions to choose the stack you want to use and some variables for your 
 
 The current MVP covers the most used technologies which are:
 
-* Front-End Architecture : you can choose between `Create React App` and `NextJs` as a boilerplate app
+* Front-End Architecture: you can choose between `Create React App` and `NextJs` as a boilerplate app
 
 
-* Backend-End Architecture : you can choose between `Node` and `Symfony` (Node backend comes with Express and TypeORM)
+* Backend-End Architecture: you can choose between `Node` and `Symfony` (Node backend comes with Express and TypeORM)
   
 
-* Containerization In dev environment with `docker-compose` 
+* Containerization in dev environment with `docker-compose` 
 
 
 * Provision/Deployment automation with `Ansible`
