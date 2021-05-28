@@ -27,7 +27,7 @@ You can quickly use the generator by following the [quickstart guide](doc/QUICKS
 
 ## Advanced Usage
 
-You can also run the generator manually which let you pick what you individual generator you want to add 
+You can also run the generator manually which let you pick what you individual template you want to add 
 
 Run `yo @thetribe/project:root` to generate a bare root project and then
 [add more components to your project](#add-more-components)

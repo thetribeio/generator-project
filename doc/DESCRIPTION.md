@@ -1,8 +1,8 @@
 ## Description
 
-This starter kit is a bit different from others, since this a generator which encapsulates several starter kit. 
+Think about this starter kit as a flexible one which allows you to generate different project templates, adapting to your needs.
 
-At theTribe we have different needs over different technologies, but some part of the boilerplate is shared across all project regardless of the choosen stack.
+At theTribe we use different technologies for different projects types/needs, but some part of the boilerplate is shared across all project regardless of the choosen stack.
 
 This generator is our answer to mutualise them while having the flexibility to choose the appropriate front end and backend. 
 
