@@ -27,7 +27,7 @@
     "eslint-plugin-import": "^2.23.3",
     "execa": "^5.0.0",
     "jest": "^27.0.1",
-    "ts-jest": "^27.0.0",
+    "ts-jest": "^27.0.1",
     "typescript": "^4.2.4",
     "yeoman-environment": "^3.2.0",
     "yeoman-test": "^5.1.0"
