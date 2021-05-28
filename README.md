@@ -21,9 +21,23 @@ The current MVP covers the most used technologies which are:
 
 More languages/tools will come in the future.
 
-## Usage
+## QuickStart
 
-You can use the generator by following the [quickstart guide](doc/QUICKSTART.md)
+You can quickly use the generator by following the [quickstart guide](doc/QUICKSTART.md)
+
+## Advanced Usage
+
+You can also run the generator manually which let you pick what you individual generator you want to add 
+
+Run `yo @thetribe/project:root` to generate a bare root project and then
+[add more components to your project](#add-more-components)
+
+### Add more components
+
+You can add more components to an existing project with the following commands:
+- `yo @thetribe/project:create-react-app [name]`
+- `yo @thetribe/project:express [name]`
+- `yo @thetribe/project:next-js [name]`
 
 ## Contributing
 
