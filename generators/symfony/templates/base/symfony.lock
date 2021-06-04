@@ -399,6 +399,9 @@
     "symfony/property-info": {
         "version": "v4.3.3"
     },
+    "symfony/psr-http-message-bridge": {
+        "version": "v2.1.0"
+    },
     "symfony/routing": {
         "version": "4.2",
         "recipe": {

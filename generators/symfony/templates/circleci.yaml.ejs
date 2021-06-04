@@ -39,7 +39,7 @@ jobs:
 
   <%= packageName %>-migrations:
     docker:
-      - image: circleci/php:8.0.2
+      - image: circleci/php:8.0.7
         environment:
           DATABASE_URL: postgresql://thetribe:424242@localhost:5432/thetribe
       - image: postgres:12.5
