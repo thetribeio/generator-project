@@ -54,7 +54,7 @@ jobs:
           at: .
       - run: sudo apt install ansible apt-transport-https
       - php/install-php:
-          version: '7.4'
+          version: '8.0'
       - php/install-composer:
           install-version: 2.0.11
       - restore_cache:
