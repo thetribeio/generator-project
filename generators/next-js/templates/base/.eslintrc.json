@@ -7,7 +7,6 @@
     "env": {
         "browser": true
     },
-    "ignorePatterns": ["next.config.js"],
     "overrides": [
         {
             "files": ["**/*.test.{ts,tsx}"],
