@@ -13,6 +13,10 @@
             "env": {
                 "jest": true
             }
+        },
+        {
+          "files": ["next.config.js"],
+          "parser": "espree"
         }
     ]
 }
