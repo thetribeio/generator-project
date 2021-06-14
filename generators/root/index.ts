@@ -60,8 +60,22 @@ class RootGenerator extends Generator {
 
     async install() {
         await this.spawnCommand('git', ['init']);
-        await this.spawnCommand('git', ['remote', 'add', 'origin', `git@github.com:${this.config.get('repositoryName')}.git`]);
-        await this.spawnCommand('git', ['submodule', 'add', 'git@github.com:thetribeio/ansible-roles.git', 'ansible/roles-lib']);
+
+        if (!(await this.#spawnTest('git', ['remote', 'get-url', 'origin']))) {
+            await this.spawnCommand('git', ['remote', 'add', 'origin', `git@github.com:${this.config.get('repositoryName')}.git`]);
+        }
+
+        if (!(await this.#spawnTest('git', ['submodule', 'status', 'ansible/roles-lib']))) {
+            await this.spawnCommand('git', ['submodule', 'add', 'git@github.com:thetribeio/ansible-roles.git', 'ansible/roles-lib']);
+        }
+    }
+
+    /**
+     * Variant of spawnCommand that emulate bash conditions.
+     */
+    async #spawnTest(command: string, args: string[]): Promise<boolean> {
+        // @ts-ignore: the @types/yeoman-generator package doesn't have the right types for the spawnCommand function
+        return (await this.spawnCommand(command, args, { reject: false, stdio: 'ignore' })).exitCode === 0;
     }
 }
 
