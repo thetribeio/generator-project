@@ -1,0 +1,85 @@
+jobs:
+  <%= packageName %>-yarn-install:
+    executor: node
+    working_directory: ~/project/<%= packageName %>
+    steps:
+      - checkout:
+          path: ~/project
+      - restore_cache:
+          keys:
+            - yarn-install-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
+            - yarn-install-{{ checksum "package.json" }}
+            - yarn-install
+          paths:
+            - node_modules
+      - run:
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: yarn_install-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+              - <%= packageName %>/node_modules
+
+  <%= packageName %>-lint:
+    executor: node
+    working_directory: ~/project/<%= packageName %>
+    steps:
+      - checkout:
+          path: ~/project
+      - attach_workspace:
+          at: ~/project
+      - run:
+          command: yarn lint
+
+  <%= packageName %>-build:
+    executor: node
+    working_directory: ~/project/<%= packageName %>
+    steps:
+      - checkout:
+          path: ~/project
+      - attach_workspace:
+          at: ~/project
+      - run: echo "export default '${CIRCLE_SHA1}';" > version.ts
+      - run:
+          command: yarn build
+          environment:
+            NODE_ENV: production
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+              - <%= packageName %>/build
+
+  <%= packageName %>-archive:
+    executor: node
+    working_directory: ~/project/<%= packageName %>
+    steps:
+      - checkout:
+          path: ~/project
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Create archive
+          command: |
+            tar --create --gzip --file=archive.tar.gz --owner=0 --group=0 \
+              build/ \
+      - store_artifacts:
+          path: archive.tar.gz
+          destination: <%= packageName %>.tar.gz
+
+workflows:
+  version: '2'
+  build:
+    jobs:
+      - <%= packageName %>-yarn-install
+      - <%= packageName %>-lint:
+          requires:
+            - <%= packageName %>-yarn-install
+      - <%= packageName %>-build:
+          requires:
+            - <%= packageName %>-lint
+      - <%= packageName %>-archive:
+          requires:
+            - <%= packageName %>-build
