@@ -1,27 +1,11 @@
 #!/usr/bin/env node
-import { readFile, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import execa from 'execa';
 import { compare, major } from 'semver';
+import replace from './lib/replace.mjs';
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
-
-const replace = async (file, regexp, replacer) => {
-    const path = resolve(root, file);
-
-    const content = await readFile(path, 'utf8');
-
-    const newContent = content.replace(regexp, replacer);
-
-    if (newContent === content) {
-        return false;
-    }
-
-    await writeFile(path, newContent, 'utf8');
-
-    return true;
-};
 
 const updateYarnLock = async (path) => {
     await execa('yarn', ['install', '--ignore-platform'], { cwd: resolve(root, path) });
@@ -64,7 +48,7 @@ for (const file of [
     'generators/symfony/templates/circleci.yaml.ejs',
 ]) {
     updated = await replace(
-        file,
+        resolve(root, file),
         /image: node:\d+\.\d+\.\d+/,
         `image: node:${lastVersion}`,
     ) || updated;
@@ -81,7 +65,11 @@ for (const file of [
     'generators/symfony/templates/base-twig/docker/node/Dockerfile.ejs',
     'generators/symfony/templates/deployment/kubernetes/docker/Dockerfile.ejs',
 ]) {
-    updated = await replace(file, /FROM node:\d+\.\d+\.\d+/, `FROM node:${lastVersion}`) || updated;
+    updated = await replace(
+        resolve(root, file),
+        /FROM node:\d+\.\d+\.\d+/,
+        `FROM node:${lastVersion}`,
+    ) || updated;
 }
 
 // Update ansible config
@@ -89,13 +77,17 @@ for (const file of [
     'generators/express/templates/deployment/ansible/package/provision.yaml.ejs',
     'generators/next-js/templates/deployment/ansible/package/provision.yaml.ejs',
 ]) {
-    updated = await replace(file, /version: \d+/, `version: ${lastMajor}`) || updated;
+    updated = await replace(
+        resolve(root, file),
+        /version: \d+/,
+        `version: ${lastMajor}`,
+    ) || updated;
 }
 
 // Update tsconfig package
 if (updated) {
     await replace(
-        'generators/express/templates/base/package.json',
+        resolve(root, 'generators/express/templates/base/package.json'),
         /"@tsconfig\/node\d+": "\^\d+\.\d+\.\d+"/,
         `"@tsconfig/node${lastMajor}": "^${tsConfigVersion.version}"`,
     );
@@ -103,7 +95,7 @@ if (updated) {
     await updateYarnLock('generators/express/templates/base');
 
     await replace(
-        'generators/express/templates/base/tsconfig.json',
+        resolve(root, 'generators/express/templates/base/tsconfig.json'),
         /"extends": "@tsconfig\/node\d+\/tsconfig\.json",/,
         `"extends": "@tsconfig/node${lastMajor}/tsconfig.json",`,
     );
@@ -118,7 +110,7 @@ if (updated) {
         'generators/react-admin/templates/base/',
     ]) {
         await replace(
-            `${path}/package.json`,
+            resolve(root, path, 'package.json'),
             /"@types\/node": "\^\d+\.\d+\.\d+"/g,
             `"@types/node": "^${nodeTypesVersion.version}"`,
         );
