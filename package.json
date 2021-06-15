@@ -3,7 +3,7 @@
   "version": "0.2.1",
   "license": "MIT",
   "engines": {
-    "node": ">=14"
+    "node": ">=v14.17.1"
   },
   "dependencies": {
     "binascii": "^0.0.2",
