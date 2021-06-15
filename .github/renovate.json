@@ -1,5 +1,13 @@
 {
     "extends": [
         "@thetribe"
+    ],
+    "packageRules": [
+        {
+            "matchDepTypes": [
+                "engines"
+            ],
+            "enabled": false
+        }
     ]
 }
