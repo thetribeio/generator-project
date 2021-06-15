@@ -19,3 +19,18 @@ jobs:
           body: Update Node to last LTS version
           branch: update/node
           title: Update Node to v${{ steps.update.outputs.version }}
+  update-php:
+    name: Update PHP
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: denoland/setup-deno@v1
+      - name: Update version
+        id: update
+        run: ./scripts/updatePHP.ts
+      - uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: Update PHP to v${{ steps.update.outputs.version }}
+          body: Update PHP to last version
+          branch: update/php
+          title: Update PHP to v${{ steps.update.outputs.version }}
