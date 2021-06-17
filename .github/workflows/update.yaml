@@ -1,0 +1,21 @@
+name: 'Update dependencies'
+on:
+  schedule:
+    - cron:  '0 4 * * *'
+
+jobs:
+  update-node:
+    name: Update Node
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: denoland/setup-deno@v1
+      - name: Update version
+        id: update
+        run: ./scripts/updateNode.ts
+      - uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: Update Node to v${{ steps.update.outputs.version }}
+          body: Update Node to last LTS version
+          branch: update/node
+          title: Update Node to v${{ steps.update.outputs.version }}
