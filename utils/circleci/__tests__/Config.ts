@@ -49,7 +49,6 @@ test('fromRaw errors on invalid workflow version', () => {
 test('toRaw returns the formated config', () => {
     const config = new Config({
         version: '2.1',
-        executors: {},
         jobs: {},
         workflowsVersion: '2',
         workflows: {
@@ -64,7 +63,6 @@ test('toRaw returns the formated config', () => {
 
     expect(config.toRaw()).toEqual({
         version: '2.1',
-        executors: {},
         jobs: {},
         workflows: {
             version: '2',

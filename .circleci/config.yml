@@ -1,6 +1,7 @@
 version: '2.1'
 
 orbs:
+  node: circleci/node@4.5.1
   php: circleci/php@1.1.0
 
 executors:
@@ -13,18 +14,9 @@ jobs:
     executor: node
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - yarn-install-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
-            - yarn-install-{{ checksum "package.json" }}
-            - yarn-install
-          paths:
-            - node_modules
-      - run: yarn install --frozen-lockfile
-      - save_cache:
-          key: yarn-install-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
-          paths:
-            - node_modules
+      - node/install-packages:
+          include-branch-in-cache-key: false
+          pkg-manager: yarn
       - persist_to_workspace:
           root: .
           paths:

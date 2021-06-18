@@ -1,25 +1,14 @@
 jobs:
   <%= packageName %>-yarn-install:
     executor: node
-    working_directory: ~/project/<%= packageName %>
     steps:
-      - checkout:
-          path: ~/project
-      - restore_cache:
-          keys:
-            - yarn-install-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
-            - yarn-install-{{ checksum "package.json" }}
-            - yarn-install
-          paths:
-            - node_modules
-      - run:
-          command: yarn install --frozen-lockfile
-      - save_cache:
-          key: yarn-install-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
-          paths:
-            - node_modules
+      - checkout
+      - node/install-packages:
+          app-dir: <%= packageName %>
+          include-branch-in-cache-key: false
+          pkg-manager: yarn
       - persist_to_workspace:
-          root: ~/project
+          root: .
           paths:
               - <%= packageName %>/node_modules
 
