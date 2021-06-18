@@ -119,3 +119,30 @@ test('It merges executors from different configs', () => {
     expect(mergedConfig.executors.first).toBeDefined();
     expect(mergedConfig.executors.second).toBeDefined();
 });
+
+test('It merges orbs from different configs', () => {
+    const firstConfig = new Config({
+        version: '2',
+        orbs: {
+            first: 'first',
+        },
+        jobs: {},
+        workflowsVersion: '2',
+        workflows: {},
+    });
+
+    const secondConfig = new Config({
+        version: '2',
+        orbs: {
+            second: 'second',
+        },
+        jobs: {},
+        workflowsVersion: '2',
+        workflows: {},
+    });
+
+    const mergedConfig = mergeConfig(firstConfig, secondConfig);
+
+    expect(mergedConfig.orbs.first).toBe('first');
+    expect(mergedConfig.orbs.second).toBe('second');
+});

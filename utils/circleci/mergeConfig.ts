@@ -11,6 +11,10 @@ const allKeys = (first: object, second: object): string[] => Array.from(new Set(
  */
 const mergeConfig = (first: Config, second: Config): Config => new Config({
     version: first.version,
+    orbs: {
+        ...first.orbs,
+        ...second.orbs,
+    },
     executors: {
         ...first.executors,
         ...second.executors,
