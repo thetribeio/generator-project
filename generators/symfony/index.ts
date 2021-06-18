@@ -33,21 +33,21 @@ class SymfonyGenerator extends PackageGenerator<Options> {
     }
 
     async writing() {
-        const { packageName } = this.options;
+        const { packagePath } = this.options;
         const { domain } = this.#answers as Prompt;
 
         // We use only alphanumeric characters in database password because special
         // characters often causes problems in configuration files
         const databasePassword = cryptoRandomString({ length: 64, type: 'alphanumeric' });
 
-        this.renderTemplate('base', packageName, undefined, undefined, { globOptions: { dot: true } });
+        this.renderTemplate('base', packagePath, undefined, undefined, { globOptions: { dot: true } });
 
         await this.configureDockerCompose('docker-compose.yaml.ejs');
 
         await this.configureCircleCI('circleci.yaml.ejs');
 
         if (this.options.twig) {
-            this.renderTemplate('base-twig', packageName, undefined, undefined, { globOptions: { dot: true } });
+            this.renderTemplate('base-twig', packagePath, undefined, undefined, { globOptions: { dot: true } });
 
             await this.configureDockerCompose('docker-compose-twig.yaml.ejs');
 

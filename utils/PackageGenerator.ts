@@ -12,6 +12,7 @@ strOptions.fold.lineWidth = 0;
 
 interface PackageGeneratorOptions extends GeneratorOptions {
     packageName: string;
+    packagePath: string;
 }
 
 class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptions> extends Generator<T> {
@@ -19,10 +20,13 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
         super(args, opts);
 
         this.argument('packageName', { type: String, required: true });
+        this.option('path', { type: String });
 
         if (!/^[a-z0-9-]+$/.test(this.options.name)) {
             throw new Error('Package name can only contains lowercase numbers, numbers and dashes');
         }
+
+        this.options.packagePath = this.options.path || this.options.packageName;
     }
 
     renderTemplate(
@@ -110,6 +114,7 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
         return {
             indent,
             packageName: this.options.packageName,
+            packagePath: this.options.packagePath,
             projectName: this.config.get('projectName'),
             ...context,
         };

@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   <%= packageName %>-build-assets:
     executor: node
-    working_directory: ~/project/<%= packageName %>
+    working_directory: ~/project/<%= packagePath %>
     steps:
       - checkout:
           path: ~/project
@@ -13,12 +13,12 @@ jobs:
       - persist_to_workspace:
           root: ~/project
           paths:
-            - <%= packageName %>/public/assets
-            - <%= packageName %>/var/manifest.json
+            - <%= packagePath %>/public/assets
+            - <%= packagePath %>/var/manifest.json
 
   <%= packageName %>-lint-js:
     executor: node
-    working_directory: ~/project/<%= packageName %>
+    working_directory: ~/project/<%= packagePath %>
     steps:
       - checkout:
           path: ~/project
@@ -28,7 +28,7 @@ jobs:
 
   <%= packageName %>-lint-scss:
     executor: node
-    working_directory: ~/project/<%= packageName %>
+    working_directory: ~/project/<%= packagePath %>
     steps:
       - checkout:
           path: ~/project
@@ -38,7 +38,7 @@ jobs:
 
   <%= packageName %>-lint-twig:
     executor: php
-    working_directory: ~/project/<%= packageName %>
+    working_directory: ~/project/<%= packagePath %>
     environment:
       APP_ENV: prod
     steps:
@@ -54,7 +54,7 @@ jobs:
     executor: php
     environment:
       APP_ENV: prod
-    working_directory: ~/project/<%= packageName %>
+    working_directory: ~/project/<%= packagePath %>
     steps:
       - checkout:
           path: ~/project
@@ -86,13 +86,13 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          app-dir: <%= packageName %>
+          app-dir: <%= packagePath %>
           include-branch-in-cache-key: false
           pkg-manager: yarn
       - persist_to_workspace:
           root: .
           paths:
-            - <%= packageName %>/node_modules
+            - <%= packagePath %>/node_modules
 
 workflows:
   version: '2'

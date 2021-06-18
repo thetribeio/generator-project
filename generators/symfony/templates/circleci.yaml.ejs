@@ -4,7 +4,7 @@ jobs:
   <%= packageName %>-php-dependencies:
     docker:
       - image: composer/composer:2.0.11
-    working_directory: ~/project/<%= packageName %>
+    working_directory: ~/project/<%= packagePath %>
     steps:
       - checkout:
           path: ~/project
@@ -20,11 +20,11 @@ jobs:
       - persist_to_workspace:
           root: ~/project
           paths:
-            - <%= packageName %>/vendor
+            - <%= packagePath %>/vendor
 
   <%= packageName %>-php-lint:
     executor: php
-    working_directory: ~/project/<%= packageName %>
+    working_directory: ~/project/<%= packagePath %>
     steps:
       - checkout:
           path: ~/project
@@ -46,7 +46,7 @@ jobs:
         environment:
           POSTGRES_USER: thetribe
           POSTGRES_PASSWORD: 424242
-    working_directory: ~/project/<%= packageName %>
+    working_directory: ~/project/<%= packagePath %>
     steps:
       - checkout:
           path: ~/project
@@ -65,7 +65,7 @@ jobs:
     executor: php
     environment:
       APP_ENV: prod
-    working_directory: ~/project/<%= packageName %>
+    working_directory: ~/project/<%= packagePath %>
     steps:
       - checkout:
           path: ~/project
