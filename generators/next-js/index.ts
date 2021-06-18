@@ -5,7 +5,7 @@ class NextJSGenerator extends PackageGenerator {
         const { packageName } = this.options;
         this.renderTemplate('base', packageName, undefined, undefined, { globOptions: { dot: true } });
 
-        await this.configureDockerCompose('docker-compose.yaml.ejs', { packageName });
+        await this.configureDockerCompose('docker-compose.yaml.ejs');
 
         await this.configureCircleCI('circleci.yaml.ejs');
     }
