@@ -79,6 +79,7 @@ jobs:
               vendor/ \
       - store_artifacts:
           path: archive.tar.gz
+          destination: <%= packageName %>.tar.gz
 
   <%= packageName %>-yarn-install:
     executor: node

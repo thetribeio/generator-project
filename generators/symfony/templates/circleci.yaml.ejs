@@ -88,6 +88,7 @@ jobs:
               vendor/ \
       - store_artifacts:
           path: archive.tar.gz
+          destination: <%= packageName %>.tar.gz
 
 workflows:
   version: '2'
