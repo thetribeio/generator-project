@@ -35,12 +35,8 @@ class CreateReactAppGenerator extends PackageGenerator {
             domain,
             repositoryName: this.config.get('repositoryName'),
         });
-    }
 
-    async install(): Promise<void> {
-        const { packageName } = this.options;
-
-        await this.spawnCommand('yarn', ['install', '--frozen-lockfile'], { cwd: this.destinationPath(packageName) });
+        await this.configureScripts('script');
     }
 }
 

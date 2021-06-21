@@ -58,7 +58,10 @@ class RootGenerator extends Generator {
         this.writeDestination('ansible/vault_pass.txt', `${vaultPass}\n`);
     }
 
-    async install() {
+    async install(): Promise<void> {
+        // Yeoman is loosing file permisions when writing
+        await this.spawnCommand('chmod', ['a+x', 'script/bootstrap', 'script/server', 'script/update']);
+
         await this.spawnCommand('git', ['init']);
 
         if (!(await this.#spawnTest('git', ['remote', 'get-url', 'origin']))) {

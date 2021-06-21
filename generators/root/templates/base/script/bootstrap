@@ -1,0 +1,8 @@
+#!/bin/sh
+# Resolve all dependencies that the application requires to run.
+
+set -e
+
+cd $(dirname $(dirname $0))
+
+. script/lib/docker

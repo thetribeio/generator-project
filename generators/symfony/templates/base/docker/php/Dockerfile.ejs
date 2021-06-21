@@ -18,8 +18,8 @@ RUN curl -f -L "https://getcomposer.org/download/2.0.8/composer.phar" -o /usr/lo
     chmod 755 /usr/local/bin/composer
 
 # Configure permissions
-ARG UID=1000
-RUN useradd --uid $UID --create-home user
+ARG UID
+RUN useradd --non-unique --uid $UID --create-home user
 USER user
 
 WORKDIR /usr/src/project/<%= packageName %>

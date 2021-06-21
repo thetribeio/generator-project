@@ -74,6 +74,14 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
         }));
     }
 
+    async configureScripts(templatePath: string, context: TemplateData = {}): Promise<void> {
+        const scripts = ['bootstrap'];
+
+        await Promise.all(scripts.map(async (script: string): Promise<void> => {
+            await this.appendTemplate(`${templatePath}/${script}.ejs`, `script/${script}`, context);
+        }));
+    }
+
     private async appendTemplate(from: string, to: string, context: TemplateData): Promise<void> {
         this.fs.append(this.destinationPath(to), await this.renderTemplateToString(from, context));
     }

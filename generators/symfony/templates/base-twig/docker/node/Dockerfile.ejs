@@ -1,8 +1,8 @@
 FROM node:14.17.1
 
 # Configure permissions
-ARG UID=1000
-RUN userdel node && useradd --uid $UID --create-home user
+ARG UID
+RUN useradd --non-unique --uid $UID --create-home user
 USER user
 
 WORKDIR /usr/src/project/<%= packageName %>

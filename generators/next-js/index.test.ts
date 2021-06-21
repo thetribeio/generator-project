@@ -17,18 +17,25 @@ describe('When running the generator', () => {
         await helpers.run(__dirname)
             .cd(root)
             .withArguments([packageName]);
+
+        await execa(path.resolve(root, 'script', 'bootstrap'));
     });
 
     afterAll(async () => {
+        await execa('docker-compose', ['down', '--rmi', 'local', '--volumes'], { cwd: root });
         await fs.promises.rm(root, { recursive: true });
     });
 
+    const run = async (container: string, command: string, args: string[]): Promise<void> => {
+        await execa('docker-compose', ['run', '--rm', '--no-deps', container, command, ...args], { cwd: root });
+    };
+
     test('It generates a project which correctly lints', async () => {
-        await execa('yarn', ['lint'], { cwd: path.resolve(root, 'test') });
+        await run('test', 'yarn', ['lint']);
     });
 
     test('It generates a project which correctly builds', async () => {
-        await execa('yarn', ['build'], { cwd: path.resolve(root, 'test') });
+        await run('test', 'yarn', ['build']);
     });
 
     test('It generates a docker-compose.yaml with the right fields', async () => {

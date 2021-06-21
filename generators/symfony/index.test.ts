@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 import execa from 'execa';
-import { omit } from 'ramda';
 import YAML from 'yaml';
 import helpers from 'yeoman-test';
 
@@ -18,26 +17,27 @@ describe('When running the generator', () => {
             .cd(root)
             .withOptions({ twig: true })
             .withArguments(['test']);
+
+        await execa(path.resolve(root, 'script', 'bootstrap'));
     });
 
     afterAll(async () => {
+        await execa('docker-compose', ['down', '--rmi', 'local', '--volumes'], { cwd: root });
         await fs.promises.rm(root, { recursive: true });
     });
 
+    const run = async (container: string, command: string, args: string[]): Promise<void> => {
+        await execa('docker-compose', ['run', '--rm', '--no-deps', container, command, ...args], { cwd: root });
+    };
+
     test('It generates a project which correctly builds', async () => {
-        await execa('yarn', ['build'], {
-            cwd: path.resolve(root, 'test'),
-            env: omit(['NODE_ENV'], process.env),
-            extendEnv: false,
-        });
+        await run('test-node', 'yarn', ['build']);
     });
 
     test('It generates a project which correctly lints', async () => {
-        const cwd = path.resolve(root, 'test');
-
-        await execa('vendor/bin/php-cs-fixer', ['fix', '--dry-run', '--diff', '--using-cache', 'no'], { cwd });
-        await execa('yarn', ['lint:js'], { cwd });
-        await execa('yarn', ['lint:scss'], { cwd });
+        await run('test-php', 'vendor/bin/php-cs-fixer', ['fix', '--dry-run', '--diff', '--using-cache', 'no']);
+        await run('test-node', 'yarn', ['lint:js']);
+        await run('test-node', 'yarn', ['lint:scss']);
     });
 
     test('It generates a docker-compose.yaml with a version fields', async () => {

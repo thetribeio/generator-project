@@ -2,8 +2,8 @@ FROM node:14.17.1
 
 RUN userdel node
 
-ARG UID=1000
-RUN useradd --uid $UID --create-home user
+ARG UID
+RUN useradd --non-unique --uid $UID --create-home user
 USER user
 
 WORKDIR /usr/src/project/<%= packageName %>
