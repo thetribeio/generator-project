@@ -20,7 +20,7 @@
     "@tsconfig/node14": "^1.0.1",
     "@types/jest": "^26.0.23",
     "@types/ramda": "^0.27.41",
-    "@types/yeoman-generator": "^5.0.0",
+    "@types/yeoman-generator": "^5.2.0",
     "@types/yeoman-test": "^4.0.1",
     "@typescript-eslint/eslint-plugin": "^4.28.0",
     "@typescript-eslint/parser": "^4.28.0",
