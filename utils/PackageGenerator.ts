@@ -7,6 +7,7 @@ import Generator, { GeneratorOptions } from 'yeoman-generator';
 import { createEncrypt } from './ansible';
 import { Config, mergeConfig } from './circleci';
 import indent from './indent';
+import validateProjectPath from './validation/validatePackagePath';
 
 strOptions.fold.lineWidth = 0;
 
@@ -26,7 +27,16 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
             throw new Error('Package name can only contains lowercase numbers, numbers and dashes');
         }
 
-        this.options.packagePath = this.options.path || this.options.packageName;
+        if (this.options.path) {
+            const validated = validateProjectPath(this.options.path);
+            if (validated === true) {
+                this.options.packagePath = this.options.path;
+            } else {
+                throw new Error(validated);
+            }
+        } else {
+            this.options.packagePath = this.options.packageName;
+        }
     }
 
     renderTemplate(
