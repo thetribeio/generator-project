@@ -2,7 +2,7 @@ version: '2.4'
 
 services:
     <%= packageName %>-nginx:
-        build: <%= packageName %>/docker/nginx
+        build: <%= packagePath %>/docker/nginx
         depends_on:
             - <%= packageName %>-php
         volumes_from:
@@ -10,7 +10,7 @@ services:
 
     <%= packageName %>-node:
         build:
-            context: <%= packageName %>/docker/node
+            context: <%= packagePath %>/docker/node
             args:
                 UID: ${UID:-1000}
         command: yarn start

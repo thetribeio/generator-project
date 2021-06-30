@@ -22,10 +22,10 @@ class CreateReactAppGenerator extends PackageGenerator {
     }
 
     async writing(): Promise<void> {
-        const { packageName } = this.options;
+        const { packagePath } = this.options;
         const { domain } = this.#answers as Prompt;
 
-        this.renderTemplate('base', packageName, undefined, undefined, { globOptions: { dot: true } });
+        this.renderTemplate('base', packagePath, undefined, undefined, { globOptions: { dot: true } });
 
         await this.configureDockerCompose('docker-compose.yaml.ejs');
 

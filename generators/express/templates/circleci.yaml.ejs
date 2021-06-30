@@ -4,17 +4,17 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          app-dir: <%= packageName %>
+          app-dir: <%= packagePath %>
           include-branch-in-cache-key: false
           pkg-manager: yarn
       - persist_to_workspace:
           root: .
           paths:
-              - <%= packageName %>/node_modules
+              - <%= packagePath %>/node_modules
 
   <%= packageName %>-lint:
     executor: node
-    working_directory: ~/project/<%= packageName %>
+    working_directory: ~/project/<%= packagePath %>
     steps:
       - checkout:
           path: ~/project
@@ -25,7 +25,7 @@ jobs:
 
   <%= packageName %>-build:
     executor: node
-    working_directory: ~/project/<%= packageName %>
+    working_directory: ~/project/<%= packagePath %>
     steps:
       - checkout:
           path: ~/project
@@ -39,11 +39,11 @@ jobs:
       - persist_to_workspace:
           root: ~/project
           paths:
-              - <%= packageName %>/dist
+              - <%= packagePath %>/dist
 
   <%= packageName %>-archive:
     executor: node
-    working_directory: ~/project/<%= packageName %>
+    working_directory: ~/project/<%= packagePath %>
     steps:
       - checkout:
           path: ~/project
@@ -71,7 +71,7 @@ jobs:
       - attach_workspace:
           at: ~/project
       - run: sentry-cli releases new <%= projectName %>-<%= packageName %>@${CIRCLE_SHA1}
-      - run: sentry-cli releases files <%= projectName %>-<%= packageName %>@${CIRCLE_SHA1} upload-sourcemaps <%= packageName %>/dist
+      - run: sentry-cli releases files <%= projectName %>-<%= packageName %>@${CIRCLE_SHA1} upload-sourcemaps <%= packagePath %>/dist
       - run: sentry-cli releases finalize <%= projectName %>-<%= packageName %>@${CIRCLE_SHA1}
 
 workflows:

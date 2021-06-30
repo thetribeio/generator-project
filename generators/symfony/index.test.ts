@@ -52,3 +52,26 @@ describe('When running the generator', () => {
         expect(all.test_env).toBeDefined();
     });
 });
+
+describe('When running the generator with the path option', () => {
+    let root: string;
+
+    beforeAll(async () => {
+        const result = await helpers.run(path.resolve(__dirname, '../root'))
+            .withPrompts({ contactEmail: 'test@example.com' });
+
+        root = result.cwd;
+
+        await helpers.run(__dirname)
+            .cd(root)
+            .withArguments(['test', '--path', 'packages/test']);
+    });
+
+    afterAll(async () => {
+        await fs.promises.rm(root, { recursive: true });
+    });
+
+    test('It generates the project in the given directory', async () => {
+        expect(fs.existsSync(path.join(root, 'packages/test'))).toBe(true);
+    });
+});

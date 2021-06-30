@@ -2,7 +2,7 @@ version: '2.4'
 
 services:
     <%= packageName %>-nginx:
-        build: <%= packageName %>/docker/nginx
+        build: <%= packagePath %>/docker/nginx
         depends_on:
             - <%= packageName %>-php
         volumes_from:
@@ -12,7 +12,7 @@ services:
 
     <%= packageName %>-php:
         build:
-            context: <%= packageName %>/docker/php
+            context: <%= packagePath %>/docker/php
             args:
                 UID: ${UID:-1000}
         environment:
@@ -20,4 +20,4 @@ services:
         depends_on:
             - postgres
         volumes:
-            - ./<%= packageName %>:/usr/src/project/<%= packageName %>
+            - ./<%= packagePath %>:/usr/src/project/<%= packagePath %>

@@ -1,11 +1,11 @@
 services:
     <%= packageName %>:
         build:
-            context: <%= packageName %>/docker
+            context: <%= packagePath %>/docker
             args:
                 UID: ${UID:-1000}
         volumes:
-            - ./<%= packageName %>:/usr/src/project/<%= packageName %>
+            - ./<%= packagePath %>:/usr/src/project/<%= packagePath %>
         environment:
             PORT: ${<%= packageName.replace('-', '_').toUpperCase() %>_PORT:-3000}
         ports:
