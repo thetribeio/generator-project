@@ -30,7 +30,7 @@
     "execa": "^5.1.1",
     "jest": "^27.0.6",
     "ts-jest": "^27.0.3",
-    "typescript": "^4.3.4",
+    "typescript": "^4.3.5",
     "yeoman-environment": "^3.2.0",
     "yeoman-test": "^5.1.0"
   },
