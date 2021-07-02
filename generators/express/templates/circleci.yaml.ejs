@@ -23,6 +23,17 @@ jobs:
       - run:
           command: yarn lint
 
+  <%= packageName %>-test:
+    executor: node
+    working_directory: ~/project/<%= packagePath %>
+    steps:
+      - checkout:
+          path: ~/project
+      - attach_workspace:
+          at: ~/project
+      - run:
+          command: yarn test
+
   <%= packageName %>-build:
     executor: node
     working_directory: ~/project/<%= packagePath %>
@@ -82,9 +93,12 @@ workflows:
       - <%= packageName %>-lint:
           requires:
             - <%= packageName %>-yarn-install
-      - <%= packageName %>-build:
+      - <%= packageName %>-test:
           requires:
             - <%= packageName %>-lint
+      - <%= packageName %>-build:
+          requires:
+            - <%= packageName %>-test
       - <%= packageName %>-archive:
           requires:
             - <%= packageName %>-build
