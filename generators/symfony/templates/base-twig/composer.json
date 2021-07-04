@@ -32,7 +32,7 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0.0",
         "phpstan/extension-installer": "^1.1.0",
-        "phpstan/phpstan": "^0.12.90",
+        "phpstan/phpstan": "^0.12.91",
         "phpstan/phpstan-deprecation-rules": "^0.12.6",
         "phpstan/phpstan-doctrine": "^0.12.40",
         "phpstan/phpstan-symfony": "^0.12.38",
