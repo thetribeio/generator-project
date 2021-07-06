@@ -1,0 +1,3 @@
+---
+# Generate a token with repo scope at https://github.com/settings/tokens
+github_token: ~

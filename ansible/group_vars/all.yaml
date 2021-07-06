@@ -1,0 +1,6 @@
+---
+# Put the variables that will be used by every target here
+contact_email: test@example.com
+test_data:
+  sentry-dsn: ~ # Add your sentry DSN here
+  sentry-environment: '{{ environment_name }}'

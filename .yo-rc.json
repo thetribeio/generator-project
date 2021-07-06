@@ -1,0 +1,6 @@
+{
+  "@thetribe/generator-project": {
+    "projectName": "create-react-app",
+    "repositoryName": "thetribeio/create-react-app"
+  }
+}

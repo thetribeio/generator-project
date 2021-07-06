@@ -1,0 +1,20 @@
+version: "2.4"
+services:
+    postgres:
+        image: postgres:12.5
+        environment:
+            PGUSER: user
+            PGPASSWORD: password
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: password
+    test:
+        build:
+            context: test/docker
+            args:
+                UID: ${UID:-1000}
+        volumes:
+            - ./test:/usr/src/project/test
+        environment:
+            PORT: ${TEST_PORT:-3000}
+        ports:
+            - ${TEST_PORT:-3000}:${TEST_PORT:-3000}

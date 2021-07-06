@@ -1,0 +1,32 @@
+---
+- hosts: server
+  tasks:
+    - group:
+        name: test
+        state: present
+    - user:
+        name: test
+        state: present
+        group: test
+    - import_role:
+        name: site
+      vars:
+        email: '{{ contact_email }}'
+        site: test
+        domain: '{{ test_domain }}'
+        config: |
+          root /home/test/current/build;
+
+          location / {
+              try_files $uri /index.html;
+
+              add_header cache-control "no-store";
+          }
+
+          location /static/ {
+              try_files $uri =404;
+
+              add_header cache-control "public, max-age=31536000, immutable";
+          }
+  tags:
+    - test

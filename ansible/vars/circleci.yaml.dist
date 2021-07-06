@@ -1,0 +1,3 @@
+---
+# Generate a token at https://circleci.com/account/api
+circleci_token: ~

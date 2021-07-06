@@ -1,0 +1,24 @@
+---
+- hosts: server
+  tasks:
+    - import_role:
+        name: build
+      delegate_to: localhost
+    - import_role:
+        name: deploy
+      vars:
+        path: /home/test
+        artifact_path: test.tar.gz
+        before_finalize:
+          - >
+            sed --in-place --expression='s#<div id="root"[^>]*>#<div id="root"
+            {%- for key, value in test_data|dictsort %} data-{{ key }}="{{ value }}"{% endfor -%}
+            >#g' build/index.html
+  vars:
+    job_name: test-archive
+    repository_name: thetribeio/create-react-app
+  vars_files:
+    - vars/circleci.yaml
+    - vars/github.yaml
+  tags:
+    - test

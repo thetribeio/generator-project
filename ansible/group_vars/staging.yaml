@@ -1,0 +1,5 @@
+---
+# Put the variables that only concern the staging target here
+branch: develop
+environment_name: staging
+test_domain: test.create-react-app.thetribe.io
