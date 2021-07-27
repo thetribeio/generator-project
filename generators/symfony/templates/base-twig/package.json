@@ -7,7 +7,7 @@
     "@babel/core": "^7.14.8",
     "@babel/preset-env": "^7.14.8",
     "@thetribe/eslint-config": "^0.4.2",
-    "autoprefixer": "^10.3.0",
+    "autoprefixer": "^10.3.1",
     "babel-loader": "^8.2.2",
     "css-loader": "^5.2.6",
     "eslint": "^7.30.0",
