@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "78ecb41db750f99d862a21e0c50e5017",
+    "content-hash": "a0796523de23ee0149c1d9f67760eac6",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -7383,16 +7383,16 @@
         },
         {
             "name": "phpstan/phpstan-symfony",
-            "version": "0.12.39",
+            "version": "0.12.41",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-symfony.git",
-                "reference": "21e6ec58dcfdb684d599776cbf706774b9106c38"
+                "reference": "4ae5cbe13a30ac1a377465a5d9dddfb1f1f5a0b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/21e6ec58dcfdb684d599776cbf706774b9106c38",
-                "reference": "21e6ec58dcfdb684d599776cbf706774b9106c38",
+                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/4ae5cbe13a30ac1a377465a5d9dddfb1f1f5a0b3",
+                "reference": "4ae5cbe13a30ac1a377465a5d9dddfb1f1f5a0b3",
                 "shasum": ""
             },
             "require": {
@@ -7446,9 +7446,9 @@
             "description": "Symfony Framework extensions and rules for PHPStan",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-symfony/issues",
-                "source": "https://github.com/phpstan/phpstan-symfony/tree/0.12.39"
+                "source": "https://github.com/phpstan/phpstan-symfony/tree/0.12.41"
             },
-            "time": "2021-07-15T11:28:45+00:00"
+            "time": "2021-07-18T07:21:50+00:00"
         },
         {
             "name": "symfony/browser-kit",
