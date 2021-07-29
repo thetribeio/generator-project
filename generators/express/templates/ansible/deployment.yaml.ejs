@@ -9,6 +9,8 @@
       vars:
         path: /home/<%= packageName %>
         artifact_path: <%= packageName %>.tar.gz
+        before_finalize:
+          - ./node_modules/.bin/typeorm migration:run
         after_finalize:
           - systemctl restart <%= packageName %>
   vars:

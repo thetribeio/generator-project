@@ -1,0 +1,3 @@
+
+docker-compose up --detach postgres
+docker-compose run --rm --no-deps <%= packageName %> wait-for-it postgres:5432 -- typeorm migration:run

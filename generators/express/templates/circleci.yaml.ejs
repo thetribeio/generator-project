@@ -63,11 +63,14 @@ jobs:
       - run:
           command: yarn install --prod --frozen-lockfile
       - run:
+          command: mv ormconfig-dist.js ormconfig.js
+      - run:
           name: Create archive
           command: |
             tar --create --gzip --file=archive.tar.gz --owner=0 --group=0 \
               dist/ \
               node_modules/ \
+              ormconfig.js \
       - store_artifacts:
           path: archive.tar.gz
           destination: <%= packageName %>.tar.gz
