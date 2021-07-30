@@ -4,10 +4,10 @@
         name: postgresql
       vars:
         dbs:
-          <%= packageName %>:
-            owner: <%= packageName %>
+          <%= packageName.replace('-', '_') %>:
+            owner: <%= packageName.replace('-', '_') %>
         users:
-          <%= packageName %>:
+          <%= packageName.replace('-', '_') %>:
             password: '{{ <%= packageName.replace('-', '_') %>_database_password }}'
     - group:
         name: <%= packageName %>

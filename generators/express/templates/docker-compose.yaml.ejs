@@ -7,6 +7,7 @@ services:
         volumes:
             - ./<%= packagePath %>:/usr/src/project/<%= packagePath %>
         environment:
+            DATABASE_URL: "postgresql://user:password@postgres/<%= packagePath.replace('-', '_') %>"
             PORT: ${<%= packageName.replace('-', '_').toUpperCase() %>_PORT:-4000}
         ports:
             - ${<%= packageName.replace('-', '_').toUpperCase() %>_PORT:-4000}:${<%= packageName.replace('-', '_').toUpperCase() %>_PORT:-4000}

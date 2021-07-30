@@ -23,7 +23,7 @@ class ExpressGenerator extends PackageGenerator {
     }
 
     async writing() {
-        const { packagePath } = this.options;
+        const { packageName, packagePath } = this.options;
         const { domain } = this.#answers as Prompt;
 
         // We use only alphanumeric characters in database password because special
@@ -31,6 +31,8 @@ class ExpressGenerator extends PackageGenerator {
         const databasePassword = cryptoRandomString({ length: 64, type: 'alphanumeric' });
 
         this.renderTemplate('base', packagePath, undefined, undefined, { globOptions: { dot: true } });
+
+        this.renderTemplate('database.sql.ejs', `postgres/docker/initdb.d/${packageName}.sql`);
 
         await this.configureDockerCompose('docker-compose.yaml.ejs');
 

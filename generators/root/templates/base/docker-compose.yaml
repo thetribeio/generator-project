@@ -2,7 +2,7 @@ version: '2.4'
 
 services:
     postgres:
-        image: postgres:12.5
+        build: ./postgres/docker
         environment:
             PGUSER: user
             PGPASSWORD: password

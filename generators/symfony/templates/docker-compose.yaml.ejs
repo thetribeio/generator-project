@@ -16,7 +16,7 @@ services:
             args:
                 UID: ${UID:-1000}
         environment:
-            DATABASE_URL: "postgresql://user:password@postgres:5432/thetribe"
+            DATABASE_URL: "postgresql://user:password@postgres/<%= packagePath.replace('-', '_') %>"
         depends_on:
             - postgres
         volumes:
