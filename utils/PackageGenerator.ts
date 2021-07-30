@@ -1,3 +1,4 @@
+import fs from 'fs';
 import ejs, { Data as TemplateData, Options as TemplateOptions } from 'ejs';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { CopyOptions } from 'mem-fs-editor';
@@ -89,11 +90,13 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
     }
 
     async configureScripts(templatePath: string, context: TemplateData = {}): Promise<void> {
-        const scripts = ['bootstrap'];
+        for (const script of ['bootstrap', 'server', 'update']) {
+            const template = `${templatePath}/${script}.ejs`;
 
-        await Promise.all(scripts.map(async (script: string): Promise<void> => {
-            await this.appendTemplate(`${templatePath}/${script}.ejs`, `script/${script}`, context);
-        }));
+            if (fs.existsSync(this.templatePath(template))) {
+                await this.appendTemplate(template, `script/${script}`, context);
+            }
+        }
     }
 
     private async appendTemplate(from: string, to: string, context: TemplateData): Promise<void> {

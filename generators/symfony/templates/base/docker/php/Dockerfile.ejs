@@ -2,6 +2,10 @@ FROM php:8.0.7-fpm
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
+RUN curl --fail --location --output /usr/local/bin/wait-for-it https://raw.githubusercontent.com/vishnubob/wait-for-it/81b1373f17855a4dc21156cfe1694c31d7d1792e/wait-for-it.sh && \
+    echo "b7a04f38de1e51e7455ecf63151c8c7e405bd2d45a2d4e16f6419db737a125d6 /usr/local/bin/wait-for-it" | sha256sum -c - && \
+    chmod 755 /usr/local/bin/wait-for-it
+
 # Install extensions
 ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/572050a69b646d596b93b421abdff4426a4a679b/install-php-extensions /usr/local/bin/
 RUN chmod uga+x /usr/local/bin/install-php-extensions
