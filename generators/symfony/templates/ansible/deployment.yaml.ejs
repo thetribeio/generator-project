@@ -8,6 +8,8 @@
       vars:
         path: /home/<%= packageName %>
         artifact_path: <%= packageName %>.tar.gz
+        before_finalize:
+          - ./bin/console doctrine:migrations:migrate --no-interaction
       environment: '{{ <%= packageName.replace('-', '_') %>_env }}'
   vars:
     job_name: <%= packageName %>-archive

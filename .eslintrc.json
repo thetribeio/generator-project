@@ -14,7 +14,8 @@
                 "**/*.test.ts"
             ],
             "optionalDependencies": false
-        }]
+        }],
+        "no-await-in-loop": "off"
     },
     "overrides": [
         {
