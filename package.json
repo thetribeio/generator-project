@@ -1,7 +1,9 @@
 {
   "name": "@thetribe/generator-project",
   "version": "0.2.2",
-  "keywords": ["yeoman-generator"],
+  "keywords": [
+    "yeoman-generator"
+  ],
   "license": "MIT",
   "engines": {
     "node": ">=14"
@@ -16,7 +18,7 @@
     "yeoman-generator": "^5.3.0"
   },
   "devDependencies": {
-    "@thetribe/eslint-config-typescript": "^0.3.0",
+    "@thetribe/eslint-config-typescript": "^0.3.1",
     "@tsconfig/node14": "^1.0.1",
     "@types/jest": "^26.0.24",
     "@types/ramda": "^0.27.44",

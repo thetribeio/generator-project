@@ -983,17 +983,17 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
-"@thetribe/eslint-config-typescript@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config-typescript/-/eslint-config-typescript-0.3.0.tgz#047008961c55ea702d33a4db10fbbc8b16c5f2f9"
-  integrity sha512-3Q2UviEu9I+nCLlOqzFzQmU2QxRc7yrVxQUroJ4h2flcD3FtVe+woBywYpu+rKiLlI75BhsDNqWiSkvAmreTpg==
+"@thetribe/eslint-config-typescript@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config-typescript/-/eslint-config-typescript-0.3.1.tgz#2bc61495d607b11e7f0823f0c1922f8bae47e569"
+  integrity sha512-PAz/VRIMASIWbsBtOlS42yAwkLL7OzoiKrks99k7GSK4x2NsJhtzJ1EkL1djfXRvPFfk0JqK9hSX1cgHbP5hIQ==
   dependencies:
-    "@thetribe/eslint-config" "^0.4.2"
+    "@thetribe/eslint-config" "^0.4.3"
 
-"@thetribe/eslint-config@^0.4.2":
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config/-/eslint-config-0.4.2.tgz#5bcfa5bb923c2d96d5c366e1de0532164706ba32"
-  integrity sha512-4jpE1QNMGyk0i8/hi2T740OW9nsFSQKEK8hoilzzB/pLG3ef/7tC4QwDIC6d7yTaS1ShlUeiXADqMhTLp9kCDg==
+"@thetribe/eslint-config@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config/-/eslint-config-0.4.3.tgz#bbbaef7336c0f13f2bcd6398104e5c084d73c870"
+  integrity sha512-NMLG/BGm21M4Grm0zV4jElthPSHQEIpV56cILsJPi0zkg3B/Ll778aYRnhz5DPQrNzvzDAGB6NFvxlwwVshhsg==
   dependencies:
     eslint-config-airbnb-base "^14.1.0"
 
@@ -4300,6 +4300,7 @@ minipass-fetch@^1.3.0, minipass-fetch@^1.3.2:
   resolved "https://registry.yarnpkg.com/minipass-fetch/-/minipass-fetch-1.3.3.tgz#34c7cea038c817a8658461bf35174551dce17a0a"
   integrity sha512-akCrLDWfbdAWkMLBxJEeWTdNsjML+dt5YgOI4gJ53vuO0vrmYQkUPxa6j6V65s9CcePIr2SSWqjT2EcrNseryQ==
   dependencies:
+    encoding "^0.1.12"
     minipass "^3.1.0"
     minipass-sized "^1.0.3"
     minizlib "^2.0.0"
