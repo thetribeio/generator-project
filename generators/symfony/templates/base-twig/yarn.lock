@@ -1242,10 +1242,10 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.9.3.tgz#8b68da1ebd7fc603999cf6ebee34a4899a14b88e"
   integrity sha512-xDu17cEfh7Kid/d95kB6tZsLOmSWKCZKtprnhVepjsSaCij+lM3mItSJDuuHDMbCWTh8Ejmebwb+KONcCJ0eXQ==
 
-"@thetribe/eslint-config@^0.4.2":
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config/-/eslint-config-0.4.2.tgz#5bcfa5bb923c2d96d5c366e1de0532164706ba32"
-  integrity sha512-4jpE1QNMGyk0i8/hi2T740OW9nsFSQKEK8hoilzzB/pLG3ef/7tC4QwDIC6d7yTaS1ShlUeiXADqMhTLp9kCDg==
+"@thetribe/eslint-config@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config/-/eslint-config-0.4.3.tgz#bbbaef7336c0f13f2bcd6398104e5c084d73c870"
+  integrity sha512-NMLG/BGm21M4Grm0zV4jElthPSHQEIpV56cILsJPi0zkg3B/Ll778aYRnhz5DPQrNzvzDAGB6NFvxlwwVshhsg==
   dependencies:
     eslint-config-airbnb-base "^14.1.0"
 
