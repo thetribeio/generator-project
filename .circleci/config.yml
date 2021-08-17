@@ -7,7 +7,7 @@ orbs:
 executors:
   node:
     docker:
-      - image: circleci/node:14.15.1
+      - image: circleci/node:14.17.5
 
 jobs:
   yarn-install:
@@ -48,13 +48,16 @@ jobs:
       - run: yarn test:utils
 
   test-generators:
+    parameters:
+      node-version:
+        type: string
     machine:
       image: ubuntu-2004:202104-01
     steps:
       - node/install:
           install-npm: false
           install-yarn: true
-          node-version: 14.15.1
+          node-version: << parameters.node-version >>
       - checkout
       - attach_workspace:
           at: .
@@ -77,3 +80,6 @@ workflows:
       - test-generators:
           requires:
             - yarn-install
+          matrix:
+            parameters:
+              node-version: [14.17.5, 16.6.2]
