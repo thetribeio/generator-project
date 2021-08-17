@@ -1264,10 +1264,10 @@
     "@types/yeoman-environment" "*"
     rxjs "^6.4.0"
 
-"@types/yeoman-test@^4.0.1":
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/@types/yeoman-test/-/yeoman-test-4.0.1.tgz#b916acdffa38e4b8e348ac9e71dd70f927fd084d"
-  integrity sha512-/LtQwleT3Y83g9bGF2qFeVdLGZLsoCAOMZxIsFGDalLUU2i6Li4Aj6cl4MOPjK6f8eIXsgL4HfK5bs8EATMwHw==
+"@types/yeoman-test@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@types/yeoman-test/-/yeoman-test-4.0.2.tgz#3ad249c0bf0a88545919a20aa6028d1416edad2f"
+  integrity sha512-t8TUZWo0msCphjYWvkapi5oUnHCzI1prPysr3FC6O60bN+LXILVqGEU5bB9uXO6eSvAlBsyPc+PZZBCBoi5JHA==
   dependencies:
     "@types/mem-fs" "*"
     "@types/mem-fs-editor" "*"

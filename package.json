@@ -23,7 +23,7 @@
     "@types/jest": "^27.0.0",
     "@types/ramda": "^0.27.44",
     "@types/yeoman-generator": "^5.2.0",
-    "@types/yeoman-test": "^4.0.1",
+    "@types/yeoman-test": "^4.0.2",
     "@typescript-eslint/eslint-plugin": "^4.29.2",
     "@typescript-eslint/parser": "^4.29.2",
     "copyfiles": "^2.4.1",
