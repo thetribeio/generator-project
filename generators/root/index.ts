@@ -68,9 +68,7 @@ class RootGenerator extends Generator {
             await this.spawnCommand('git', ['remote', 'add', 'origin', `git@github.com:${this.config.get('repositoryName')}.git`]);
         }
 
-        if (!(await this.#spawnTest('git', ['submodule', 'status', 'ansible/roles-lib']))) {
-            await this.spawnCommand('git', ['submodule', 'add', 'git@github.com:thetribeio/ansible-roles.git', 'ansible/roles-lib']);
-        }
+        await this.spawnCommand('git', ['update-index', '--add', '--cacheinfo', '160000', '4d1ffdcd4bc254bcc61fd85fc176d07b64d2d464', 'ansible/roles-lib']);
     }
 
     /**

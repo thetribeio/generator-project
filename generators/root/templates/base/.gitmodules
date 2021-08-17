@@ -1,0 +1,3 @@
+[submodule "ansible/roles-lib"]
+	path = ansible/roles-lib
+	url = git@github.com:thetribeio/ansible-roles.git
