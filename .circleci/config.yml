@@ -17,6 +17,9 @@ jobs:
       - node/install-packages:
           include-branch-in-cache-key: false
           pkg-manager: yarn
+      - run:
+          name: Check peer dependencies
+          command: ./node_modules/.bin/check-peer-dependencies
       - persist_to_workspace:
           root: .
           paths:

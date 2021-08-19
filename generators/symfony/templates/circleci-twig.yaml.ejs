@@ -89,6 +89,10 @@ jobs:
           app-dir: <%= packagePath %>
           include-branch-in-cache-key: false
           pkg-manager: yarn
+      - run:
+          name: Check peer dependencies
+          command: ./node_modules/.bin/check-peer-dependencies
+          working_directory: <%= packagePath %>
       - persist_to_workspace:
           root: .
           paths:
