@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/node';
-import app from './app';
+import { createConnection } from 'typeorm';
+import connectionOptions from './infrastructure/database/config';
 import version from './version';
 
 Sentry.init({
@@ -8,8 +9,18 @@ Sentry.init({
     release: version ? `<%= projectName %>-<%= packageName %>@${version}` : undefined,
 });
 
-const port: number = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+(async () => {
+    await createConnection(connectionOptions);
 
-app.listen(port, () => {
-    console.info(`Server listening on port ${port}`);
+    const { default: app } = await import('./infrastructure/app');
+
+    const port: number = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+
+    app.listen(port, () => {
+        console.info(`Server listening on port ${port}`);
+    });
+})().catch((error) => {
+    console.error(error);
+
+    process.exitCode = 1;
 });
