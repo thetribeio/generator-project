@@ -1,0 +1,5 @@
+<%= packageName.replace('-', '_') %>_port: 3000
+<%= packageName.replace('-', '_') %>_env:
+  NODE_ENV: production
+  SENTRY_DSN: ~ # TODO: Add your sentry DSN here
+  SENTRY_ENVIRONMENT: '{{ environment_name }}'
