@@ -20,6 +20,7 @@
         name: <%= packageName %>
         state: present
         group: <%= packageName %>
+        shell: /bin/bash
     - import_role:
         name: envfile
       vars:
