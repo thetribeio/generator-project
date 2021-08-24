@@ -19,6 +19,7 @@
     - import_role:
         name: envfile
       vars:
+        owner: <%= packageName %>
         path: /home/<%= packageName %>/env
         env: '{{ <%= packageName %>_env }}'
     - name: Configure env
