@@ -50,10 +50,14 @@ jobs:
       - attach_workspace:
           at: ~/project
       - run:
+          command: yarn install --prod --frozen-lockfile
+      - run:
           name: Create archive
           command: |
             tar --create --gzip --file=archive.tar.gz --owner=0 --group=0 \
               build/ \
+              next.config.js \
+              node_modules/ \
       - store_artifacts:
           path: archive.tar.gz
           destination: <%= packageName %>.tar.gz

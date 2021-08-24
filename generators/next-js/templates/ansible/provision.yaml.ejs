@@ -1,15 +1,6 @@
 - hosts: server
   tasks:
     - import_role:
-        name: postgresql
-      vars:
-        dbs:
-          <%= packageName.replace('-', '_') %>:
-            owner: <%= packageName.replace('-', '_') %>
-        users:
-          <%= packageName.replace('-', '_') %>:
-            password: '{{ <%= packageName.replace('-', '_') %>_database_password }}'
-    - import_role:
         name: nodejs
       vars:
         version: 14
@@ -20,7 +11,6 @@
         name: <%= packageName %>
         state: present
         group: <%= packageName %>
-        shell: /bin/bash
     - import_role:
         name: envfile
       vars:
@@ -34,7 +24,8 @@
     - import_role:
         name: service
       vars:
-        command: /usr/bin/node /home/<%= packageName %>/current/dist
+        working_directory: /home/<%= packageName %>/current
+        command: /home/<%= packageName %>/current/node_modules/.bin/next start --port {{ <%= packageName.replace('-', '_') %>_port }}
         description: <%= packageName %>
         service: <%= packageName %>
         user: <%= packageName %>
@@ -47,8 +38,6 @@
         site: <%= packageName %>
         domain: '{{ <%= packageName.replace('-', '_') %>_domain }}'
         config: |
-          root /home/<%= packageName %>/current/dist;
-
           client_max_body_size 25M;
 
           location / {
