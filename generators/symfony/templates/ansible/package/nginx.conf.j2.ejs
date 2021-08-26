@@ -1,0 +1,27 @@
+location <%= httpPath %> {
+    root /home/<%= packageName %>/current/dist;
+
+    client_max_body_size 25M;
+
+    try_files $uri /index.php$is_args$args;
+
+    location ~ ^/index\.php(/|$) {
+        fastcgi_pass unix:/var/run/php/<%= packageName %>-7.4.sock;
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+        internal;
+    }
+
+    location ~ \.php$ {
+        return 404;
+    }
+
+    <% if (twig) { %>
+    location <%= httpPath %>assets/ {
+        try_files $uri =404;
+        add_header cache-control "public, max-age=31536000, immutable";
+    }
+    <% } %>
+}

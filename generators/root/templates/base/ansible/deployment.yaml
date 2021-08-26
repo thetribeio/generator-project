@@ -1,1 +1,9 @@
 ---
+- hosts: server
+  tasks:
+    - name: Include packages deployment
+      include_tasks: '{{ item }}'
+      with_fileglob: packages/*/deployment.yaml
+  vars_files:
+    - vars/circleci.yaml
+    - vars/github.yaml

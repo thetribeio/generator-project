@@ -1,0 +1,24 @@
+---
+- hosts: server
+  tasks:
+    - name: List packages
+      find:
+        paths: '{{ playbook_dir }}/packages'
+        file_type: directory
+      delegate_to: localhost
+      register: packages
+    - name: Include packages provisioning
+      include_tasks: '{{ package.path }}/provision.yaml'
+      loop: '{{ packages.files }}'
+      loop_control:
+        loop_var: package
+    - name: Configure NginX
+      import_role:
+        name: site
+      vars:
+        email: '{{ contact_email }}'
+        site: <%= projectName %>
+        config: |
+          {% for package in packages.files %}
+            {{ lookup('template', package.path + '/nginx.conf.j2') }}
+          {% endfor %}

@@ -13,6 +13,7 @@ import validateProjectPath from './validation/validatePackagePath';
 strOptions.fold.lineWidth = 0;
 
 interface PackageGeneratorOptions extends GeneratorOptions {
+    'http-path': string;
     packageName: string;
     packagePath: string;
 }
@@ -22,6 +23,8 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
         super(args, opts);
 
         this.argument('packageName', { type: String, required: true });
+
+        this.option('http-path', { type: String });
         this.option('path', { type: String });
 
         if (!/^[a-z0-9-]+$/.test(this.options.name)) {
@@ -77,25 +80,39 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
     }
 
     async configureAnsible(templatePath: string, context: TemplateData = {}): Promise<void> {
+        const { packageName } = this.options;
+
         const extendedContext = {
             encrypt: createEncrypt(this.readDestination('ansible/vault_pass.txt').trim()),
             ...context,
         };
 
-        const paths = ['deployment.yaml', 'provision.yaml', 'group_vars/all.yaml', 'group_vars/staging.yaml'];
+        for (const file of ['all.yaml', 'staging.yaml']) {
+            await this.#appendTemplateIfExists(
+                `${templatePath}/group_vars/${file}.ejs`,
+                `ansible/group_vars/${file}`,
+                extendedContext,
+            );
+        }
 
-        await Promise.all(paths.map(async (path: string): Promise<void> => {
-            await this.appendTemplate(`${templatePath}/${path}.ejs`, `ansible/${path}`, extendedContext);
-        }));
+        for (const file of ['deployment.yaml', 'provision.yaml', 'nginx.conf.j2']) {
+            this.renderTemplate(
+                `${templatePath}/package/${file}.ejs`,
+                `ansible/packages/${packageName}/${file}`,
+                extendedContext,
+            );
+        }
     }
 
     async configureScripts(templatePath: string, context: TemplateData = {}): Promise<void> {
         for (const script of ['bootstrap', 'server', 'update']) {
-            const template = `${templatePath}/${script}.ejs`;
+            await this.#appendTemplateIfExists(`${templatePath}/${script}.ejs`, `script/${script}`, context);
+        }
+    }
 
-            if (fs.existsSync(this.templatePath(template))) {
-                await this.appendTemplate(template, `script/${script}`, context);
-            }
+    async #appendTemplateIfExists(from: string, to: string, context: TemplateData): Promise<void> {
+        if (fs.existsSync(this.templatePath(from))) {
+            await this.appendTemplate(from, to, context);
         }
     }
 
@@ -126,6 +143,7 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
     private getContext(context: TemplateData): TemplateData {
         return {
             indent,
+            httpPath: this.options['http-path'],
             packageName: this.options.packageName,
             packagePath: this.options.packagePath,
             projectName: this.config.get('projectName'),
