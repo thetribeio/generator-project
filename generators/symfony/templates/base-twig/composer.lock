@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6575c495ea58056123041b372470016f",
+    "content-hash": "0126562c253271f471cc11dc34cd2c07",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -7458,16 +7458,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.0.3",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "dbf8ac24cd9000d7f238739d98cc5dcbb22ffd3b"
+                "reference": "cf4cedb9e8991c2daa94a756176d81bf487e4c4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/dbf8ac24cd9000d7f238739d98cc5dcbb22ffd3b",
-                "reference": "dbf8ac24cd9000d7f238739d98cc5dcbb22ffd3b",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/cf4cedb9e8991c2daa94a756176d81bf487e4c4b",
+                "reference": "cf4cedb9e8991c2daa94a756176d81bf487e4c4b",
                 "shasum": ""
             },
             "require": {
@@ -7535,7 +7535,7 @@
             "description": "A tool to automatically fix PHP code style",
             "support": {
                 "issues": "https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues",
-                "source": "https://github.com/FriendsOfPHP/PHP-CS-Fixer/tree/v3.0.3"
+                "source": "https://github.com/FriendsOfPHP/PHP-CS-Fixer/tree/v3.1.0"
             },
             "funding": [
                 {
@@ -7543,7 +7543,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-08-29T19:48:25+00:00"
+            "time": "2021-08-29T20:16:20+00:00"
         },
         {
             "name": "php-cs-fixer/diff",
