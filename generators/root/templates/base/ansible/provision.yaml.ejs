@@ -19,6 +19,10 @@
         email: '{{ contact_email }}'
         site: <%= projectName %>
         config: |
+          {% if environment_name != 'production' %}
+            add_header X-Robots-Tag "noindex, nofollow, noarchive, nosnippet";
+          {% endif %}
+
           {% for package in packages.files %}
             {{ lookup('template', package.path + '/nginx.conf.j2') }}
           {% endfor %}
