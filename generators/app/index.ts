@@ -61,14 +61,12 @@ class AppGenerator extends Generator {
 
         switch (backend) {
             case BackendChoice.Express:
-                this.composeWith(require.resolve('../express'), { arguments: ['backend'] });
+                this.composeWith(require.resolve('../express'), { arguments: ['backend', '--http-path=/api/'] });
                 break;
             case BackendChoice.Symfony: {
-                let args = ['backend'];
-
-                if (frontend === FrontendChoice.Twig) {
-                    args = [...args, '--twig'];
-                }
+                const args = frontend === FrontendChoice.Twig
+                    ? ['backend', '--http-path=/', '--twig']
+                    : ['backend', '--http-path=/api/'];
 
                 this.composeWith(require.resolve('../symfony'), { arguments: args });
                 break;
@@ -77,10 +75,10 @@ class AppGenerator extends Generator {
 
         switch (frontend) {
             case FrontendChoice.CreateReactApp:
-                this.composeWith(require.resolve('../create-react-app'), { arguments: ['frontend'] });
+                this.composeWith(require.resolve('../create-react-app'), { arguments: ['frontend', '--http-path=/'] });
                 break;
             case FrontendChoice.NextJS:
-                this.composeWith(require.resolve('../next-js'), { arguments: ['frontend'] });
+                this.composeWith(require.resolve('../next-js'), { arguments: ['frontend', '--http-path=/'] });
                 break;
             case FrontendChoice.Twig:
                 // Do nothing since the twig frontend is included in the Symfony generator

@@ -1,0 +1,41 @@
+---
+- import_role:
+    name: postgresql
+  vars:
+    dbs:
+      <%= packageName.replace('-', '_') %>:
+        owner: <%= packageName.replace('-', '_') %>
+    users:
+      <%= packageName.replace('-', '_') %>:
+        password: '{{ <%= packageName.replace('-', '_') %>_database_password }}'
+- import_role:
+    name: nodejs
+  vars:
+    version: 14
+- group:
+    name: <%= packageName %>
+    state: present
+- user:
+    name: <%= packageName %>
+    state: present
+    group: <%= packageName %>
+    shell: /bin/bash
+- import_role:
+    name: envfile
+  vars:
+    owner: <%= packageName %>
+    path: /home/<%= packageName %>/env
+    env: '{{ <%= packageName %>_env }}'
+- name: Configure env
+  lineinfile:
+    path: /home/<%= packageName %>/.bashrc
+    line: set -a; source /home/<%= packageName %>/env; set +a
+- import_role:
+    name: service
+  vars:
+    command: /usr/bin/node /home/<%= packageName %>/current/dist
+    description: <%= packageName %>
+    service: <%= packageName %>
+    user: <%= packageName %>
+    group: <%= packageName %>
+    env: '{{ <%= packageName.replace('-', '_') %>_env }}'

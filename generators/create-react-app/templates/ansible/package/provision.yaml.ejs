@@ -1,0 +1,9 @@
+---
+- group:
+    name: <%= packageName %>
+    state: present
+- user:
+    name: <%= packageName %>
+    state: present
+    group: <%= packageName %>
+    shell: /bin/bash

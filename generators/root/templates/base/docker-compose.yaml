@@ -1,6 +1,11 @@
 version: '2.4'
 
 services:
+    nginx:
+        build: ./nginx/docker
+        ports:
+            - ${PORT:-80}:80
+
     postgres:
         build: ./postgres/docker
         environment:

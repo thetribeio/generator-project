@@ -1,0 +1,13 @@
+location <%= httpPath %> {
+    root /home/<%= packageName %>/current/build;
+
+    try_files $uri /index.html;
+
+    add_header cache-control "no-store";
+
+    location <%= httpPath %>static/ {
+        try_files $uri =404;
+
+        add_header cache-control "public, max-age=31536000, immutable";
+    }
+}

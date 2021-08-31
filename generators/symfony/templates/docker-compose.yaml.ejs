@@ -7,8 +7,6 @@ services:
             - <%= packageName %>-php
         volumes_from:
             - <%= packageName %>-php
-        ports:
-            - 8080:80
 
     <%= packageName %>-php:
         build:

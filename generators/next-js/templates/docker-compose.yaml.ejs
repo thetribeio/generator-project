@@ -6,7 +6,3 @@ services:
                 UID: ${UID:-1000}
         volumes:
             - ./<%= packagePath %>:/usr/src/project/<%= packagePath %>
-        environment:
-            PORT: ${<%= packageName.replace('-', '_').toUpperCase() %>_PORT:-3000}
-        ports:
-            - ${<%= packageName.replace('-', '_').toUpperCase() %>_PORT:-3000}:${<%= packageName.replace('-', '_').toUpperCase() %>_PORT:-3000}

@@ -1,0 +1,32 @@
+---
+- import_role:
+    name: nodejs
+  vars:
+    version: 14
+- group:
+    name: <%= packageName %>
+    state: present
+- user:
+    name: <%= packageName %>
+    state: present
+    group: <%= packageName %>
+- import_role:
+    name: envfile
+  vars:
+    owner: <%= packageName %>
+    path: /home/<%= packageName %>/env
+    env: '{{ <%= packageName %>_env }}'
+- name: Configure env
+  lineinfile:
+    path: /home/<%= packageName %>/.bashrc
+    line: set -a; source /home/<%= packageName %>/env; set +a
+- import_role:
+    name: service
+  vars:
+    working_directory: /home/<%= packageName %>/current
+    command: /home/<%= packageName %>/current/node_modules/.bin/next start --port {{ <%= packageName.replace('-', '_') %>_port }}
+    description: <%= packageName %>
+    service: <%= packageName %>
+    user: <%= packageName %>
+    group: <%= packageName %>
+    env: '{{ <%= packageName.replace('-', '_') %>_env }}'

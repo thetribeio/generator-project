@@ -5,6 +5,7 @@ import { validateProjectName } from '../../utils/validation';
 interface Prompt {
     projectName: string,
     repositoryName: string,
+    domain: string,
     contactEmail: string,
 }
 
@@ -28,6 +29,12 @@ class RootGenerator extends Generator {
             },
             {
                 type: 'input',
+                name: 'domain',
+                message: 'Staging domain',
+                default: ({ projectName }: Prompt) => `${projectName}.thestaging.io`,
+            },
+            {
+                type: 'input',
                 name: 'contactEmail',
                 message: 'Contact email',
             },
@@ -40,7 +47,7 @@ class RootGenerator extends Generator {
     }
 
     writing() {
-        const { contactEmail } = this.#answers as Prompt;
+        const { contactEmail, domain } = this.#answers as Prompt;
 
         const vaultPass = cryptoRandomString({ length: 64, type: 'ascii-printable' });
 
@@ -49,6 +56,7 @@ class RootGenerator extends Generator {
             this.destinationPath(),
             {
                 contactEmail,
+                domain,
                 projectName: this.config.get('projectName'),
             },
             undefined,
