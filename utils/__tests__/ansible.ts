@@ -29,6 +29,6 @@ test.each([
 
         expect(decrypted).toBe(secret);
     } finally {
-        await fs.promises.rmdir(dir, { recursive: true });
+        await fs.promises.rm(dir, { recursive: true });
     }
 });
