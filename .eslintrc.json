@@ -15,6 +15,7 @@
             ],
             "optionalDependencies": false
         }],
+        "max-classes-per-file": "off",
         "no-await-in-loop": "off"
     },
     "overrides": [

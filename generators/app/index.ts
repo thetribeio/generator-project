@@ -12,11 +12,12 @@ enum FrontendChoice {
 }
 
 interface Prompt {
+    admin: boolean;
     backend: BackendChoice;
     frontend: FrontendChoice;
 }
 
-const prompt = [
+const prompt: Generator.Questions<Prompt> = [
     {
         type: 'list',
         name: 'backend',
@@ -51,11 +52,17 @@ const prompt = [
             } : null,
         ].filter((choice) => choice !== null),
     },
+    {
+        type: 'confirm',
+        name: 'admin',
+        message: 'Do you want to generate an admin interface?',
+        default: false,
+    },
 ];
 
 class AppGenerator extends Generator {
     async prompting() {
-        const { backend, frontend }: Prompt = await this.prompt<Prompt>(prompt);
+        const { admin, backend, frontend }: Prompt = await this.prompt<Prompt>(prompt);
 
         this.composeWith(require.resolve('../root'));
 
@@ -83,6 +90,10 @@ class AppGenerator extends Generator {
             case FrontendChoice.Twig:
                 // Do nothing since the twig frontend is included in the Symfony generator
                 break;
+        }
+
+        if (admin) {
+            this.composeWith(require.resolve('../react-admin'), ['admin', '--http-path=/admin/']);
         }
     }
 
