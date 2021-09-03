@@ -22,7 +22,7 @@
     "@tsconfig/node14": "^1.0.1",
     "@types/jest": "^27.0.1",
     "@types/ramda": "^0.27.44",
-    "@types/yeoman-generator": "^5.2.3",
+    "@types/yeoman-generator": "^5.2.4",
     "@types/yeoman-test": "^4.0.2",
     "@typescript-eslint/eslint-plugin": "^4.30.0",
     "@typescript-eslint/parser": "^4.30.0",
