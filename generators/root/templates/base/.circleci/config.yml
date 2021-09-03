@@ -6,7 +6,7 @@ orbs:
 executors:
   node:
     docker:
-      - image: circleci/node:14.17.5
+      - image: circleci/node:14.17.6
   php:
     docker:
       - image: circleci/php:8.0.7
