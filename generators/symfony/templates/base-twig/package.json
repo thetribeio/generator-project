@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "@popperjs/core": "^2.10.1",
-    "bootstrap": "^5.1.0"
+    "bootstrap": "^5.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
