@@ -21,7 +21,7 @@
     "sass-loader": "^12.1.0",
     "webpack": "^5.52.1",
     "webpack-cli": "^4.8.0",
-    "webpack-dev-server": "^4.2.0",
+    "webpack-dev-server": "^4.2.1",
     "webpack-manifest-plugin": "^4.0.2"
   },
   "scripts": {
