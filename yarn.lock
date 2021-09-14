@@ -1245,10 +1245,10 @@
     "@types/yeoman-environment" "*"
     rxjs ">=6.4.0"
 
-"@types/yeoman-generator@^5.2.5":
-  version "5.2.5"
-  resolved "https://registry.yarnpkg.com/@types/yeoman-generator/-/yeoman-generator-5.2.5.tgz#8031fe4d3c4161115e2bda6fa40fe3029f620190"
-  integrity sha512-T/wsUO7gvnZrEKTFAm7CPDU/OfRRQ/nWm2MsEeW1jiI+5CEqYe+Iwa496i5SAbPnCWxfUZreVFRlgYAwXaNjUA==
+"@types/yeoman-generator@^5.2.6":
+  version "5.2.6"
+  resolved "https://registry.yarnpkg.com/@types/yeoman-generator/-/yeoman-generator-5.2.6.tgz#f3cfaf6c47887812904d53248a9da5c9100d2b60"
+  integrity sha512-zFt4Alji+JVX19ssf5+rd0EUBDqvEE1ObMjWdvj0Vo0SBBggQVrntArRNv/FfGlef+x2DRDRdJ44prdn0AjDMg==
   dependencies:
     "@types/debug" "*"
     "@types/ejs" "*"
