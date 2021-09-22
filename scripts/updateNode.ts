@@ -1,16 +1,6 @@
 #!/usr/bin/env -S deno run --allow-net --allow-read --allow-write
-import { dirname, fromFileUrl, join } from "https://deno.land/std@0.98.0/path/mod.ts";
 import { compare } from "https://deno.land/x/semver@v1.4.0/mod.ts";
-
-const root = dirname(dirname(fromFileUrl(import.meta.url)));
-
-const replace = async (file: string, regexp: RegExp, replacer: string) => {
-    const path = join(root, file);
-
-    const content = await Deno.readTextFile(path);
-
-    await Deno.writeTextFile(path, content.replace(regexp, replacer));
-};
+import replace from './lib/replace.ts';
 
 interface Version {
     version: string;
