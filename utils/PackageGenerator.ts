@@ -1,14 +1,9 @@
-import fs from 'fs';
-import ejs, { Data as TemplateData, Options as TemplateOptions } from 'ejs';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { CopyOptions } from 'mem-fs-editor';
+import { Data as TemplateData } from 'ejs';
 import YAML, { Options } from 'yaml';
 import { strOptions } from 'yaml/types';
 import { GeneratorOptions } from 'yeoman-generator';
-import { createEncrypt } from './ansible';
 import BaseGenerator from './BaseGenerator';
 import { Config, mergeConfig } from './circleci';
-import indent from './indent';
 import validateProjectPath from './validation/validatePackagePath';
 
 strOptions.fold.lineWidth = 0;
@@ -44,18 +39,18 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
         }
     }
 
-    renderTemplate(
-        source: string | string[],
-        destination?: string | string[],
-        context: TemplateData = {},
-        templateOptions?: TemplateOptions | string,
-        copyOptions?: CopyOptions,
-    ): void {
-        super.renderTemplate(source, destination, this.getContext(context), templateOptions, copyOptions);
+    getContext(context: TemplateData): TemplateData {
+        return super.getContext({
+            httpPath: this.options['http-path'],
+            packageName: this.options.packageName,
+            packagePath: this.options.packagePath,
+            projectName: this.config.get('projectName'),
+            ...context,
+        });
     }
 
-    async configureDockerCompose(templatePath: string, context: TemplateData = {}) {
-        await this.extendYAML(
+    configureDockerCompose(templatePath: string, context: TemplateData = {}): void {
+        this.#extendYAML(
             templatePath,
             'docker-compose.yaml',
             context,
@@ -70,8 +65,8 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
         );
     }
 
-    async configureCircleCI(templatePath: string, context: TemplateData = {}) {
-        await this.extendYAML(
+    configureCircleCI(templatePath: string, context: TemplateData = {}): void {
+        this.#extendYAML(
             templatePath,
             '.circleci/config.yml',
             context,
@@ -80,76 +75,46 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
         );
     }
 
-    async configureAnsible(templatePath: string, context: TemplateData = {}): Promise<void> {
+    configureAnsible(templatePath: string, context: TemplateData = {}): void {
         const { packageName } = this.options;
 
-        const extendedContext = {
-            encrypt: createEncrypt(this.readDestination('ansible/vault_pass.txt').trim()),
-            ...context,
-        };
-
         for (const file of ['all.yaml', 'staging.yaml']) {
-            await this.#appendTemplateIfExists(
-                `${templatePath}/group_vars/${file}.ejs`,
-                `ansible/group_vars/${file}`,
-                extendedContext,
-            );
+            if (this.templateExists(`${templatePath}/group_vars/${file}.ejs`)) {
+                this.appendTemplate(`${templatePath}/group_vars/${file}.ejs`, `ansible/group_vars/${file}`, context);
+            }
         }
 
         for (const file of ['deployment.yaml', 'provision.yaml', 'nginx.conf.j2']) {
             this.renderTemplate(
                 `${templatePath}/package/${file}.ejs`,
                 `ansible/packages/${packageName}/${file}`,
-                extendedContext,
+                context,
             );
         }
     }
 
-    async configureScripts(templatePath: string, context: TemplateData = {}): Promise<void> {
+    configureScripts(templatePath: string, context: TemplateData = {}): void {
         for (const script of ['bootstrap', 'server', 'update']) {
-            await this.#appendTemplateIfExists(`${templatePath}/${script}.ejs`, `script/${script}`, context);
+            if (this.templateExists(`${templatePath}/${script}.ejs`)) {
+                this.appendTemplate(`${templatePath}/${script}.ejs`, `script/${script}`, context);
+            }
         }
     }
 
-    async #appendTemplateIfExists(from: string, to: string, context: TemplateData): Promise<void> {
-        if (fs.existsSync(this.templatePath(from))) {
-            await this.appendTemplate(from, to, context);
-        }
-    }
-
-    private async appendTemplate(from: string, to: string, context: TemplateData): Promise<void> {
-        this.fs.append(this.destinationPath(to), await this.renderTemplateToString(from, context));
-    }
-
-    private async extendYAML(
+    #extendYAML(
         template: string,
         destination: string,
         context: TemplateData,
         merger: (a: any, b: any) => any,
         options: Options = {},
-    ): Promise<void> {
-        const config = YAML.parse(await this.renderTemplateToString(template, context));
+    ): void {
+        const config = YAML.parse(this.renderTemplateToString(template, this.getContext(context)));
 
         const oldConfig = YAML.parse(this.readDestination(destination));
 
         const newConfig = merger(oldConfig, config);
 
         this.writeDestination(destination, YAML.stringify(newConfig, options));
-    }
-
-    private renderTemplateToString(path: string, context: TemplateData): Promise<string> {
-        return ejs.renderFile(this.templatePath(path), this.getContext(context));
-    }
-
-    private getContext(context: TemplateData): TemplateData {
-        return {
-            indent,
-            httpPath: this.options['http-path'],
-            packageName: this.options.packageName,
-            packagePath: this.options.packagePath,
-            projectName: this.config.get('projectName'),
-            ...context,
-        };
     }
 }
 
