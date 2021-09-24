@@ -13,7 +13,7 @@
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.24.2",
     "file-loader": "^6.2.0",
-    "mini-css-extract-plugin": "^2.2.2",
+    "mini-css-extract-plugin": "^2.3.0",
     "postcss": "^8.3.7",
     "postcss-loader": "^6.1.1",
     "sass": "^1.41.1",
