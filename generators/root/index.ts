@@ -1,5 +1,5 @@
 import cryptoRandomString from 'crypto-random-string';
-import Generator from 'yeoman-generator';
+import BaseGenerator from '../../utils/BaseGenerator';
 import { validateEmail, validateProjectName } from '../../utils/validation';
 
 interface Prompt {
@@ -9,7 +9,7 @@ interface Prompt {
     contactEmail: string,
 }
 
-class RootGenerator extends Generator {
+class RootGenerator extends BaseGenerator {
     #answers: Prompt|null = null;
 
     async prompting(): Promise<void> {
@@ -52,17 +52,11 @@ class RootGenerator extends Generator {
 
         const vaultPass = cryptoRandomString({ length: 64, type: 'ascii-printable' });
 
-        this.fs.copyTpl(
-            this.templatePath('base'),
-            this.destinationPath(),
-            {
-                contactEmail,
-                domain,
-                projectName: this.config.get('projectName'),
-            },
-            undefined,
-            { globOptions: { dot: true } },
-        );
+        this.renderTemplate('base', '.', {
+            contactEmail,
+            domain,
+            projectName: this.config.get('projectName'),
+        });
 
         this.writeDestination('ansible/vault_pass.txt', `${vaultPass}\n`);
     }

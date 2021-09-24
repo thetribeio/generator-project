@@ -4,7 +4,7 @@ class CreateReactAppGenerator extends PackageGenerator {
     async writing(): Promise<void> {
         const { packageName, packagePath } = this.options;
 
-        this.renderTemplate('base', packagePath, undefined, undefined, { globOptions: { dot: true } });
+        this.renderTemplate('base', packagePath);
 
         this.renderTemplate('nginx.conf.ejs', `nginx/docker/packages/${packageName}.conf`);
 

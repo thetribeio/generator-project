@@ -1,4 +1,5 @@
-import Generator from 'yeoman-generator';
+import { Questions } from 'yeoman-generator';
+import BaseGenerator from '../../utils/BaseGenerator';
 
 enum BackendChoice {
     Express = 'express',
@@ -17,7 +18,7 @@ interface Prompt {
     frontend: FrontendChoice;
 }
 
-const prompt: Generator.Questions<Prompt> = [
+const prompt: Questions<Prompt> = [
     {
         type: 'list',
         name: 'backend',
@@ -60,7 +61,7 @@ const prompt: Generator.Questions<Prompt> = [
     },
 ];
 
-class AppGenerator extends Generator {
+class AppGenerator extends BaseGenerator {
     async prompting() {
         const { admin, backend, frontend }: Prompt = await this.prompt<Prompt>(prompt);
 

@@ -9,7 +9,7 @@ class ExpressGenerator extends PackageGenerator {
         // characters often causes problems in configuration files
         const databasePassword = cryptoRandomString({ length: 64, type: 'alphanumeric' });
 
-        this.renderTemplate('base', packagePath, undefined, undefined, { globOptions: { dot: true } });
+        this.renderTemplate('base', packagePath);
 
         this.renderTemplate('nginx.conf.ejs', `nginx/docker/packages/${packageName}.conf`);
         this.renderTemplate('database.sql.ejs', `postgres/docker/initdb.d/${packageName}.sql`);
