@@ -1,6 +1,6 @@
 import cryptoRandomString from 'crypto-random-string';
 import Generator from 'yeoman-generator';
-import { validateProjectName } from '../../utils/validation';
+import { validateEmail, validateProjectName } from '../../utils/validation';
 
 interface Prompt {
     projectName: string,
@@ -37,6 +37,7 @@ class RootGenerator extends Generator {
                 type: 'input',
                 name: 'contactEmail',
                 message: 'Contact email',
+                validate: validateEmail,
             },
         ]);
 

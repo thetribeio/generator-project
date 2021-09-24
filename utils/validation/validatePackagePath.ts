@@ -1,7 +1,9 @@
+import { Validator } from './types';
+
 /**
  * Validate a project path so that it can't break out of the current projet and is cannonical.
  */
-const validateProjectPath = (value: string): string|true => {
+const validateProjectPath: Validator = (value) => {
     if (value.includes('\0')) {
         return 'Path can\'t contain null bytes';
     }

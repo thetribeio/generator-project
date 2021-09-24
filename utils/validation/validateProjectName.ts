@@ -1,4 +1,6 @@
-const validateProjectName = (value: string): string|true => {
+import { Validator } from './types';
+
+const validateProjectName: Validator = (value) => {
     if (!/^[a-z1-9-]*$/.test(value)) {
         return 'Project name can only contains lowercase alphanumerical characters and dashes';
     }
