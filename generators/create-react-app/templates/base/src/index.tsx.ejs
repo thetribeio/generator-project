@@ -12,11 +12,11 @@ if (!root) {
     throw new Error('Missing root element');
 }
 
-const { sentryDsn, sentryEnvironment, ...props } = root.dataset;
+const { environmentName, sentryDsn, ...props } = root.dataset;
 
 Sentry.init({
     dsn: sentryDsn,
-    environment: sentryEnvironment,
+    environment: environmentName,
     release: version ? `<%= projectName %>-<%= packageName %>@${version}` : undefined,
 });
 

@@ -5,7 +5,7 @@ import version from './version';
 
 Sentry.init({
     dsn: process.env.SENTRY_DSN,
-    environment: process.env.SENTRY_ENVIRONMENT,
+    environment: process.env.ENVIRONMENT_NAME,
     release: version ? `<%= projectName %>-<%= packageName %>@${version}` : undefined,
 });
 
