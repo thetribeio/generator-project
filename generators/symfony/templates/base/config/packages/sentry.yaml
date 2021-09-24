@@ -1,8 +1,8 @@
 parameters:
+    env(ENVIRONMENT_NAME): development
     env(SENTRY_DSN): ~
-    env(SENTRY_ENVIRONMENT): development
 
 sentry:
     dsn: '%env(SENTRY_DSN)%'
     options:
-        environment: '%env(SENTRY_ENVIRONMENT)%'
+        environment: '%env(ENVIRONMENT_NAME)%'

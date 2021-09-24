@@ -1,5 +1,5 @@
 <%= packageName.replace('-', '_') %>_env:
   DATABASE_URL: postgresql://<%= packageName.replace('-', '_') %>:{{ <%= packageName.replace('-', '_') %>_database_password }}@localhost/<%= packageName.replace('-', '_') %>
+  ENVIRONMENT_NAME: '{{ environment_name }}'
   APP_ENV: prod
   SENTRY_DSN: ~ # TODO: Add your sentry DSN here
-  SENTRY_ENVIRONMENT: '{{ environment_name }}'
