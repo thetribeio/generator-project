@@ -4,8 +4,9 @@ import ejs, { Data as TemplateData, Options as TemplateOptions } from 'ejs';
 import { CopyOptions } from 'mem-fs-editor';
 import YAML, { Options } from 'yaml';
 import { strOptions } from 'yaml/types';
-import Generator, { GeneratorOptions } from 'yeoman-generator';
+import { GeneratorOptions } from 'yeoman-generator';
 import { createEncrypt } from './ansible';
+import BaseGenerator from './BaseGenerator';
 import { Config, mergeConfig } from './circleci';
 import indent from './indent';
 import validateProjectPath from './validation/validatePackagePath';
@@ -18,7 +19,7 @@ interface PackageGeneratorOptions extends GeneratorOptions {
     packagePath: string;
 }
 
-class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptions> extends Generator<T> {
+class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptions> extends BaseGenerator<T> {
     constructor(args: string | string[], opts: T) {
         super(args, opts);
 
