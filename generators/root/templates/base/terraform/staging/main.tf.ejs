@@ -2,13 +2,12 @@ terraform {
     required_providers {
         scaleway = {
             source  = "scaleway/scaleway"
-            version = "~> 2.0.0"
         }
     }
 
     backend "s3" {
-        bucket                      = "thetribe-terraform-states"
-        key                         = "<%= projectName %>.tfstate"
+        bucket                      = "" # TODO: add bucket
+        key                         = "<%= projectName %>-staging.tfstate"
         region                      = "fr-par"
         endpoint                    = "https://s3.fr-par.scw.cloud"
         skip_credentials_validation = true
@@ -16,23 +15,16 @@ terraform {
     }
 }
 
-variable "scw_access_key" {
-    type      = string
-}
-
-variable "scw_secret_key" {
-    type      = string
-    sensitive = true
-}
-
-variable "scw_project_id" {
-    type      = string
-}
-
 provider "scaleway" {
     zone       = "fr-par-1"
     region     = "fr-par"
     access_key = var.scw_access_key
     secret_key = var.scw_secret_key
-    project_id = var.scw_project_id
+    project_id = "00000000-0000-0000-0000-000000000000" # TODO add project id
+}
+
+module "server" {
+    source = "../common/server"
+
+    environment_name = "staging"
 }

@@ -51,6 +51,16 @@ describe('When running the generator', () => {
 
         expect(all.test_env).toBeDefined();
     });
+
+    test('It generates a project with a valid terraform config', async () => {
+        const production = path.join(root, 'terraform', 'production');
+        await execa('terraform', ['init', '--backend=false'], { cwd: production });
+        await execa('terraform', ['validate'], { cwd: production });
+
+        const staging = path.join(root, 'terraform', 'staging');
+        await execa('terraform', ['init', '--backend=false'], { cwd: staging });
+        await execa('terraform', ['validate'], { cwd: staging });
+    });
 });
 
 describe('When running the generator with the path option', () => {

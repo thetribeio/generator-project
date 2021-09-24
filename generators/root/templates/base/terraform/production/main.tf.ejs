@@ -1,0 +1,39 @@
+terraform {
+    required_providers {
+        scaleway = {
+            source  = "scaleway/scaleway"
+        }
+    }
+
+    backend "s3" {
+        bucket                      = "" # TODO: add bucket
+        key                         = "<%= projectName %>-production.tfstate"
+        region                      = "fr-par"
+        endpoint                    = "https://s3.fr-par.scw.cloud"
+        skip_credentials_validation = true
+        skip_region_validation      = true
+    }
+}
+
+provider "scaleway" {
+    zone       = "fr-par-1"
+    region     = "fr-par"
+    access_key = var.scw_access_key
+    secret_key = var.scw_secret_key
+    project_id = "00000000-0000-0000-0000-000000000000" # TODO add project id
+}
+
+module "server" {
+    source = "../common/server"
+
+    environment_name = "staging"
+}
+
+module "database" {
+    source = "../common/database"
+
+    environment_name = "staging"
+    allowed_ips = {
+        server = module.server.ip
+    }
+}

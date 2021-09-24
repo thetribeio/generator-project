@@ -7,10 +7,15 @@ they're listed in here. It will probably be the easiest order to implement ansib
 
 Note that you probably don't need to touch this file! Below is just explanations.
 
-- `inventory` sets the inventory to the inventory script that fetch server data from terraform.
 - `vault_password_file` indicates where the vault's password is stored. This file should never
   appear in git's history, so it should be added to `.gitignore`.
 - `roles_path` allows ansible ansible to find roles in both the `roles` and `roles-lib` directories.
+
+## Inventories
+
+The `staging.py` and `production.py` are inventory scripts that automaticaly
+pulls servers informations from terraform outputs. To use them you need to
+[setup terraform](../terraform/README.md#Configuration) first.
 
 ## Roles
 
@@ -52,7 +57,7 @@ These are loaded automatically based on the inventory you're using.
 For example, any variable defined in `group_vars/staging.yaml` will be available
 globally if you're running ansible with the `staging` inventory:
 ```bash
-ansible-playbook -i staging <playbook>.yaml
+ansible-playbook -i staging.py <playbook>.yaml
 ```
 
 The `group_vars/all.yaml` group vars file is special: its content is always loaded.

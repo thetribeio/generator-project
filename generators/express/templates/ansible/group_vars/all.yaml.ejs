@@ -1,6 +1,6 @@
 <%= packageName.replace('-', '_') %>_port: 4000
 <%= packageName.replace('-', '_') %>_env:
-  DATABASE_URL: postgres://<%= packageName.replace('-', '_') %>:{{ <%= packageName.replace('-', '_') %>_database_password }}@localhost/<%= packageName.replace('-', '_') %>
+  DATABASE_URL: postgres://<%= packageName.replace('-', '_') %>:{{ database_<%= packageName.replace('-', '_') %>_password }}@{{ database_host }}/<%= packageName.replace('-', '_') %>
   ENVIRONMENT_NAME: '{{ environment_name }}'
   NODE_ENV: production
   PORT: '{{ <%= packageName.replace('-', '_') %>_port }}'
