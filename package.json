@@ -37,7 +37,7 @@
     "yeoman-test": "^5.1.0"
   },
   "scripts": {
-    "build": "rm -fr dist && tsc --project tsconfig.build.json && copyfiles --all --exclude '**/node_modules/**' 'generators/*/templates/**/*' dist && cp package.json README.md dist/",
+    "build": "rm -fr dist && tsc --project tsconfig.build.json && copyfiles --all --exclude '**/node_modules/**' --exclude '**/vendor/**' 'generators/*/templates/**/*' 'generators/utils/*/templates/**/*' dist && cp package.json README.md dist/",
     "lint": "eslint --ext ts generators utils",
     "test": "yarn test:utils && yarn test:generators",
     "test:generators": "jest --runInBand --testTimeout 300000 generators",

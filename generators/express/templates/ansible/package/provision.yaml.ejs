@@ -1,13 +1,3 @@
----
-- import_role:
-    name: postgresql
-  vars:
-    dbs:
-      <%= packageName.replace('-', '_') %>:
-        owner: <%= packageName.replace('-', '_') %>
-    users:
-      <%= packageName.replace('-', '_') %>:
-        password: '{{ <%= packageName.replace('-', '_') %>_database_password }}'
 - import_role:
     name: nodejs
   vars:

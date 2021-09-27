@@ -47,7 +47,7 @@ class RootGenerator extends BaseGenerator {
         this.config.set('repositoryName', repositoryName);
     }
 
-    writing() {
+    writing(): void {
         const { contactEmail, domain } = this.#answers as Prompt;
 
         const vaultPass = cryptoRandomString({ length: 64, type: 'ascii-printable' });

@@ -1,29 +1,28 @@
-import cryptoRandomString from 'crypto-random-string';
 import PackageGenerator from '../../utils/PackageGenerator';
 
 class ExpressGenerator extends PackageGenerator {
-    async writing() {
-        const { packageName, packagePath } = this.options;
+    initializing(): void {
+        const { packageName } = this.options;
 
-        // We use only alphanumeric characters in database password because special
-        // characters often causes problems in configuration files
-        const databasePassword = cryptoRandomString({ length: 64, type: 'alphanumeric' });
+        this.composeWith(require.resolve('../utils/database'), [packageName]);
+    }
+
+    writing(): void {
+        const { packageName, packagePath } = this.options;
 
         this.renderTemplate('base', packagePath);
 
         this.renderTemplate('nginx.conf.ejs', `nginx/docker/packages/${packageName}.conf`);
-        this.renderTemplate('database.sql.ejs', `postgres/docker/initdb.d/${packageName}.sql`);
 
-        await this.configureDockerCompose('docker-compose.yaml.ejs');
+        this.configureDockerCompose('docker-compose.yaml.ejs');
 
-        await this.configureCircleCI('circleci.yaml.ejs');
+        this.configureCircleCI('circleci.yaml.ejs');
 
-        await this.configureAnsible('ansible', {
-            databasePassword,
+        this.configureAnsible('ansible', {
             repositoryName: this.config.get('repositoryName'),
         });
 
-        await this.configureScripts('script');
+        this.configureScripts('script');
     }
 }
 
