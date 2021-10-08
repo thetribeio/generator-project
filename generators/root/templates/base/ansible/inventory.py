@@ -1,34 +1,60 @@
-#!/usr/bin/env python3
+"""
+Inventory script library
+"""
+
 import json
 import os
 import subprocess
 
-rootPath = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-terraformPath = rootPath + "/terraform/"
+ROOT_PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
-def terraform(command):
-    process = subprocess.run(["terraform"] + command, capture_output=True, encoding="utf8", cwd=terraformPath)
+
+def terraform(environment, command):
+    """
+    Run a terraform command and returns the ouput
+    """
+    process = subprocess.run(
+        ["terraform"] + command,
+        capture_output=True,
+        encoding="utf8",
+        cwd=f"{ROOT_PATH}/terraform/{environment}",
+        check=True,
+    )
 
     return process.stdout
 
-def main():
-    workspace = terraform(["workspace", "show"]).strip()
-    servers = json.loads(terraform(["output", "--json", "servers"]))
 
-    print(json.dumps({
-        "_meta": {
-            "hostvars": {
-                server: {
-                    "ansible_host": ip,
-                    "ansible_python_interpreter": "python3",
-                    "ansible_user": "root",
-                } for server, ip in servers.items()
+def terraform_output(environment, name):
+    """
+    Extract data from terraform output
+    """
+    return json.loads(terraform(environment, ["output", "--json", name]))
+
+
+def inventory(environment):
+    """
+    Build and print the inventory string for an environment
+    """
+    group_hosts = terraform_output(environment, "hosts")
+    group_vars = terraform_output(environment, "vars")
+
+    print(
+        json.dumps(
+            {
+                "_meta": {
+                    "hostvars": {
+                        server: {
+                            "ansible_host": ip,
+                            "ansible_python_interpreter": "python3",
+                            "ansible_user": "root",
+                        }
+                        for server, ip in group_hosts.items()
+                    }
+                },
+                environment: {
+                    "hosts": list(group_hosts.keys()),
+                    "vars": group_vars,
+                },
             }
-        },
-        workspace: {
-            "hosts": list(servers.keys()),
-        },
-    }))
-
-if __name__ == "__main__":
-    main()
+        )
+    )

@@ -6,4 +6,5 @@
         owner: <%= packageName.replace('-', '_') %>
     users:
       <%= packageName.replace('-', '_') %>:
-        password: '{{ <%= packageName.replace('-', '_') %>_database_password }}'
+        password: '{{ database_<%= packageName.replace('-', '_') %>_password }}'
+  when: database_host == "localhost"

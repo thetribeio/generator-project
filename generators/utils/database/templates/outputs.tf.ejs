@@ -1,0 +1,4 @@
+
+output "<%= packageName.replace('-', '_') %>_password" {
+    value = random_password.<%= packageName.replace('-', '_') %>.result
+}

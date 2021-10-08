@@ -1,0 +1,28 @@
+terraform {
+    required_providers {
+        scaleway = {
+            source  = "scaleway/scaleway"
+            version = ">= 2.1.0"
+        }
+    }
+}
+
+resource "scaleway_rdb_instance" "database" {
+    name           = "<%= projectName %>-${var.environment_name}"
+    node_type      = "db-dev-s"
+    engine         = "PostgreSQL-13"
+    is_ha_cluster  = true
+}
+
+resource "scaleway_rdb_acl" "database" {
+    instance_id = scaleway_rdb_instance.database.id
+
+    dynamic "acl_rules" {
+        for_each = var.allowed_ips
+
+        content {
+            ip          = "${acl_rules.value}/32"
+            description = acl_rules.key
+        }
+    }
+}

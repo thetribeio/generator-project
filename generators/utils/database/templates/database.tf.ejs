@@ -1,0 +1,23 @@
+
+resource "random_password" "<%= packageName.replace('-', '_') %>" {
+    length = 32
+}
+
+resource "scaleway_rdb_user" "<%= packageName.replace('-', '_') %>" {
+    instance_id = scaleway_rdb_instance.database.id
+    name        = "<%= packageName.replace('-', '_') %>"
+    password    = random_password.<%= packageName.replace('-', '_') %>.result
+}
+
+resource "scaleway_rdb_database" "<%= packageName.replace('-', '_') %>" {
+    instance_id = scaleway_rdb_instance.database.id
+    name        = "<%= packageName.replace('-', '_') %>"
+}
+
+# This ressource needs a new release of the terraform provider to become available
+# resource "scaleway_rdb_privilege" "<%= packageName.replace('-', '_') %>" {
+#    instance_id   = scaleway_rdb_instance.database.id
+#    user_name     = scaleway_rdb_user.<%= packageName.replace('-', '_') %>.name
+#    database_name = scaleway_rdb_database.<%= packageName.replace('-', '_') %>.name
+#    permission    = "all"
+#}
