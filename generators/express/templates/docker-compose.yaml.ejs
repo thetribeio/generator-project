@@ -7,4 +7,5 @@ services:
         volumes:
             - ./<%= packagePath %>:/usr/src/project/<%= packagePath %>
         environment:
+            COOKIE_SECRET: development-secret
             DATABASE_URL: "postgresql://user:password@postgres/<%= packagePath.replace('-', '_') %>"
