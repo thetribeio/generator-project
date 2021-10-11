@@ -106,7 +106,7 @@ workflows:
           requires:
             - <%= packageName %>-build
       - <%= packageName %>-sentry-release:
-          context: sentry
+          context: sentry.io
           requires:
             - <%= packageName %>-build
           filters:
