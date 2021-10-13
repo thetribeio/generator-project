@@ -7,7 +7,7 @@ interface WorkflowConstructor {
 class Workflow {
     jobs: {
         [name: string]: Record<string, any>,
-    }
+    };
 
     constructor({ jobs }: WorkflowConstructor) {
         this.jobs = jobs;

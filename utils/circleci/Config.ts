@@ -5,7 +5,7 @@ interface ConfigConstructor {
     version: string;
     orbs?: {
         [name: string]: string,
-    },
+    };
     executors?: {
         [name: string]: Record<string, any>,
     };
