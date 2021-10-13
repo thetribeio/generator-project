@@ -27,7 +27,7 @@
         "symfony/yaml": "^5.3.6"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.2.0",
+        "friendsofphp/php-cs-fixer": "^3.2.1",
         "phpstan/extension-installer": "^1.1.0",
         "phpstan/phpstan": "^0.12.99",
         "phpstan/phpstan-deprecation-rules": "^0.12.6",
