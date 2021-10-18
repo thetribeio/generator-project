@@ -10,10 +10,8 @@ interface Prompt {
 }
 
 class RootGenerator extends BaseGenerator {
-    #answers: Prompt|null = null;
-
     async prompting(): Promise<void> {
-        this.#answers = await this.prompt([
+        await this.promptConfig([
             {
                 type: 'input',
                 name: 'projectName',
@@ -40,19 +38,12 @@ class RootGenerator extends BaseGenerator {
                 validate: validateEmail,
             },
         ]);
-
-        const { projectName, repositoryName } = this.#answers as Prompt;
-
-        this.config.set('projectName', projectName);
-        this.config.set('repositoryName', repositoryName);
     }
 
     writing(): void {
-        const { contactEmail, domain } = this.#answers as Prompt;
-
         this.renderTemplate('base', '.', {
-            contactEmail,
-            domain,
+            contactEmail: this.config.get('contactEmail'),
+            domain: this.config.get('domain'),
             projectName: this.config.get('projectName'),
         });
 
