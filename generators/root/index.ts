@@ -50,15 +50,17 @@ class RootGenerator extends BaseGenerator {
     writing(): void {
         const { contactEmail, domain } = this.#answers as Prompt;
 
-        const vaultPass = cryptoRandomString({ length: 64, type: 'ascii-printable' });
-
         this.renderTemplate('base', '.', {
             contactEmail,
             domain,
             projectName: this.config.get('projectName'),
         });
 
-        this.writeDestination('ansible/vault_pass.txt', `${vaultPass}\n`);
+        if (!this.existsDestination('ansible/vault_pass.txt')) {
+            const vaultPass = cryptoRandomString({ length: 64, type: 'ascii-printable' });
+
+            this.writeDestination('ansible/vault_pass.txt', `${vaultPass}\n`);
+        }
     }
 
     async install(): Promise<void> {
