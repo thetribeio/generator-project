@@ -27,7 +27,7 @@
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",
     "copyfiles": "^2.4.1",
-    "eslint": "^8.0.1",
+    "eslint": "^8.1.0",
     "eslint-plugin-import": "^2.25.2",
     "execa": "^5.1.1",
     "jest": "^27.3.1",
