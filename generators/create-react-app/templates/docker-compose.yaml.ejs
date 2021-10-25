@@ -4,5 +4,7 @@ services:
             context: <%= packagePath %>/docker
             args:
                 UID: ${UID:-1000}
+        environment:
+            WDS_SOCKET_PATH: <%= httpPath %>sockjs-node
         volumes:
             - ./<%= packagePath %>:/usr/src/project/<%= packagePath %>
