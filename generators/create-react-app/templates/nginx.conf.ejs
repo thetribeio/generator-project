@@ -3,3 +3,12 @@ location <%= httpPath %> {
 
     proxy_pass $upstream;
 }
+
+location <%= httpPath %>sockjs-node {
+    set $upstream "http://<%= packageName %>:3000";
+
+    proxy_pass $upstream;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+}
