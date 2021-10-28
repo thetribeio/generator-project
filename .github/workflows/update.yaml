@@ -17,5 +17,6 @@ jobs:
         with:
           commit-message: Update Node to v${{ steps.update.outputs.version }}
           body: Update Node to last LTS version
+          author: github-actions <41898282+github-actions[bot]@users.noreply.github.com>
           branch: update/node
           title: Update Node to v${{ steps.update.outputs.version }}
