@@ -4,12 +4,20 @@ import { compare } from "https://deno.land/x/semver@v1.4.0/mod.ts";
 
 const root = dirname(dirname(fromFileUrl(import.meta.url)));
 
-const replace = async (file: string, regexp: RegExp, replacer: string) => {
+const replace = async (file: string, regexp: RegExp, replacer: string): Promise<boolean> => {
     const path = join(root, file);
 
     const content = await Deno.readTextFile(path);
 
-    await Deno.writeTextFile(path, content.replace(regexp, replacer));
+    const newContent = content.replace(regexp, replacer);
+
+    if (newContent === content) {
+        return false;
+    }
+
+    await Deno.writeTextFile(path, newContent);
+
+    return true;
 };
 
 interface Version {
@@ -30,8 +38,21 @@ if (!lastLts) {
 
 const lastVersion = lastLts.version.replace(/^v/, '');
 
+const lastMajor = lastVersion.split('.').shift();
+
+// Fetch TS config package data
+const tsConfigPackage = await (await fetch(`https://registry.npmjs.com/@tsconfig/node${lastMajor}`)).json();
+
+const tsConfigVersion = tsConfigPackage.versions[tsConfigPackage['dist-tags'].latest];
+
+let updated = false;
+
 // Update CircleCI config
-await replace('generators/root/templates/base/.circleci/config.yml', /image: circleci\/node:\d+\.\d+\.\d+/, `image: circleci/node:${lastVersion}`);
+updated = await replace(
+    'generators/root/templates/base/.circleci/config.yml',
+    /image: circleci\/node:\d+\.\d+\.\d+/,
+    `image: circleci/node:${lastVersion}`,
+) || updated;
 
 // Update Dockerfiles
 for (const file of [
@@ -40,7 +61,35 @@ for (const file of [
     'generators/next-js/templates/base/docker/Dockerfile.ejs',
     'generators/symfony/templates/base-twig/docker/node/Dockerfile.ejs'
 ]) {
-    await replace(file, /FROM node:\d+\.\d+\.\d+/, `FROM node:${lastVersion}`);
+    updated = await replace(file, /FROM node:\d+\.\d+\.\d+/, `FROM node:${lastVersion}`) || updated;
+}
+
+// Update ansible config
+updated = await replace(
+    'generators/express/templates/ansible/package/provision.yaml.ejs',
+    /version: \d+/,
+    `version: ${lastMajor}`,
+) || updated;
+
+// Update tsconfig package
+if (updated) {
+    await replace(
+        'generators/express/templates/base/package.json.ejs',
+        /"@tsconfig\/node\d+": "\^\d+\.\d+\.\d+"/,
+        `"@tsconfig/node${lastMajor}": "^${tsConfigVersion.version}"`,
+    );
+
+    await replace(
+        'generators/express/templates/base/yarn.lock',
+        /"@tsconfig\/node\d+@\^\d+\.\d+\.\d+":\n  version "\d+\.\d+\.\d+"\n  resolved "https:\/\/registry\.yarnpkg\.com\/@tsconfig\/node\d+\/-\/node\d+-\d+\.\d+\.\d+\.tgz#[0-9a-f]+"\n  integrity sha512-[A-Za-z0-9+\/=]+/,
+        `"@tsconfig/node${lastMajor}@^${tsConfigVersion.version}":\n  version "${tsConfigVersion.version}"\n  resolved "https://registry.yarnpkg.com/@tsconfig/node${lastMajor}/-/node${lastMajor}-${tsConfigVersion.version}.tgz#${tsConfigVersion.dist.shasum}"\n  integrity ${tsConfigVersion.dist.integrity}`,
+    );
+
+    await replace(
+        'generators/express/templates/base/tsconfig.json',
+        /"extends": "@tsconfig\/node\d+\/tsconfig\.json",/,
+        `"extends": "@tsconfig/node${lastMajor}/tsconfig.json",`,
+    );
 }
 
 console.log(`::set-output name=version::${lastVersion}`);
