@@ -10,6 +10,28 @@ const processDestinationPath = (path: string): string => path
     .replace(/\/gitignore$/, '/.gitignore');
 
 class BaseGenerator<T extends GeneratorOptions = GeneratorOptions> extends Generator<T> {
+    /**
+     * Prompt questions and store the result in the config.
+     *
+     * It differs from the `store` parameter of the `prompt` method on the following points:
+     *  - It only store the data in the local config and not the global config
+     *  - It doesn't nest the value under a `promptValues` key in the config
+     */
+    async promptConfig<Q>(questions: Generator.Question<Q>[]): Promise<Q> {
+        const loaded = questions.map((question) => ({
+            ...question,
+            default: this.config.get(question.name!) ?? question.default,
+        }));
+
+        const anwsers = await this.prompt(loaded);
+
+        for (const [name, value] of Object.entries(anwsers)) {
+            this.config.set(name, value);
+        }
+
+        return anwsers;
+    }
+
     getContext(context: TemplateData): TemplateData {
         return {
             indent,

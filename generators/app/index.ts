@@ -1,4 +1,4 @@
-import { Questions } from 'yeoman-generator';
+import { Question } from 'yeoman-generator';
 import BaseGenerator from '../../utils/BaseGenerator';
 
 enum BackendChoice {
@@ -18,7 +18,7 @@ interface Prompt {
     frontend: FrontendChoice;
 }
 
-const prompt: Questions<Prompt> = [
+const prompt: Question<Prompt>[] = [
     {
         type: 'list',
         name: 'backend',
@@ -47,11 +47,11 @@ const prompt: Questions<Prompt> = [
                 name: 'Next.js',
                 value: FrontendChoice.NextJS,
             },
-            backend === BackendChoice.Symfony ? {
+            {
                 name: 'Twig',
                 value: FrontendChoice.Twig,
-            } : null,
-        ].filter((choice) => choice !== null),
+            },
+        ].filter(({ value }) => value !== FrontendChoice.Twig || backend !== BackendChoice.Symfony),
     },
     {
         type: 'confirm',
@@ -63,7 +63,7 @@ const prompt: Questions<Prompt> = [
 
 class AppGenerator extends BaseGenerator {
     async prompting() {
-        const { admin, backend, frontend }: Prompt = await this.prompt<Prompt>(prompt);
+        const { admin, backend, frontend }: Prompt = await this.promptConfig<Prompt>(prompt);
 
         this.composeWith(require.resolve('../root'));
 
