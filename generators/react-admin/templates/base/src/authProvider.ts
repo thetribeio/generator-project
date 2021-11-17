@@ -1,23 +1,38 @@
 import { AuthProvider } from 'react-admin';
 
-// TODO: Update auth provider to match your API authentification
+const http = async (method: string, path: string, init: Omit<RequestInit, 'method'> = {}) => {
+    const response = await fetch(path, {
+        ...init,
+        method,
+    });
+
+    if (!response.ok) {
+        throw new Error(response.statusText);
+    }
+
+    return response;
+};
+
 const authProvider = (): AuthProvider => ({
-    checkAuth: async () => {},
+    checkAuth: () => (localStorage.getItem('auth')
+        ? Promise.resolve()
+        : Promise.reject()),
     checkError: async () => {},
     getPermissions: async () => {},
     login: async (params) => {
-        await fetch('/api/login', {
-            method: 'POST',
+        const response = await http('POST', '/api/login', {
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(params),
         });
+
+        localStorage.setItem('auth', JSON.stringify(await response.json()));
     },
     logout: async () => {
-        await fetch('/api/logout', {
-            method: 'POST',
-        });
+        await http('POST', '/api/logout');
+
+        localStorage.removeItem('auth');
     },
 });
 

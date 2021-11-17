@@ -1,7 +1,7 @@
 location <%= httpPath %> {
-    rewrite <%= httpPath %>(.*) /$1 break;
-
     set $upstream "http://<%= packageName %>:3000";
+
+    rewrite <%= httpPath %>(.*) /$1 break;
 
     proxy_pass $upstream;
 }

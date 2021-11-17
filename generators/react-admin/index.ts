@@ -9,12 +9,6 @@ class ReactAdminSubGenerator extends PackageGenerator {
         this.fs.delete(`${packagePath}/src/App.css`);
         this.fs.delete(`${packagePath}/src/App.test.tsx`);
         this.fs.delete(`${packagePath}/src/logo.svg`);
-        this.fs.delete(`${packagePath}/src/index.css`);
-        this.#replace(`${packagePath}/src/index.tsx`, /\nimport '\.\/index\.css';\n/, '\n');
-    }
-
-    #replace(filepath: string, searchValue: string|RegExp, replaceValue: string): void {
-        this.fs.write(filepath, this.fs.read(filepath).replace(searchValue, replaceValue));
     }
 }
 
