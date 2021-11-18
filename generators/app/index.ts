@@ -51,7 +51,7 @@ const prompt: Question<Prompt>[] = [
                 name: 'Twig',
                 value: FrontendChoice.Twig,
             },
-        ].filter(({ value }) => value !== FrontendChoice.Twig || backend !== BackendChoice.Symfony),
+        ].filter(({ value }) => value !== FrontendChoice.Twig || backend === BackendChoice.Symfony),
     },
     {
         type: 'confirm',
