@@ -32,7 +32,7 @@ class DatabaseUtilGenerator extends BaseGenerator<DatabaseUtilGeneratorOptions> 
         const packageVariable = packageName.replace('-', '_');
 
         this.appendTemplate('database.tf.ejs', 'terraform/common/database/main.tf', { packageName });
-        this.appendTemplate('outputs.tf.ejs', 'terraform/common/database/main.tf', { packageName });
+        this.appendTemplate('outputs.tf.ejs', 'terraform/common/database/outputs.tf', { packageName });
         this.writeDestination(
             'terraform/production/outputs.tf',
             this.readDestination('terraform/production/outputs.tf').replace(
