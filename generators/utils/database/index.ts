@@ -29,17 +29,21 @@ class DatabaseUtilGenerator extends BaseGenerator<DatabaseUtilGeneratorOptions> 
 
         this.prependTemplate('provision.yaml.ejs', `ansible/packages/${packageName}/provision.yaml`, { packageName });
 
-        const packageVariable = packageName.replace('-', '_');
+        if (this.existsDestination('terraform/common/database') && this.existsDestination('terraform/production')) {
+            const packageVariable = packageName.replace('-', '_');
 
-        this.appendTemplate('database.tf.ejs', 'terraform/common/database/main.tf', { packageName });
-        this.appendTemplate('outputs.tf.ejs', 'terraform/common/database/outputs.tf', { packageName });
-        this.writeDestination(
-            'terraform/production/outputs.tf',
-            this.readDestination('terraform/production/outputs.tf').replace(
-                /(output "vars" {\n {4}value = {.*?)(\n {4}})/s,
-                `$1\n        database_${packageVariable}_password = module.database.${packageVariable}_password$2`,
-            ),
-        );
+            this.appendTemplate('database.tf.ejs', 'terraform/common/database/main.tf', { packageName });
+            this.appendTemplate('outputs.tf.ejs', 'terraform/common/database/outputs.tf', { packageName });
+            this.writeDestination(
+                'terraform/production/outputs.tf',
+                this.readDestination('terraform/production/outputs.tf').replace(
+                    /(output "vars" {\n {4}value = {.*?)(\n {4}})/s,
+                    `$1\n        database_${packageVariable}_password = module.database.${packageVariable}_password$2`,
+                ),
+            );
+        } else {
+            this.log('Skipping production database configuration because we couldn\'t find the expected directory structure.');
+        }
     }
 }
 
