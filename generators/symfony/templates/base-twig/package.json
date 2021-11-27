@@ -14,7 +14,7 @@
     "eslint-plugin-import": "^2.25.3",
     "file-loader": "^6.2.0",
     "mini-css-extract-plugin": "^2.4.5",
-    "postcss": "^8.4.1",
+    "postcss": "^8.4.3",
     "postcss-loader": "^6.2.1",
     "sass": "^1.43.5",
     "sass-lint": "^1.13.1",
