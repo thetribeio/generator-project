@@ -68,6 +68,7 @@ for (const file of [
     'generators/express/templates/base/docker/Dockerfile.ejs',
     'generators/express/templates/deployment/kubernetes/docker/Dockerfile.ejs',
     'generators/next-js/templates/base/docker/Dockerfile.ejs',
+    'generators/next-js/templates/deployment/kubernetes/docker/Dockerfile.ejs',
     'generators/symfony/templates/base-twig/docker/node/Dockerfile.ejs'
 ]) {
     updated = await replace(file, /FROM node:\d+\.\d+\.\d+/, `FROM node:${lastVersion}`) || updated;
