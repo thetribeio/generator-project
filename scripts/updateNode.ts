@@ -68,6 +68,7 @@ for (const file of [
     'generators/express/templates/base/docker/Dockerfile.ejs',
     'generators/express/templates/deployment/kubernetes/docker/Dockerfile.ejs',
     'generators/next-js/templates/base/docker/Dockerfile.ejs',
+    'generators/next-js/templates/deployment/kubernetes/docker/Dockerfile.ejs',
     'generators/symfony/templates/base-twig/docker/node/Dockerfile.ejs',
     'generators/symfony/templates/deployment/kubernetes/docker/Dockerfile.ejs',
 ]) {
