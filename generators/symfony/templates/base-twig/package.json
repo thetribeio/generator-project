@@ -16,7 +16,7 @@
     "mini-css-extract-plugin": "^2.4.5",
     "postcss": "^8.4.4",
     "postcss-loader": "^6.2.1",
-    "sass": "^1.43.5",
+    "sass": "^1.44.0",
     "sass-lint": "^1.13.1",
     "sass-loader": "^12.3.0",
     "webpack": "^5.64.4",
