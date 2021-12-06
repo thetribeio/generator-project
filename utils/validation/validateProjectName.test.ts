@@ -13,5 +13,5 @@ test('Project name starting with a number is not valid', () => {
 });
 
 test('Valid project name', () => {
-    expect(validateProjectName('test-project')).toBe(true);
+    expect(validateProjectName('test-001-project')).toBe(true);
 });
