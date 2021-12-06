@@ -42,7 +42,10 @@ class DatabaseUtilGenerator extends BaseGenerator<DatabaseUtilGeneratorOptions> 
                 ),
             );
         } else {
-            this.log('Skipping production database configuration because we couldn\'t find the expected directory structure.');
+            this.log(
+                'Skipping production database configuration because '
+                + 'we couldn\'t find the expected directory structure.',
+            );
         }
     }
 }

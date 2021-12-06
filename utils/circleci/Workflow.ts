@@ -31,7 +31,9 @@ class Workflow {
 
     toRaw(): any {
         return {
-            jobs: Object.entries(this.jobs).map(([name, config]) => (Object.keys(config).length === 0 ? name : { [name]: config })),
+            jobs: Object.entries(this.jobs).map(
+                ([name, config]) => (Object.keys(config).length === 0 ? name : { [name]: config }),
+            ),
         };
     }
 }
