@@ -83,7 +83,10 @@ class Config {
         raw.jobs = this.jobs;
         raw.workflows = {
             version: this.workflowsVersion,
-            ...map<Record<string, Workflow>, Record<string, any>>((workflow: Workflow) => workflow.toRaw(), this.workflows),
+            ...map<Record<string, Workflow>, Record<string, any>>(
+                (workflow: Workflow) => workflow.toRaw(),
+                this.workflows,
+            ),
         };
 
         return raw;
