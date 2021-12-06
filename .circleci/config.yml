@@ -55,6 +55,7 @@ jobs:
     machine:
       image: ubuntu-2004:202104-01
     steps:
+      - run: git config --global init.defaultBranch develop
       - node/install:
           install-npm: false
           install-yarn: true
