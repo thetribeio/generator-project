@@ -27,6 +27,7 @@ class FlutterMobileGenerator extends PackageGenerator<Options> {
             {
                 applicationName: this.options.applicationName,
                 applicationPrefix: this.options.applicationPrefix,
+                applicationDisplayName: this.options.applicationDisplayName,
             },
         );
 

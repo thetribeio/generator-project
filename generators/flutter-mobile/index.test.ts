@@ -46,6 +46,7 @@ describe('When running the generator with valid options', () => {
             .withOptions({
                 applicationPrefix: 'com.greatcorp',
                 applicationName: 'mygreatproject',
+                applicationDisplayName: 'My Great Project',
             });
     });
 
@@ -75,6 +76,20 @@ describe('When running the generator with valid options', () => {
         )));
 
         expect(androidManifestData.manifest.$.package).toEqual('com.greatcorp.mygreatproject');
+    });
+
+    test('It generates an AndroidManifest with expected application display name', async () => {
+        const androidManifestData = await XML.parseStringPromise(await fs.promises.readFile(path.resolve(
+            root,
+            'test',
+            'android',
+            'app',
+            'src',
+            'main',
+            'AndroidManifest.xml',
+        )));
+
+        expect(androidManifestData.manifest.application[0].$['android:label']).toEqual('My Great Project');
     });
 
     test('It generates an Android MainActivity with expected package name', async () => {
