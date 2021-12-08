@@ -17,6 +17,7 @@
 workflows:
   build-&-deploy:
     name: Build & Deploy
+    working_directory: <%= packagePath %>
     max_build_duration: 60
     environment:
       groups:
@@ -84,6 +85,7 @@ workflows:
 
   analyze-&-test:
     name: Analyze & Test
+    working_directory: <%= packagePath %>
     max_build_duration: 60
     environment:
       flutter: 2.5.3

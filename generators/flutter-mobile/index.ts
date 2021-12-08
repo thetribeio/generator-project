@@ -59,6 +59,7 @@ class FlutterMobileGenerator extends PackageGenerator<PackageGeneratorOptions> {
         this.configureCodemagic(
             'codemagic.yaml',
             {
+                packagePath,
                 contactEmail,
             },
         );

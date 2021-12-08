@@ -107,6 +107,7 @@ describe('When running the generator with valid options', () => {
 
         expect(codemagic.workflows['build-&-deploy']).toBeDefined();
         expect(codemagic.workflows['build-&-deploy'].publishing.email.recipients).toContainEqual('test@example.com');
+        expect(codemagic.workflows['build-&-deploy'].working_directory).toEqual('test');
     });
 
     test('It adds analyze-&-test workflow to Codemagic setup with right recipient email', async () => {
@@ -114,5 +115,6 @@ describe('When running the generator with valid options', () => {
 
         expect(codemagic.workflows['analyze-&-test']).toBeDefined();
         expect(codemagic.workflows['analyze-&-test'].publishing.email.recipients).toContainEqual('test@example.com');
+        expect(codemagic.workflows['analyze-&-test'].working_directory).toEqual('test');
     });
 });
