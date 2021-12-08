@@ -38,8 +38,8 @@ class FlutterMobileGenerator extends PackageGenerator<PackageGeneratorOptions> {
             },
         );
 
-        this.#moveKotlinPackageToRequestedName(
-            'base/android/app/src/main/kotlin/applicationprefix/applicationname',
+        this.renderTemplate(
+            'android-main-activity',
             path.resolve(
                 packagePath,
                 'android',
@@ -50,8 +50,10 @@ class FlutterMobileGenerator extends PackageGenerator<PackageGeneratorOptions> {
                 ...applicationPrefix.split('.'),
                 applicationName,
             ),
-            applicationName,
-            applicationPrefix,
+            {
+                applicationName,
+                applicationPrefix,
+            },
         );
 
         this.configureCodemagic(
@@ -59,27 +61,6 @@ class FlutterMobileGenerator extends PackageGenerator<PackageGeneratorOptions> {
             {
                 contactEmail,
             },
-        );
-    }
-
-    // TODO Really not great : we are rendering MainActivity twice... Any advice is welcome :)
-    // I didn't achieve my goal using `this.moveDestination` which lead me to that crappy solution.
-    #moveKotlinPackageToRequestedName(
-        previousPath: string,
-        newPath: string,
-        applicationName: string,
-        applicationPrefix: string,
-    ): void {
-        this.renderTemplate(
-            previousPath,
-            newPath,
-            {
-                applicationName,
-                applicationPrefix,
-            },
-        );
-        this.deleteDestination(
-            previousPath,
         );
     }
 }
