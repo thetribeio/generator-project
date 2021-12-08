@@ -125,4 +125,18 @@ describe('When running the generator with valid options', () => {
 
         expect(infoPlistData.CFBundleDisplayName).toEqual('My Great Project');
     });
+
+    test('It adds build-&-deploy workflow to Codemagic setup with right recipient email', async () => {
+        const codemagic = YAML.parse(await fs.promises.readFile(path.resolve(root, 'codemagic.yaml'), 'utf8'));
+
+        expect(codemagic.workflows['build-&-deploy']).toBeDefined();
+        expect(codemagic.workflows['build-&-deploy'].publishing.email.recipients).toContainEqual('test@example.com');
+    });
+
+    test('It adds analyze-&-test workflow to Codemagic setup with right recipient email', async () => {
+        const codemagic = YAML.parse(await fs.promises.readFile(path.resolve(root, 'codemagic.yaml'), 'utf8'));
+
+        expect(codemagic.workflows['analyze-&-test']).toBeDefined();
+        expect(codemagic.workflows['analyze-&-test'].publishing.email.recipients).toContainEqual('test@example.com');
+    });
 });

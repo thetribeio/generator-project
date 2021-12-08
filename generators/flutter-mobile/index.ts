@@ -2,6 +2,7 @@ import path from 'path';
 import PackageGenerator, { PackageGeneratorOptions } from '../../utils/PackageGenerator';
 
 interface Options extends PackageGeneratorOptions {
+    contactEmail: string,
     applicationPrefix: string,
     applicationName: string,
     applicationDisplayName: string,
@@ -44,10 +45,17 @@ class FlutterMobileGenerator extends PackageGenerator<Options> {
                 this.options.applicationName,
             ),
         );
+
+        this.configureCodemagic(
+            'codemagic.yaml',
+            {
+                contactEmail: this.config.get('contactEmail'),
+            },
+        );
     }
 
     // TODO Really not great : we are rendering MainActivity twice... Any advice is welcome :)
-    // I didn't achieve my goal using `this.moveDestination`
+    // I didn't achieve my goal using `this.moveDestination` which lead me to that crappy solution.
     #moveKotlinPackageToRequestedName(
         previousPath: string,
         newPath: string,

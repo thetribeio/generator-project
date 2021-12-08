@@ -1,0 +1,113 @@
+# Environment variables to define in `certificate_credentials` group in Codemagic UI
+## iOS code signing (see https://docs.codemagic.io/flutter-code-signing/ios-code-signing/)
+#    - `FCI_PROVISIONING_PROFILE` : Secured Base64 encoded `*.mobileprovision` file
+#    - `FCI_CERTIFICATE` : Secured Base64 encoded `*.p12` file
+#    - [Optional] `FCI_CERTIFICATE_PASSWORD` :  Secured password used on `*.p12` export
+## Testflight deployment (see https://docs.codemagic.io/yaml-publishing/distribution/#app-store-connect)
+#    - `APP_STORE_CONNECT_PRIVATE_KEY` : `*.p8` file (see https://developer.apple.com/documentation/appstoreconnectapi/creating_api_keys_for_app_store_connect_api)
+#    - `APP_STORE_CONNECT_KEY_IDENTIFIER` : `*.p8` key ID (see https://developer.apple.com/documentation/appstoreconnectapi/creating_api_keys_for_app_store_connect_api)
+#    - `APP_STORE_CONNECT_ISSUER_ID` : Key issuer ID (see https://appstoreconnect.apple.com/access/api)
+## Android code signing (see https://docs.codemagic.io/yaml-code-signing/signing-android/)
+#    - `FCI_KEYSTORE` : Secured Base64 encoded `*.keystore` file
+#    - `FCI_KEYSTORE_PASSWORD` : Secured Keystore password
+#    - `FCI_KEY_ALIAS` : Key alias
+#    - `FCI_KEY_PASSWORD` : Secured Key password
+## Android deployment (see https://docs.codemagic.io/yaml-publishing/distribution/#google-play)
+#    - `GCLOUD_SERVICE_ACCOUNT_CREDENTIALS` : Secured Base64 encoded `*.keystore` file
+workflows:
+  build-&-deploy:
+    name: Build & Deploy
+    max_build_duration: 60
+    environment:
+      groups:
+        - certificate_credentials
+      flutter: 2.5.3
+      xcode: '13.1'
+      cocoapods: 1.11.2
+    scripts:
+      - |
+        # set up key.properties
+        echo $FCI_KEYSTORE | base64 --decode > $FCI_BUILD_DIR/android/release.keystore
+        cat >> "$FCI_BUILD_DIR/android/key.properties" <<EOF
+        storePassword=$FCI_KEYSTORE_PASSWORD
+        keyPassword=$FCI_KEY_PASSWORD
+        keyAlias=$FCI_KEY_ALIAS
+        storeFile=/tmp/keystore.keystore
+        EOF
+      - |
+        # set up local properties
+        echo "flutter.sdk=$HOME/programs/flutter" > "$FCI_BUILD_DIR/android/local.properties"
+      - flutter packages pub get
+      - 'flutter '
+      - flutter analyze
+      - flutter test
+      - flutter build appbundle --release --build-number=$(($PROJECT_BUILD_NUMBER + 10))
+      - find . -name "Podfile" -execdir pod install \;
+      - keychain initialize
+      - |
+        # set up provisioning profiles
+        PROFILE_PATH="$(mktemp "$HOME/Library/MobileDevice/Provisioning Profiles"/ios.mobileprovision)"
+        echo "$FCI_PROVISIONING_PROFILE" | base64 --decode > "$PROFILE_PATH"
+        echo "Saved provisioning profile $PROFILE_PATH"
+      - |
+        # set up ios signing certificate
+        echo $FCI_CERTIFICATE | base64 --decode > '/tmp/certificate.p12'
+        if [ -z ${FCI_CERTIFICATE_PASSWORD+x} ]; then
+          # when using a certificate that is not password-protected
+          keychain add-certificates --certificate /tmp/certificate.p12
+        else
+          # when using a password-protected certificate
+          keychain add-certificates --certificate /tmp/certificate.p12 --certificate-password $FCI_CERTIFICATE_PASSWORD
+        fi
+      - xcode-project use-profiles
+      - flutter build ipa --export-options-plist=/Users/builder/export_options.plist --build-number=$(($PROJECT_BUILD_NUMBER + 10))
+    artifacts:
+      - build/**/outputs/apk/**/*.apk
+      - build/**/outputs/bundle/**/*.aab
+      - build/**/outputs/**/mapping.txt
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - build/windows/**/*.msix
+      - flutter_drive.log
+    publishing:
+      email:
+        recipients:
+          - <%= contactEmail %>
+      app_store_connect:
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY # Contents of the API key saved as a secure environment variable
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER # Alphanumeric value that identifies the API key
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID # Alphanumeric value that identifies who created the API key
+        submit_to_testflight: true
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: internal # Name of the track: internal, alpha, beta, production, internal app sharing, or your custom track name
+
+  analyze-&-test:
+    name: Analyze & Test
+    max_build_duration: 60
+    environment:
+      flutter: 2.5.3
+      xcode: '13.1'
+      cocoapods: 1.11.2
+    triggering:
+      events:
+        - pull_request
+      branch_patterns:
+        - pattern: '*'
+          include: true
+          source: true
+      tag_patterns:
+        - pattern: '*'
+          include: true
+    scripts:
+      - flutter packages pub get
+      - 'flutter '
+      - flutter analyze
+      - flutter test
+    artifacts:
+      - build/windows/**/*.msix
+      - flutter_drive.log
+    publishing:
+      email:
+        recipients:
+          - <%= contactEmail %>
