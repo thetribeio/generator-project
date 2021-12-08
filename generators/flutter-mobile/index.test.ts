@@ -6,30 +6,6 @@ import YAML from 'yaml';
 
 import helpers from 'yeoman-test';
 
-describe('When running the generator with invalid options', () => {
-    test('It rejects applicationPrefix with non lowercase alphanumerical characters or dots', async () => {
-        await expect(
-            helpers.run(__dirname)
-                .withArguments(['test'])
-                .withOptions({
-                    applicationPrefix: 'com/greatCorp',
-                    applicationName: 'mygreatproject',
-                }),
-        ).rejects.toThrowError('Application prefix can only contains lowercase letters, numbers and dots');
-    });
-
-    test('It rejects applicationName with non lowercase alphanumerical characters', async () => {
-        await expect(
-            helpers.run(__dirname)
-                .withArguments(['test'])
-                .withOptions({
-                    applicationPrefix: 'com.greatcorp0',
-                    applicationName: 'mygreatproject.',
-                }),
-        ).rejects.toThrowError('Application name can only contains lowercase letters and numbers');
-    });
-});
-
 describe('When running the generator with valid options', () => {
     let root: string;
 
@@ -37,6 +13,7 @@ describe('When running the generator with valid options', () => {
         const result = await helpers.run(path.resolve(__dirname, '../root'))
             .withPrompts({
                 contactEmail: 'test@example.com',
+                projectName: 'my-great-project',
             });
 
         root = result.cwd;
@@ -44,9 +21,8 @@ describe('When running the generator with valid options', () => {
         await helpers.run(__dirname)
             .cd(root)
             .withArguments(['test'])
-            .withOptions({
+            .withPrompts({
                 applicationPrefix: 'com.greatcorp',
-                applicationName: 'mygreatproject',
                 applicationDisplayName: 'My Great Project',
             });
     });

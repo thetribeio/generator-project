@@ -1,34 +1,40 @@
 import path from 'path';
 import PackageGenerator, { PackageGeneratorOptions } from '../../utils/PackageGenerator';
+import { validateApplicationPrefix } from '../../utils/validation';
 
-interface Options extends PackageGeneratorOptions {
-    contactEmail: string,
-    applicationPrefix: string,
-    applicationName: string,
-    applicationDisplayName: string,
-}
-
-class FlutterMobileGenerator extends PackageGenerator<Options> {
-    initializing(): void {
-        if (!/^[a-z0-9\\.]+$/.test(this.options.applicationPrefix)) {
-            throw new Error('Application prefix can only contains lowercase letters, numbers and dots');
-        }
-
-        if (!/^[a-z0-9]+$/.test(this.options.applicationName)) {
-            throw new Error('Application name can only contains lowercase letters and numbers');
-        }
+class FlutterMobileGenerator extends PackageGenerator<PackageGeneratorOptions> {
+    async prompting(): Promise<void> {
+        await this.promptConfig([
+            {
+                type: 'input',
+                name: 'applicationPrefix',
+                message: 'Organization responsible for the project, in reverse domain name notation.',
+                default: 'com.example',
+                validate: validateApplicationPrefix,
+            },
+            {
+                type: 'input',
+                name: 'applicationDisplayName',
+                message: 'Application name displayed to the user',
+                default: 'My Application',
+            },
+        ]);
     }
 
     writing(): void {
         const { packagePath } = this.options;
+        const applicationDisplayName = this.config.get('applicationDisplayName');
+        const applicationPrefix = this.config.get('applicationPrefix');
+        const applicationName = this.config.get('projectName').replaceAll('-', '');
+        const contactEmail = this.config.get('contactEmail');
 
         this.renderTemplate(
             'base',
             packagePath,
             {
-                applicationName: this.options.applicationName,
-                applicationPrefix: this.options.applicationPrefix,
-                applicationDisplayName: this.options.applicationDisplayName,
+                applicationName,
+                applicationPrefix,
+                applicationDisplayName,
             },
         );
 
@@ -41,15 +47,17 @@ class FlutterMobileGenerator extends PackageGenerator<Options> {
                 'src',
                 'main',
                 'kotlin',
-                ...this.options.applicationPrefix.split('.'),
-                this.options.applicationName,
+                ...applicationPrefix.split('.'),
+                applicationName,
             ),
+            applicationName,
+            applicationPrefix,
         );
 
         this.configureCodemagic(
             'codemagic.yaml',
             {
-                contactEmail: this.config.get('contactEmail'),
+                contactEmail,
             },
         );
     }
@@ -59,13 +67,15 @@ class FlutterMobileGenerator extends PackageGenerator<Options> {
     #moveKotlinPackageToRequestedName(
         previousPath: string,
         newPath: string,
+        applicationName: string,
+        applicationPrefix: string,
     ): void {
         this.renderTemplate(
             previousPath,
             newPath,
             {
-                applicationName: this.options.applicationName,
-                applicationPrefix: this.options.applicationPrefix,
+                applicationName,
+                applicationPrefix,
             },
         );
         this.deleteDestination(

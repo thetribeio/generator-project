@@ -12,10 +12,16 @@ enum FrontendChoice {
     Twig = 'twig',
 }
 
+enum MobileChoice {
+    None = 'none',
+    Flutter = 'flutter',
+}
+
 interface Prompt {
     admin: boolean;
     backend: BackendChoice;
     frontend: FrontendChoice;
+    mobile: MobileChoice;
 }
 
 const prompt: Question<Prompt>[] = [
@@ -59,13 +65,28 @@ const prompt: Question<Prompt>[] = [
         message: 'Do you want to generate an admin interface?',
         default: false,
     },
+    {
+        type: 'list',
+        name: 'mobile',
+        message: 'What mobile framework do you want to use ?',
+        choices: [
+            {
+                name: 'No mobile app',
+                value: MobileChoice.None,
+            },
+            {
+                name: 'Flutter',
+                value: MobileChoice.Flutter,
+            },
+        ],
+    },
 ];
 
 class AppGenerator extends BaseGenerator {
     async prompting() {
-        const { admin, backend, frontend }: Prompt = await this.promptConfig<Prompt>(prompt);
+        const { admin, backend, frontend, mobile }: Prompt = await this.promptConfig<Prompt>(prompt);
 
-        this.composeWith(require.resolve('../root'));
+        const rootGenerator = this.composeWith(require.resolve('../root'));
 
         switch (backend) {
             case BackendChoice.Express:
@@ -95,6 +116,17 @@ class AppGenerator extends BaseGenerator {
 
         if (admin) {
             this.composeWith(require.resolve('../react-admin'), ['admin', '--http-path=/admin/']);
+        }
+
+        switch (mobile) {
+            case MobileChoice.Flutter:
+                rootGenerator.composeWith(
+                    require.resolve('../flutter-mobile'),
+                    ['mobile'],
+                );
+                break;
+            case MobileChoice.None:
+                break;
         }
     }
 
