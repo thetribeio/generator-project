@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import * as PLIST from 'fast-plist';
 import * as XML from 'xml2js';
 import YAML from 'yaml';
 
@@ -109,5 +110,19 @@ describe('When running the generator with valid options', () => {
             ),
             fs.constants.R_OK,
         );
+    });
+
+    test('It generates a iOS plist file with expected CFBundleDisplayName', async () => {
+        const infoPlistData = PLIST.parse((await fs.promises.readFile(
+            path.resolve(
+                root,
+                'test',
+                'ios',
+                'Runner',
+                'Info.plist',
+            ),
+        )).toString('utf8'));
+
+        expect(infoPlistData.CFBundleDisplayName).toEqual('My Great Project');
     });
 });
