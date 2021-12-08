@@ -1,4 +1,4 @@
-# <%= applicationName %>
+# <%= applicationDisplayName %>
 
 A new Flutter project.
 
