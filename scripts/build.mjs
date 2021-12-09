@@ -21,7 +21,11 @@ await execa('./node_modules/.bin/tsc', ['--project', 'tsconfig.build.json'], { c
 for (const files of ['generators/*/templates/**/*', 'generators/utils/*/templates/**/*']) {
     for (const relativePath of await glob(files, {
         dot: true,
-        ignore: ['**/node_modules/**', '**/vendor/**'],
+        ignore: [
+            '**/node_modules/**',
+            '**/vendor/**',
+            'generators/symfony/templates/base{,-twig}/var/**/*',
+        ],
         nodir: true,
         cwd: root,
     })) {
