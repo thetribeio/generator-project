@@ -1,13 +1,6 @@
 version: '2.4'
 
 services:
-    <%= packageName %>-nginx:
-        build: <%= packagePath %>/docker/nginx
-        depends_on:
-            - <%= packageName %>-php
-        volumes_from:
-            - <%= packageName %>-php
-
     <%= packageName %>-node:
         build:
             context: <%= packagePath %>/docker/node
