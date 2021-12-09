@@ -3,7 +3,7 @@ services:
         build:
             context: <%= packagePath %>/docker
             args:
-                UID: ${UID:-1000}
+                UID: ${uid:-1000}
         volumes:
             - ./<%= packagePath %>:/usr/src/project/<%= packagePath %>
         environment:

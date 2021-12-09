@@ -3,7 +3,7 @@ services:
         build:
             context: <%= packagePath %>/docker
             args:
-                UID: ${UID:-1000}
+                UID: ${uid:-1000}
         environment:
             DISABLE_ESLINT_PLUGIN: 'true'
             WDS_SOCKET_PATH: <%= httpPath %>sockjs-node

@@ -12,7 +12,7 @@ services:
         build:
             context: <%= packagePath %>/docker/php
             args:
-                UID: ${UID:-1000}
+                UID: ${uid:-1000}
         environment:
             DATABASE_URL: "postgresql://user:password@postgres/<%= packagePath.replace('-', '_') %>"
         depends_on:

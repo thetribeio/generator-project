@@ -12,7 +12,7 @@ services:
         build:
             context: <%= packagePath %>/docker/node
             args:
-                UID: ${UID:-1000}
+                UID: ${uid:-1000}
         command: yarn start
         depends_on:
             - <%= packageName %>-nginx
