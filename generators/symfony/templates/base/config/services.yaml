@@ -11,3 +11,9 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         public: true
+
+    # Configure logger to use stderr
+    logger:
+        class: Symfony\Component\HttpKernel\Log\Logger
+        arguments:
+            $output: php://stderr
