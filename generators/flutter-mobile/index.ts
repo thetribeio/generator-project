@@ -25,7 +25,7 @@ class FlutterMobileGenerator extends PackageGenerator<PackageGeneratorOptions> {
         const { packagePath } = this.options;
         const applicationDisplayName = this.config.get('applicationDisplayName');
         const applicationPrefix = this.config.get('applicationPrefix');
-        const applicationName = this.config.get('projectName').replaceAll('-', '');
+        const applicationName = this.config.get('projectName').replace(/-/g, '');
         const contactEmail = this.config.get('contactEmail');
 
         this.renderTemplate(
