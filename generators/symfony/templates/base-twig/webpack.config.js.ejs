@@ -10,7 +10,7 @@ module.exports = {
     output: {
         path: `${__dirname}/public/assets/`,
         filename: '[chunkhash].js',
-        publicPath: '/assets/',
+        publicPath: '<%= httpPath %>assets/',
     },
     module: {
         strictExportPresence: true,
@@ -66,9 +66,10 @@ module.exports = {
         }),
     ],
     devServer: {
+        allowedHosts: 'all',
         static: false,
         proxy: {
-            '/': 'http://nginx',
+            '<%= httpPath %>': 'http://<%= packageName %>-nginx',
         },
     },
 };
