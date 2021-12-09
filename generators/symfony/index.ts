@@ -18,17 +18,20 @@ class SymfonyGenerator extends PackageGenerator<Options> {
     }
 
     writing(): void {
-        const { packageName, packagePath } = this.options;
+        const { packageName, packagePath, twig } = this.options;
 
         this.renderTemplate('base', packagePath);
 
-        this.renderTemplate('nginx.conf.ejs', `nginx/docker/packages/${packageName}.conf`);
+        this.renderTemplate(
+            twig ? 'nginx-twig.conf.ejs' : 'nginx.conf.ejs',
+            `nginx/docker/packages/${packageName}.conf`,
+        );
 
         this.configureDockerCompose('docker-compose.yaml.ejs');
 
         this.configureCircleCI('circleci.yaml.ejs');
 
-        if (this.options.twig) {
+        if (twig) {
             this.renderTemplate('base-twig', packagePath);
 
             this.configureDockerCompose('docker-compose-twig.yaml.ejs');
@@ -38,10 +41,10 @@ class SymfonyGenerator extends PackageGenerator<Options> {
 
         this.configureAnsible('ansible', {
             repositoryName: this.config.get('repositoryName'),
-            twig: this.options.twig,
+            twig,
         });
 
-        this.configureScripts('script', { twig: this.options.twig });
+        this.configureScripts('script', { twig });
     }
 }
 

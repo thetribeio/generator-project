@@ -1,0 +1,14 @@
+location <%= httpPath %> {
+    set $upstream "http://<%= packageName %>-node:8080";
+
+    proxy_pass $upstream;
+}
+
+location <%= httpPath %>sockjs-node {
+    set $upstream "http://<%= packageName %>-node:8080";
+
+    proxy_pass $upstream;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+}
