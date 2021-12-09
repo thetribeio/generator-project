@@ -79,6 +79,7 @@ const prompt: Question<Prompt>[] = [
                 value: MobileChoice.Flutter,
             },
         ],
+        default: MobileChoice.None,
     },
 ];
 
