@@ -59,4 +59,4 @@ To enable them, follow those steps.
       - `FCI_KEY_ALIAS` : Key alias
       - `FCI_KEY_PASSWORD` : Key password [🔐 Check **Secure**]
     - [Android deployment](https://docs.codemagic.io/yaml-publishing/distribution/#google-play)
-      - `GCLOUD_SERVICE_ACCOUNT_CREDENTIALS` : Base64 encoded `*.keystore` file [🔐 Check **Secure**]
+      - `GCLOUD_SERVICE_ACCOUNT_CREDENTIALS` : Base64 encoded `*.json` file [🔐 Check **Secure**]
