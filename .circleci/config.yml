@@ -48,25 +48,6 @@ jobs:
       - run: sudo apt install ansible
       - run: yarn test:utils
 
-  test-generators:
-    parameters:
-      node-version:
-        type: string
-    machine:
-      image: ubuntu-2004:202104-01
-    steps:
-      - run: git config --global init.defaultBranch develop
-      - node/install:
-          install-npm: false
-          install-yarn: true
-          node-version: << parameters.node-version >>
-      - terraform/install:
-          terraform_version: 1.0.8
-      - checkout
-      - attach_workspace:
-          at: .
-      - run: yarn test:generators
-
 workflows:
   version: '2'
   build:
@@ -81,9 +62,3 @@ workflows:
       - test-utils:
           requires:
             - yarn-install
-      - test-generators:
-          requires:
-            - yarn-install
-          matrix:
-            parameters:
-              node-version: [14.17.5, 16.6.2]

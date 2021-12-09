@@ -1,0 +1,23 @@
+name: test-generators
+on: [push]
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-20.04]
+        node: [14.18.2, 16.13.1]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.11
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: |
+          git config --global init.defaultBranch main
+          git config --global url."https://github.com/".insteadOf "git@github.com:"
+      - run: yarn test:generators
