@@ -36,7 +36,7 @@ describe('When running the generator with valid options', () => {
         expect(pubspec).toBeDefined();
     });
 
-    test('It generates a flutter with requested name', async () => {
+    test('It generates a flutter project with requested name', async () => {
         const pubspec = YAML.parse(await fs.promises.readFile(path.resolve(root, 'test', 'pubspec.yaml'), 'utf8'));
         expect(pubspec.name).toEqual('mygreatproject');
     });
