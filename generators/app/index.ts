@@ -87,7 +87,7 @@ class AppGenerator extends BaseGenerator {
     async prompting() {
         const { admin, backend, frontend, mobile }: Prompt = await this.promptConfig<Prompt>(prompt);
 
-        const rootGenerator = this.composeWith(require.resolve('../root'));
+        this.composeWith(require.resolve('../root'));
 
         switch (backend) {
             case BackendChoice.Express:
@@ -121,7 +121,7 @@ class AppGenerator extends BaseGenerator {
 
         switch (mobile) {
             case MobileChoice.Flutter:
-                rootGenerator.composeWith(
+                this.composeWith(
                     require.resolve('../flutter-mobile'),
                     ['mobile'],
                 );
