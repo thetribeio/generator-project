@@ -9,14 +9,11 @@
     "node": ">=14"
   },
   "dependencies": {
-    "@types/xml2js": "^0.4.9",
     "binascii": "^0.0.2",
     "crypto-random-string": "^3.3.1",
     "ejs": "^3.1.6",
-    "fast-plist": "^0.1.2",
     "ramda": "^0.27.1",
     "tslib": "^2.3.1",
-    "xml2js": "^0.4.23",
     "yaml": "^1.10.2",
     "yeoman-generator": "^5.4.2"
   },
@@ -25,6 +22,7 @@
     "@tsconfig/node14": "^1.0.1",
     "@types/jest": "^27.0.3",
     "@types/ramda": "^0.27.60",
+    "@types/xml2js": "^0.4.9",
     "@types/yeoman-generator": "^5.2.7",
     "@types/yeoman-test": "^4.0.3",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
@@ -32,10 +30,12 @@
     "eslint": "^8.4.1",
     "eslint-plugin-import": "^2.25.3",
     "execa": "^5.1.1",
+    "fast-plist": "^0.1.2",
     "glob": "^7.2.0",
     "jest": "^27.4.4",
     "ts-jest": "^27.1.1",
     "typescript": "^4.5.3",
+    "xml2js": "^0.4.23",
     "yeoman-environment": "^3.2.0",
     "yeoman-test": "^5.1.0"
   },
