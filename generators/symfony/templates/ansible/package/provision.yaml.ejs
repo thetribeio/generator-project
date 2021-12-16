@@ -20,7 +20,7 @@
     name: php_fpm_pool
   vars:
     pool: <%= packageName %>
-    version: 8.0
+    version: '{{ <%= packageName.replace('-', '_') %>_php_version }}'
     user: <%= packageName %>
     group: <%= packageName %>
     env: '{{ <%= packageName.replace('-', '_') %>_env }}'
