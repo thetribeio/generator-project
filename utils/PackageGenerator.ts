@@ -3,7 +3,8 @@ import YAML, { Options } from 'yaml';
 import { strOptions } from 'yaml/types';
 import { GeneratorOptions } from 'yeoman-generator';
 import BaseGenerator from './BaseGenerator';
-import { Config, mergeConfig } from './circleci';
+import * as CircleCI from './circleci';
+import * as Codemagic from './codemagic';
 import validateProjectPath from './validation/validatePackagePath';
 
 strOptions.fold.lineWidth = 0;
@@ -65,12 +66,28 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
         );
     }
 
+    configureCodemagic(templatePath: string, context: TemplateData = {}): void {
+        this.#extendYAML(
+            templatePath,
+            'codemagic.yaml',
+            context,
+            (oldConfig, config) => Codemagic.mergeConfig(
+                Codemagic.Config.fromRaw(oldConfig),
+                Codemagic.Config.fromRaw(config),
+            ).toRaw(),
+            { indent: 2 },
+        );
+    }
+
     configureCircleCI(templatePath: string, context: TemplateData = {}): void {
         this.#extendYAML(
             templatePath,
             '.circleci/config.yml',
             context,
-            (oldConfig, config) => mergeConfig(Config.fromRaw(oldConfig), Config.fromRaw(config)).toRaw(),
+            (oldConfig, config) => CircleCI.mergeConfig(
+                CircleCI.Config.fromRaw(oldConfig),
+                CircleCI.Config.fromRaw(config),
+            ).toRaw(),
             { indent: 2 },
         );
     }
