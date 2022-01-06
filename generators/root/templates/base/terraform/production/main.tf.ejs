@@ -26,13 +26,13 @@ provider "scaleway" {
 module "server" {
     source = "../common/server"
 
-    environment_name = "staging"
+    environment_name = "production"
 }
 
 module "database" {
     source = "../common/database"
 
-    environment_name = "staging"
+    environment_name = "production"
     allowed_ips = {
         server = module.server.ip
     }
