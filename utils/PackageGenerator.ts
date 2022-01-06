@@ -125,6 +125,13 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
         merger: (a: any, b: any) => any,
         options: Options = {},
     ): void {
+        // If the destination doesn't exists, only render the template instead of merging.
+        if (!this.existsDestination(destination)) {
+            this.renderTemplate(template, destination, this.getContext(context));
+
+            return;
+        }
+
         const config = YAML.parse(this.renderTemplateToString(template, this.getContext(context)));
 
         const oldConfig = YAML.parse(this.readDestination(destination));
