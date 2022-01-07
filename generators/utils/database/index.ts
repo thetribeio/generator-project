@@ -29,7 +29,11 @@ class DatabaseUtilGenerator extends BaseGenerator<DatabaseUtilGeneratorOptions> 
 
         this.prependTemplate('provision.yaml.ejs', `ansible/packages/${packageName}/provision.yaml`, { packageName });
 
-        if (this.existsDestination('terraform/common/database') && this.existsDestination('terraform/production')) {
+        if ([
+            'terraform/common/database/main.tf',
+            'terraform/common/database/outputs.tf',
+            'terraform/production/outputs.tf',
+        ].every(this.existsDestination.bind(this))) {
             const packageVariable = packageName.replace('-', '_');
 
             this.appendTemplate('database.tf.ejs', 'terraform/common/database/main.tf', { packageName });

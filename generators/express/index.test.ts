@@ -50,6 +50,12 @@ describe('When running the generator', () => {
         expect(all.test_env).toBeDefined();
     });
 
+    test('The database is correctly added to production config', async () => {
+        const content = await fs.promises.readFile(path.resolve(root, 'terraform/common/database/main.tf'), 'utf8');
+
+        expect(content).toContain('resource "scaleway_rdb_database" "test" {');
+    });
+
     test('It generates a project with a valid terraform config', async () => {
         const production = path.join(root, 'terraform', 'production');
         await execa('terraform', ['init', '--backend=false'], { cwd: production });
