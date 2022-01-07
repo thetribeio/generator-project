@@ -3,6 +3,7 @@ import ejs, { Data as TemplateData, Options as TemplateOptions } from 'ejs';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { CopyOptions } from 'mem-fs-editor';
 import Generator, { GeneratorOptions } from 'yeoman-generator';
+import { rootDomain, subdomain } from './domain';
 import indent from './indent';
 
 const processDestinationPath = (path: string): string => path
@@ -35,6 +36,8 @@ class BaseGenerator<T extends GeneratorOptions = GeneratorOptions> extends Gener
     getContext(context: TemplateData): TemplateData {
         return {
             indent,
+            rootDomain,
+            subdomain,
             ...context,
         };
     }
