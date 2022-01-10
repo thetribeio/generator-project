@@ -48,11 +48,18 @@ const tsConfigVersion = tsConfigPackage.versions[tsConfigPackage['dist-tags'].la
 let updated = false;
 
 // Update CircleCI config
-updated = await replace(
-    'generators/root/templates/base/.circleci/config.yml',
-    /image: circleci\/node:\d+\.\d+\.\d+/,
-    `image: circleci/node:${lastVersion}`,
-) || updated;
+for (const file of [
+    'generators/create-react-app/templates/circleci.yaml.ejs',
+    'generators/express/templates/circleci.yaml.ejs',
+    'generators/next-js/templates/circleci.yaml.ejs',
+    'generators/symfony/templates/circleci-twig.yaml.ejs',
+]) {
+    updated = await replace(
+        file,
+        /image: circleci\/node:\d+\.\d+\.\d+/,
+        `image: circleci/node:${lastVersion}`,
+    ) || updated;
+}
 
 // Update Dockerfiles
 for (const file of [

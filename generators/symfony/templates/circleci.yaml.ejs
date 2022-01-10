@@ -1,4 +1,9 @@
-version: 2.1
+version: '2.1'
+
+executors:
+  php:
+    docker:
+      - image: circleci/php:8.0.7
 
 jobs:
   <%= packageName %>-php-dependencies:
