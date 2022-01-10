@@ -71,5 +71,8 @@ module.exports = {
         proxy: {
             '<%= httpPath %>': 'http://<%= packageName %>-nginx',
         },
+        client: {
+            webSocketURL: 'auto://0.0.0.0:0<%= httpPath %>ws',
+        },
     },
 };
