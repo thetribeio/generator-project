@@ -1,0 +1,2 @@
+<%= packageName.replace('-', '_') %>_secret: !vault |
+<%= indent(encrypt(secret), 2) %>

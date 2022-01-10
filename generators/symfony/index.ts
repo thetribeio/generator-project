@@ -1,3 +1,5 @@
+import cryptoRandomString from 'crypto-random-string';
+import { createEncrypt } from '../../utils/ansible';
 import PackageGenerator, { PackageGeneratorOptions } from '../../utils/PackageGenerator';
 
 interface Options extends PackageGeneratorOptions {
@@ -40,7 +42,9 @@ class SymfonyGenerator extends PackageGenerator<Options> {
         }
 
         this.configureAnsible('ansible', {
+            encrypt: createEncrypt(this.readDestination('ansible/vault_pass.txt').trim()),
             repositoryName: this.config.get('repositoryName'),
+            secret: cryptoRandomString({ length: 64, type: 'alphanumeric' }),
             twig,
         });
 

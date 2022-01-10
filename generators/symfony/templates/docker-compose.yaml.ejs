@@ -15,6 +15,7 @@ services:
                 UID: ${uid:-1000}
         environment:
             APP_ENV: dev
+            APP_SECRET: dev_secret
             DATABASE_URL: "postgresql://user:password@postgres/<%= packagePath.replace('-', '_') %>"
         depends_on:
             - postgres
