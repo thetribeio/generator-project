@@ -4,7 +4,7 @@ location <%= httpPath %> {
     proxy_pass $upstream;
 }
 
-location <%= httpPath %>sockjs-node {
+location <%= httpPath %>ws {
     set $upstream "http://<%= packageName %>-node:8080";
 
     proxy_pass $upstream;
