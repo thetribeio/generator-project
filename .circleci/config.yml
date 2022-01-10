@@ -61,7 +61,7 @@ jobs:
           install-yarn: true
           node-version: << parameters.node-version >>
       - terraform/install:
-          terraform_version: 1.0.8
+          terraform_version: 1.1.2
       - checkout
       - attach_workspace:
           at: .
