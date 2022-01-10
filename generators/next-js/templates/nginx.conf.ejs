@@ -4,4 +4,5 @@ location <%= httpPath %> {
     rewrite <%= httpPath %>(.*) /$1 break;
 
     proxy_pass $upstream;
+    proxy_set_header Host $host;
 }
