@@ -1,15 +1,18 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
+const mode = process.env.NODE_ENV || 'development';
+const isDev = mode === 'development';
+
 module.exports = {
-    mode: process.env.NODE_ENV || 'development',
+    mode,
     entry: {
         base: './assets/base.js',
         home: './assets/home.js',
     },
     output: {
         path: `${__dirname}/public/assets/`,
-        filename: '[chunkhash].js',
+        filename: isDev ? '[name].js' : '[name].[contenthash].js',
         publicPath: '<%= httpPath %>assets/',
     },
     module: {
@@ -58,7 +61,8 @@ module.exports = {
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: '[chunkhash].css',
+            filename: isDev ? '[name].css' : '[name].[contenthash].css',
+            chunkFilename: isDev ? '[id].css' : '[id].[contenthash].css',
         }),
         new WebpackManifestPlugin({
             fileName: `${__dirname}/var/manifest.json`,
