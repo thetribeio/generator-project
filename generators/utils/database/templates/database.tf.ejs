@@ -14,10 +14,9 @@ resource "scaleway_rdb_database" "<%= packageName.replace('-', '_') %>" {
     name        = "<%= packageName.replace('-', '_') %>"
 }
 
-# This ressource needs a new release of the terraform provider to become available
-# resource "scaleway_rdb_privilege" "<%= packageName.replace('-', '_') %>" {
-#    instance_id   = scaleway_rdb_instance.database.id
-#    user_name     = scaleway_rdb_user.<%= packageName.replace('-', '_') %>.name
-#    database_name = scaleway_rdb_database.<%= packageName.replace('-', '_') %>.name
-#    permission    = "all"
-#}
+resource "scaleway_rdb_privilege" "<%= packageName.replace('-', '_') %>" {
+    instance_id   = scaleway_rdb_instance.database.id
+    user_name     = scaleway_rdb_user.<%= packageName.replace('-', '_') %>.name
+    database_name = scaleway_rdb_database.<%= packageName.replace('-', '_') %>.name
+    permission    = "all"
+}
