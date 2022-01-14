@@ -11,7 +11,7 @@
     path: /home/<%= packageName %>
     artifact_path: <%= packageName %>.tar.gz
     before_finalize:
-      - ./bin/console doctrine:migrations:migrate --no-interaction
+      - ./bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
     job_name: <%= packageName %>-build
     repository_name: <%= repositoryName %>
   environment: '{{ <%= packageName.replace('-', '_') %>_env }}'
