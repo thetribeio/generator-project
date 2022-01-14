@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bd23d035dd294365ace57805c8ec238e",
+    "content-hash": "8bd737185dc9d66c88eaa2a684bdf871",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -7827,22 +7827,22 @@
         },
         {
             "name": "phpstan/phpstan-symfony",
-            "version": "1.0.6",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-symfony.git",
-                "reference": "d31922ca4bab5684d53dc749d5742f0b455c0149"
+                "reference": "d779d1a5a1678827e56010b47dedf790a0a4baad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/d31922ca4bab5684d53dc749d5742f0b455c0149",
-                "reference": "d31922ca4bab5684d53dc749d5742f0b455c0149",
+                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/d779d1a5a1678827e56010b47dedf790a0a4baad",
+                "reference": "d779d1a5a1678827e56010b47dedf790a0a4baad",
                 "shasum": ""
             },
             "require": {
                 "ext-simplexml": "*",
                 "php": "^7.1 || ^8.0",
-                "phpstan/phpstan": "^1.0"
+                "phpstan/phpstan": "^1.4"
             },
             "conflict": {
                 "symfony/framework-bundle": "<3.0"
@@ -7892,9 +7892,9 @@
             "description": "Symfony Framework extensions and rules for PHPStan",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-symfony/issues",
-                "source": "https://github.com/phpstan/phpstan-symfony/tree/1.0.6"
+                "source": "https://github.com/phpstan/phpstan-symfony/tree/1.1.0"
             },
-            "time": "2022-01-08T20:21:36+00:00"
+            "time": "2022-01-10T16:07:09+00:00"
         },
         {
             "name": "symfony/browser-kit",
