@@ -2,7 +2,7 @@
 - import_role:
     name: build
   vars:
-    job_name: <%= packageName %>-archive
+    job_name: <%= packageName %>-build
     repository_name: <%= repositoryName %>
   delegate_to: localhost
 - import_role:
@@ -11,7 +11,7 @@
     path: /home/<%= packageName %>
     artifact_path: <%= packageName %>.tar.gz
     before_finalize:
-      - ./bin/console doctrine:migrations:migrate --no-interaction
-    job_name: <%= packageName %>-archive
+      - ./bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+    job_name: <%= packageName %>-build
     repository_name: <%= repositoryName %>
   environment: '{{ <%= packageName.replace('-', '_') %>_env }}'

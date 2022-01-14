@@ -45,7 +45,7 @@ jobs:
       - run:
           command: yarn build
           environment:
-            DISABLE_ESLINT_PLUGIN: true
+            DISABLE_ESLINT_PLUGIN: 'true'
             NODE_ENV: production
       - persist_to_workspace:
           root: ~/project

@@ -9,5 +9,5 @@ services:
         command: yarn start
         depends_on:
             - <%= packageName %>-nginx
-        volumes_from:
-            - <%= packageName %>-php
+        volumes:
+            - ./<%= packagePath %>:/usr/src/project/<%= packagePath %>
