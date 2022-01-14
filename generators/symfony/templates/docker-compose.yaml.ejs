@@ -5,8 +5,8 @@ services:
         build: <%= packagePath %>/docker/nginx
         depends_on:
             - <%= packageName %>-php
-        volumes_from:
-            - <%= packageName %>-php
+        volumes:
+            - ./<%= packagePath %>/public:/usr/src/project/<%= packagePath %>/public
 
     <%= packageName %>-php:
         build:
