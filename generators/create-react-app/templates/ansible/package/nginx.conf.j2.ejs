@@ -1,7 +1,7 @@
 location <%= httpPath %> {
-    root /home/<%= packageName %>/current/build;
+    alias /home/<%= packageName %>/current/build/;
 
-    try_files $uri /index.html;
+    try_files $uri <%= httpPath %>index.html;
 
     add_header cache-control "no-store";
 
