@@ -10,7 +10,7 @@
     "autoprefixer": "^10.4.2",
     "babel-loader": "^8.2.3",
     "css-loader": "^6.5.1",
-    "eslint": "^8.6.0",
+    "eslint": "^8.7.0",
     "eslint-plugin-import": "^2.25.4",
     "file-loader": "^6.2.0",
     "mini-css-extract-plugin": "^2.4.7",
