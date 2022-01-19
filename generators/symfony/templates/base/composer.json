@@ -15,7 +15,7 @@
         "sentry/sentry-symfony": "^4.2.6",
         "symfony/console": "^5.4.2",
         "symfony/expression-language": "^5.4.0",
-        "symfony/flex": "^2.0.1",
+        "symfony/flex": "^2.1.1",
         "symfony/framework-bundle": "^5.4.2",
         "symfony/http-client": "^5.4.2",
         "symfony/intl": "^5.4.2",
