@@ -3,3 +3,7 @@
 branch: develop
 domain: <%= domain %>
 environment_name: staging
+basic_auth:
+  user: <%= projectName %>
+  password: !vault |
+<%= indent(encrypt(basicAuthPassword), 4) %>
