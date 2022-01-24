@@ -18,6 +18,8 @@
       vars:
         email: '{{ contact_email }}'
         site: <%= projectName %>
+        basic_auth_user: '{{ basic_auth is defined|ternary(basic_auth.user, omit) }}'
+        basic_auth_password: '{{ basic_auth is defined|ternary(basic_auth.password, omit) }}'
         config: |
           {% if environment_name != 'production' %}
             add_header X-Robots-Tag "noindex, nofollow, noarchive, nosnippet";

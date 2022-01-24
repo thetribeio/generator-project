@@ -1,4 +1,5 @@
 import cryptoRandomString from 'crypto-random-string';
+import { createEncrypt } from '../../utils/ansible';
 import BaseGenerator from '../../utils/BaseGenerator';
 import { validateEmail, validateProjectName } from '../../utils/validation';
 
@@ -41,17 +42,19 @@ class RootGenerator extends BaseGenerator {
     }
 
     writing(): void {
-        this.renderTemplate('base', '.', {
-            contactEmail: this.config.get('contactEmail'),
-            domain: this.config.get('domain'),
-            projectName: this.config.get('projectName'),
-        });
-
         if (!this.existsDestination('ansible/vault_pass.txt')) {
             const vaultPass = cryptoRandomString({ length: 64, type: 'ascii-printable' });
 
             this.writeDestination('ansible/vault_pass.txt', `${vaultPass}\n`);
         }
+
+        this.renderTemplate('base', '.', {
+            basicAuthPassword: cryptoRandomString({ length: 16, type: 'ascii-printable' }),
+            contactEmail: this.config.get('contactEmail'),
+            domain: this.config.get('domain'),
+            encrypt: createEncrypt(this.readDestination('ansible/vault_pass.txt').trim()),
+            projectName: this.config.get('projectName'),
+        });
     }
 
     async install(): Promise<void> {
