@@ -1,0 +1,33 @@
+from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
+
+from fastapi import Depends
+from fastapi.encoders import jsonable_encoder
+from sqlalchemy.orm import Session
+from uuid import uuid4
+
+from <%= packageName %>.db.base_model import BaseModel
+
+
+ModelType = TypeVar("ModelType", bound=BaseModel)
+
+
+class CRUDBase(Generic[ModelType]):
+
+    def __init__(self, model: Type[ModelType]):
+        """
+        CRUD object with default methods to Create, Read
+        **Parameters**
+        * `model`: A SQLAlchemy model class
+        """
+        self.model = model
+
+    def get(self, id: Any, db: Session) -> Optional[ModelType]:
+        return db.query(self.model).filter(self.model.id == id).first()
+
+    def create(self, obj: Any, db: Session) -> ModelType:
+        db_obj = self.model(**obj, id=uuid4())
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+
+        return db_obj

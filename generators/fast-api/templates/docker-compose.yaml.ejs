@@ -1,0 +1,8 @@
+services:
+    <%= packageName %>:
+        build:
+            context: <%= packagePath %>/
+            volumes:
+            - ./src:/opt/pysetup
+        environment:
+            DATABASE_URL: "postgresql+psycopg2://user:password@postgres:5432/<%= packageName %>"
