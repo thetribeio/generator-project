@@ -34,10 +34,17 @@ class BaseGenerator<T extends GeneratorOptions = GeneratorOptions> extends Gener
     }
 
     getContext(context: TemplateData): TemplateData {
+        const projectName = this.config.get('projectName');
+
         return {
+            // Utility functions
             indent,
             rootDomain,
             subdomain,
+
+            // Common variables
+            projectName,
+
             ...context,
         };
     }

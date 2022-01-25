@@ -45,7 +45,6 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
             httpPath: this.options['http-path'],
             packageName: this.options.packageName,
             packagePath: this.options.packagePath,
-            projectName: this.config.get('projectName'),
             ...context,
         });
     }

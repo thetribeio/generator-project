@@ -3,11 +3,22 @@ import { createEncrypt } from '../../utils/ansible';
 import BaseGenerator from '../../utils/BaseGenerator';
 import { validateEmail, validateProjectName } from '../../utils/validation';
 
-interface Prompt {
+enum DeploymentChoice {
+    Ansible = 'ansible',
+    Kubernetes = 'kubernetes',
+}
+
+type Prompt = {
     projectName: string,
     repositoryName: string,
     domain: string,
+    deployment: DeploymentChoice.Ansible,
     contactEmail: string,
+} | {
+    projectName: string,
+    repositoryName: string,
+    domain: string,
+    deployment: DeploymentChoice.Kubernetes,
 }
 
 class RootGenerator extends BaseGenerator {
@@ -33,28 +44,55 @@ class RootGenerator extends BaseGenerator {
                 default: ({ projectName }: Prompt) => `${projectName}.thestaging.io`,
             },
             {
+                type: 'list',
+                name: 'deployment',
+                message: 'Mode de déploiement',
+                choices: [
+                    {
+                        name: 'Ansible',
+                        value: DeploymentChoice.Ansible,
+                    },
+                    {
+                        name: 'Kubernetes',
+                        value: DeploymentChoice.Kubernetes,
+                    },
+                ],
+                default: DeploymentChoice.Ansible,
+            },
+            {
                 type: 'input',
                 name: 'contactEmail',
                 message: 'Contact email',
                 validate: validateEmail,
+                when: ({ deployment }: Prompt) => deployment === DeploymentChoice.Ansible,
             },
         ]);
     }
 
     writing(): void {
-        if (!this.existsDestination('ansible/vault_pass.txt')) {
-            const vaultPass = cryptoRandomString({ length: 64, type: 'ascii-printable' });
+        this.renderTemplate('base', '.');
 
-            this.writeDestination('ansible/vault_pass.txt', `${vaultPass}\n`);
+        switch (this.config.get('deployment')) {
+            case DeploymentChoice.Ansible:
+                if (!this.existsDestination('ansible/vault_pass.txt')) {
+                    const vaultPass = cryptoRandomString({ length: 64, type: 'ascii-printable' });
+
+                    this.writeDestination('ansible/vault_pass.txt', `${vaultPass}\n`);
+                }
+
+                this.renderTemplate('deployment/ansible', '.', {
+                    basicAuthPassword: cryptoRandomString({ length: 16, type: 'ascii-printable' }),
+                    contactEmail: this.config.get('contactEmail'),
+                    domain: this.config.get('domain'),
+                    encrypt: createEncrypt(this.readDestination('ansible/vault_pass.txt').trim()),
+                });
+                break;
+            case DeploymentChoice.Kubernetes:
+                this.renderTemplate('deployment/kubernetes', '.', {
+                    domain: this.config.get('domain'),
+                });
+                break;
         }
-
-        this.renderTemplate('base', '.', {
-            basicAuthPassword: cryptoRandomString({ length: 16, type: 'ascii-printable' }),
-            contactEmail: this.config.get('contactEmail'),
-            domain: this.config.get('domain'),
-            encrypt: createEncrypt(this.readDestination('ansible/vault_pass.txt').trim()),
-            projectName: this.config.get('projectName'),
-        });
     }
 
     async install(): Promise<void> {
@@ -75,17 +113,19 @@ class RootGenerator extends BaseGenerator {
             );
         }
 
-        await this.spawnCommand(
-            'git',
-            [
-                'update-index',
-                '--add',
-                '--cacheinfo',
-                '160000',
-                '4d1ffdcd4bc254bcc61fd85fc176d07b64d2d464',
-                'ansible/roles-lib',
-            ],
-        );
+        if (this.config.get('deployment') === DeploymentChoice.Ansible) {
+            await this.spawnCommand(
+                'git',
+                [
+                    'update-index',
+                    '--add',
+                    '--cacheinfo',
+                    '160000',
+                    '4d1ffdcd4bc254bcc61fd85fc176d07b64d2d464',
+                    'ansible/roles-lib',
+                ],
+            );
+        }
     }
 
     /**
@@ -97,4 +137,5 @@ class RootGenerator extends BaseGenerator {
     }
 }
 
+export { DeploymentChoice };
 export default RootGenerator;

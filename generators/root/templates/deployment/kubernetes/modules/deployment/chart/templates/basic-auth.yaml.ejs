@@ -1,0 +1,9 @@
+{{ if .Values.basic_auth_password }}
+apiVersion: v1
+data:
+  auth: {{ htpasswd "<%= projectName %>" .Values.basic_auth_password }}
+kind: Secret
+metadata:
+  name: {{ include "<%= projectName %>.fullname" . }}-basic-auth
+type: Opaque
+{{ end }}

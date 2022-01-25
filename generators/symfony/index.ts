@@ -1,6 +1,7 @@
 import cryptoRandomString from 'crypto-random-string';
 import { createEncrypt } from '../../utils/ansible';
 import PackageGenerator, { PackageGeneratorOptions } from '../../utils/PackageGenerator';
+import { DeploymentChoice } from '../root';
 
 interface Options extends PackageGeneratorOptions {
     twig: boolean;
@@ -41,12 +42,18 @@ class SymfonyGenerator extends PackageGenerator<Options> {
             this.configureCircleCI('circleci-twig.yaml.ejs');
         }
 
-        this.configureAnsible('ansible', {
-            encrypt: createEncrypt(this.readDestination('ansible/vault_pass.txt').trim()),
-            repositoryName: this.config.get('repositoryName'),
-            secret: cryptoRandomString({ length: 64, type: 'alphanumeric' }),
-            twig,
-        });
+        switch (this.config.get('deployment')) {
+            case DeploymentChoice.Ansible:
+                this.configureAnsible('ansible', {
+                    encrypt: createEncrypt(this.readDestination('ansible/vault_pass.txt').trim()),
+                    repositoryName: this.config.get('repositoryName'),
+                    secret: cryptoRandomString({ length: 64, type: 'alphanumeric' }),
+                    twig,
+                });
+                break;
+            case DeploymentChoice.Kubernetes:
+                throw new Error('The symfony generator is not yet compatible with kubernetes deployment');
+        }
 
         this.configureScripts('script', { twig });
     }
