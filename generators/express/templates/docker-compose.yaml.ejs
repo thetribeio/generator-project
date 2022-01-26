@@ -8,4 +8,4 @@ services:
             - ./<%= packagePath %>:/usr/src/project/<%= packagePath %>
         environment:
             COOKIE_SECRET: development-secret
-            DATABASE_URL: "postgresql://user:password@postgres/<%= packagePath.replace('-', '_') %>"
+            DATABASE_URL: "postgresql://user:password@postgres/<%= varify(packageName) %>"

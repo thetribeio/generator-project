@@ -1,2 +1,2 @@
-<%= packageName.replace('-', '_') %>_secret: !vault |
+<%= varify(packageName) %>_secret: !vault |
 <%= indent(encrypt(secret), 2) %>

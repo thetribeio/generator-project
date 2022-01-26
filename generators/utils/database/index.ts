@@ -2,6 +2,7 @@ import cryptoRandomString from 'crypto-random-string';
 import { GeneratorOptions } from 'yeoman-generator';
 import { createEncrypt } from '../../../utils/ansible';
 import BaseGenerator from '../../../utils/BaseGenerator';
+import varify from '../../../utils/varify';
 
 interface DatabaseUtilGeneratorOptions extends GeneratorOptions {
     packageName: string;
@@ -34,15 +35,13 @@ class DatabaseUtilGenerator extends BaseGenerator<DatabaseUtilGeneratorOptions> 
             'terraform/common/database/outputs.tf',
             'terraform/production/outputs.tf',
         ].every(this.existsDestination.bind(this))) {
-            const packageVariable = packageName.replace('-', '_');
-
             this.appendTemplate('database.tf.ejs', 'terraform/common/database/main.tf', { packageName });
             this.appendTemplate('outputs.tf.ejs', 'terraform/common/database/outputs.tf', { packageName });
             this.writeDestination(
                 'terraform/production/outputs.tf',
                 this.readDestination('terraform/production/outputs.tf').replace(
                     /(output "vars" {\n {4}value = {.*?)(\n {4}})/s,
-                    `$1\n        database_${packageVariable}_password = module.database.${packageVariable}_password$2`,
+                    `$1\n        database_${varify(packageName)}_password = module.database.${varify(packageName)}_password$2`,
                 ),
             );
         } else {

@@ -1,22 +1,22 @@
 
-resource "random_password" "<%= packageName.replace('-', '_') %>" {
+resource "random_password" "<%= varify(packageName) %>" {
     length = 32
 }
 
-resource "scaleway_rdb_user" "<%= packageName.replace('-', '_') %>" {
+resource "scaleway_rdb_user" "<%= varify(packageName) %>" {
     instance_id = scaleway_rdb_instance.database.id
-    name        = "<%= packageName.replace('-', '_') %>"
-    password    = random_password.<%= packageName.replace('-', '_') %>.result
+    name        = "<%= varify(packageName) %>"
+    password    = random_password.<%= varify(packageName) %>.result
 }
 
-resource "scaleway_rdb_database" "<%= packageName.replace('-', '_') %>" {
+resource "scaleway_rdb_database" "<%= varify(packageName) %>" {
     instance_id = scaleway_rdb_instance.database.id
-    name        = "<%= packageName.replace('-', '_') %>"
+    name        = "<%= varify(packageName) %>"
 }
 
-resource "scaleway_rdb_privilege" "<%= packageName.replace('-', '_') %>" {
+resource "scaleway_rdb_privilege" "<%= varify(packageName) %>" {
     instance_id   = scaleway_rdb_instance.database.id
-    user_name     = scaleway_rdb_user.<%= packageName.replace('-', '_') %>.name
-    database_name = scaleway_rdb_database.<%= packageName.replace('-', '_') %>.name
+    user_name     = scaleway_rdb_user.<%= varify(packageName) %>.name
+    database_name = scaleway_rdb_database.<%= varify(packageName) %>.name
     permission    = "all"
 }
