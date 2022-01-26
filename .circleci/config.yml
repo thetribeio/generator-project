@@ -41,18 +41,19 @@ jobs:
       - run: yarn build
 
   test-utils:
-    executor: node
+    parameters:
+      node-version:
+        type: string
+    docker:
+      - image: circleci/node:<< parameters.node-version >>
     steps:
       - checkout
       - attach_workspace:
           at: .
-      - run: sudo apt install ansible
+      - run: sudo apt update && sudo apt install ansible
       - run: yarn test:utils
 
   test-generators:
-    parameters:
-      node-version:
-        type: string
     machine:
       image: ubuntu-2004:202104-01
     steps:
@@ -60,7 +61,7 @@ jobs:
       - node/install:
           install-npm: false
           install-yarn: true
-          node-version: << parameters.node-version >>
+          node-version: 14.17.5
       - terraform/install:
           terraform_version: 1.1.2
       - checkout
@@ -84,9 +85,9 @@ workflows:
       - test-utils:
           requires:
             - yarn-install
-      - test-generators:
-          requires:
-            - yarn-install
           matrix:
             parameters:
               node-version: [14.17.5, 16.6.2]
+      - test-generators:
+          requires:
+            - yarn-install
