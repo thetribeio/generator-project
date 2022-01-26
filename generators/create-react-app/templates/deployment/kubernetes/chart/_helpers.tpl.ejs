@@ -1,0 +1,8 @@
+{{- define "<%= projectName %>.<%= packageName %>.image" }}
+{{- .Values.registry }}/<%= projectName %>-<%= packageName %>
+{{- if .Values.<%= varify(packageName) %>.image.digest -}}
+@{{ .Values.<%= varify(packageName) %>.image.digest }}
+{{- else -}}
+:{{ .Values.<%= varify(packageName) %>.image.tag }}
+{{- end -}}
+{{- end }}

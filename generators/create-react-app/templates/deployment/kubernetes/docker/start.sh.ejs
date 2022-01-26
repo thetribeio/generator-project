@@ -1,0 +1,10 @@
+#! /bin/sh
+
+set -e
+
+sed \
+    --in-place \
+    --expression "s#<div id=\"app\"[^>]*>#<div id=\"app\" data-environment-name=\"$ENVIRONMENT_NAME\" data-sentry-dsn=\"$SENTRY_DSN\">#g" \
+    /srv/<%= packageName %>/index.html
+
+exec nginx -g 'daemon off;'

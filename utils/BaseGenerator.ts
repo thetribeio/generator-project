@@ -35,8 +35,6 @@ class BaseGenerator<T extends GeneratorOptions = GeneratorOptions> extends Gener
     }
 
     getContext(context: TemplateData): TemplateData {
-        const projectName = this.config.get('projectName');
-
         return {
             // Utility functions
             indent,
@@ -45,7 +43,8 @@ class BaseGenerator<T extends GeneratorOptions = GeneratorOptions> extends Gener
             varify,
 
             // Common variables
-            projectName,
+            deployment: this.config.get('deployment'),
+            projectName: this.config.get('projectName'),
 
             ...context,
         };
@@ -85,6 +84,38 @@ class BaseGenerator<T extends GeneratorOptions = GeneratorOptions> extends Gener
         const destinationPath = this.destinationPath(destination);
 
         this.fs.write(destinationPath, this.renderTemplateToString(source, context) + this.fs.read(destinationPath));
+    }
+
+    replaceDestination(path: string, searchValue: RegExp, replaceValue: string): void {
+        this.writeDestination(path, this.readDestination(path).replace(searchValue, replaceValue));
+    }
+
+    /**
+     * Add a terraform variable to the deployment module and its value to for the staging environment.
+     */
+    writeTerraformVariable(name: string, type: string, value: string): void {
+        this.replaceDestination(
+            'modules/deployment/variables.tf',
+            /$/s,
+            `\nvariable "${name}" {\n    type = ${type}\n}\n`,
+        );
+
+        this.replaceDestination(
+            'environments/staging/main.tf',
+            /module "deployment" {\n(.*?)\n}/s,
+            `module "deployment" {\n$1\n    ${name} = ${value}\n}`,
+        );
+    }
+
+    /**
+     * Add a helm release variable to the terraform config.
+     */
+    writeReleaseVariable(name: string, value: string): void {
+        this.replaceDestination(
+            'modules/deployment/release.tf',
+            /(resource "helm_release" "main" {\n.*?)(\n})/s,
+            `$1\n\n    set {\n        name  = "${name}"\n        value = ${value}\n    }$2`,
+        );
     }
 }
 
