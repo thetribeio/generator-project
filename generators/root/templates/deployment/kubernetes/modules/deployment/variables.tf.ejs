@@ -1,0 +1,44 @@
+variable "environment_name" {
+    type     = string
+    nullable = false
+}
+
+variable "host" {
+    type     = string
+    nullable = false
+}
+
+variable "certificate" {
+    type        = string
+    nullable    = true
+    default     = null
+    description = "Allow to pass a specific certificate instead of requesting one to cert-manager"
+}
+
+variable "rdb_name" {
+    type     = string
+    nullable = false
+}
+
+variable "release_name" {
+    type     = string
+    nullable = false
+    default  = "<%= projectName %>"
+}
+
+variable "release_namespace" {
+    type     = string
+    nullable = false
+    default  = "default"
+}
+
+variable "registry" {
+    type     = string
+    nullable = false
+}
+
+variable "basic_auth" {
+    type     = bool
+    nullable = false
+    default  = false
+}

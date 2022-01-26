@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import execa from 'execa';
 import YAML from 'yaml';
 import helpers from 'yeoman-test';
 
@@ -38,5 +39,33 @@ describe('When running the generator', () => {
         const vars = YAML.parse(content, { customTags: [regexp] });
 
         expect(vars.basic_auth).toBeDefined();
+    });
+});
+
+describe('When running the generator with kubernetes deployment', () => {
+    let root: string;
+
+    beforeAll(async () => {
+        const result = await helpers.run(__dirname)
+            .withPrompts({ contactEmail: 'test@example.com', deployment: 'kubernetes' });
+
+        root = result.cwd;
+    });
+
+    afterAll(async () => {
+        await fs.promises.rm(root, { recursive: true });
+    });
+
+    test('It generates a valid terraform configuration', async () => {
+        const cwd = path.join(root, 'environments', 'staging');
+
+        await execa('terraform', ['init', '--backend=false'], { cwd });
+        await execa('terraform', ['validate'], { cwd });
+    });
+
+    test('It generates a valid helm chart', async () => {
+        const cwd = path.join(root, 'modules', 'deployment', 'chart');
+
+        await execa('helm', ['lint'], { cwd });
     });
 });

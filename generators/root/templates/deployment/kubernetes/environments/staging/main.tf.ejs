@@ -1,0 +1,69 @@
+terraform {
+    required_providers {
+        docker = {
+            source = "kreuzwerker/docker"
+        }
+        helm = {
+            source = "hashicorp/helm"
+        }
+        random = {
+            source = "hashicorp/random"
+        }
+        scaleway = {
+            source = "scaleway/scaleway"
+        }
+    }
+
+    backend "s3" {
+        bucket                      = "" # TODO: add bucket
+        key                         = "<%= projectName %>-staging.tfstate"
+        region                      = "fr-par"
+        endpoint                    = "https://s3.fr-par.scw.cloud"
+        skip_credentials_validation = true
+        skip_region_validation      = true
+    }
+}
+
+data "kubernetes_secret" "registry" {
+    metadata {
+        name = "registry-secret"
+    }
+}
+
+provider "docker" {
+    registry_auth {
+        address             = "rg.fr-par.scw.cloud"
+        config_file_content = data.kubernetes_secret.registry.data[".dockerconfigjson"]
+    }
+}
+
+provider "helm" {
+    kubernetes {
+        config_path    = "~/.kube/config"
+        config_context = "admin@staging"
+    }
+}
+
+provider "scaleway" {
+    zone       = "fr-par-1"
+    region     = "fr-par"
+    access_key = var.scw_access_key
+    secret_key = var.scw_secret_key
+    project_id = "00000000-0000-0000-0000-000000000000" # TODO add project id
+}
+
+module "deployment" {
+    source = "../../modules/deployment"
+
+    environment_name = "staging"
+<% if (rootDomain(domain) === 'thestaging.io') { %>
+    host        = "<%= domain %>"
+    certificate = "wildcard-cert"
+    basic_auth  = true
+<% } else { %>
+    host       = "<%= domain %>"
+    basic_auth = true
+<% } %>
+    rdb_name = "staging"
+    registry = "rg.fr-par.scw.cloud/thetribe-staging"
+}

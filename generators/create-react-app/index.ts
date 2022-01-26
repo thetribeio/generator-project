@@ -1,4 +1,5 @@
 import PackageGenerator from '../../utils/PackageGenerator';
+import { DeploymentChoice } from '../root';
 
 class CreateReactAppGenerator extends PackageGenerator {
     writing(): void {
@@ -12,9 +13,15 @@ class CreateReactAppGenerator extends PackageGenerator {
 
         this.configureCircleCI('circleci.yaml.ejs');
 
-        this.configureAnsible('ansible', {
-            repositoryName: this.config.get('repositoryName'),
-        });
+        switch (this.config.get('deployment')) {
+            case DeploymentChoice.Ansible:
+                this.configureAnsible('ansible', {
+                    repositoryName: this.config.get('repositoryName'),
+                });
+                break;
+            case DeploymentChoice.Kubernetes:
+                throw new Error('The create react app generator is not yet compatible with kubernetes deployment');
+        }
 
         this.configureScripts('script');
     }
