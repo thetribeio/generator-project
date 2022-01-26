@@ -16,7 +16,7 @@ services:
         environment:
             APP_ENV: dev
             APP_SECRET: dev_secret
-            DATABASE_URL: "postgresql://user:password@postgres/<%= packagePath.replace('-', '_') %>"
+            DATABASE_URL: "postgresql://user:password@postgres/<%= varify(packagePath) %>"
         depends_on:
             - postgres
         volumes:

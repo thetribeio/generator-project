@@ -1,4 +1,4 @@
 
-output "<%= packageName.replace('-', '_') %>_password" {
-    value = random_password.<%= packageName.replace('-', '_') %>.result
+output "<%= varify(packageName) %>_password" {
+    value = random_password.<%= varify(packageName) %>.result
 }

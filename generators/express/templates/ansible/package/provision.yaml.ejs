@@ -28,4 +28,4 @@
     service: <%= packageName %>
     user: <%= packageName %>
     group: <%= packageName %>
-    env: '{{ <%= packageName.replace('-', '_') %>_env }}'
+    env: '{{ <%= varify(packageName) %>_env }}'

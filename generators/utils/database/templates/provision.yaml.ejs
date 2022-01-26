@@ -2,9 +2,9 @@
     name: postgresql
   vars:
     dbs:
-      <%= packageName.replace('-', '_') %>:
-        owner: <%= packageName.replace('-', '_') %>
+      <%= varify(packageName) %>:
+        owner: <%= varify(packageName) %>
     users:
-      <%= packageName.replace('-', '_') %>:
-        password: '{{ database_<%= packageName.replace('-', '_') %>_password }}'
+      <%= varify(packageName) %>:
+        password: '{{ database_<%= varify(packageName) %>_password }}'
   when: database_host == "localhost"

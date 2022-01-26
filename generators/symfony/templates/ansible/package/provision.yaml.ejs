@@ -20,10 +20,10 @@
     name: php_fpm_pool
   vars:
     pool: <%= packageName %>
-    version: '{{ <%= packageName.replace('-', '_') %>_php_version }}'
+    version: '{{ <%= varify(packageName) %>_php_version }}'
     user: <%= packageName %>
     group: <%= packageName %>
-    env: '{{ <%= packageName.replace('-', '_') %>_env }}'
+    env: '{{ <%= varify(packageName) %>_env }}'
     extensions:
       - intl
       - mbstring

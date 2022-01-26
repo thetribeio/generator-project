@@ -14,4 +14,4 @@
       - ./bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
     job_name: <%= packageName %>-build
     repository_name: <%= repositoryName %>
-  environment: '{{ <%= packageName.replace('-', '_') %>_env }}'
+  environment: '{{ <%= varify(packageName) %>_env }}'

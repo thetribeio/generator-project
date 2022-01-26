@@ -24,9 +24,9 @@
     name: service
   vars:
     working_directory: /home/<%= packageName %>/current
-    command: /home/<%= packageName %>/current/node_modules/.bin/next start --port {{ <%= packageName.replace('-', '_') %>_port }}
+    command: /home/<%= packageName %>/current/node_modules/.bin/next start --port {{ <%= varify(packageName) %>_port }}
     description: <%= packageName %>
     service: <%= packageName %>
     user: <%= packageName %>
     group: <%= packageName %>
-    env: '{{ <%= packageName.replace('-', '_') %>_env }}'
+    env: '{{ <%= varify(packageName) %>_env }}'
