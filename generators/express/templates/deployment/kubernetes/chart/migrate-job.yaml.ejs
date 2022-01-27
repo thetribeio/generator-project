@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "<%= projectName %>.fullname" . }}-<%= packageName %>-migrate
+  labels:
+    app.kubernetes.io/component: <%= packageName %>
+    {{- include "<%= projectName %>.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+spec:
+  template:
+    metadata:
+      annotations:
+        checksum/database-secret: {{ include (print $.Template.BasePath "/<%= packageName %>-database-secret.yaml") . | sha256sum }}
+    spec:
+      containers:
+        - name: node
+          image: {{ include "<%= projectName %>.<%= packageName %>.image" . }}
+          command:
+            - typeorm
+            - migration:run
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "<%= projectName %>.fullname" . }}-<%= packageName %>-database
+                  key: url
+            - name: ENVIRONMENT_NAME
+              value: {{ .Values.environment_name }}
+            - name: SENTRY_DSN
+              value: {{ .Values.<%= varify(packageName) %>.sentry.dsn }}
+      restartPolicy: Never
+      imagePullSecrets:
+        - name: registry-secret

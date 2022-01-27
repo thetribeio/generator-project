@@ -67,6 +67,38 @@ describe('When running the generator', () => {
     });
 });
 
+describe('When running the generator with kubernetes deployment', () => {
+    let root: string;
+
+    beforeAll(async () => {
+        const result = await helpers.run(path.resolve(__dirname, '../root'))
+            .withPrompts({ deployment: 'kubernetes' });
+
+        root = result.cwd;
+
+        await helpers.run(__dirname)
+            .cd(root)
+            .withArguments(['test']);
+    });
+
+    afterAll(async () => {
+        await fs.promises.rm(root, { recursive: true });
+    });
+
+    test('It generates a valid terraform config', async () => {
+        const cwd = path.join(root, 'environments', 'staging');
+
+        await execa('terraform', ['init', '--backend=false'], { cwd });
+        await execa('terraform', ['validate'], { cwd });
+    });
+
+    test('It generates a valid helm chart', async () => {
+        const cwd = path.join(root, 'modules', 'deployment', 'chart');
+
+        await execa('helm', ['lint'], { cwd });
+    });
+});
+
 describe('When running the generator with the path option', () => {
     let root: string;
 
