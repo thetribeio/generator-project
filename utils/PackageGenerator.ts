@@ -1,3 +1,4 @@
+import fs from 'fs';
 import { Data as TemplateData } from 'ejs';
 import YAML, { Options } from 'yaml';
 import { strOptions } from 'yaml/types';
@@ -104,6 +105,24 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
             this.renderTemplate(
                 `${templatePath}/package/${file}.ejs`,
                 `ansible/packages/${packageName}/${file}`,
+                context,
+            );
+        }
+    }
+
+    configureChart(templatePath: string, context: TemplateData = {}): void {
+        const { packageName } = this.options;
+
+        for (const file of fs.readdirSync(this.templatePath(templatePath))) {
+            const fileName = file.replace(/\.ejs$/, '');
+
+            const destinationName = fileName.startsWith('_')
+                ? `_${packageName}-${fileName.substring(1)}`
+                : `${packageName}-${fileName}`;
+
+            this.renderTemplate(
+                `${templatePath}/${file}`,
+                `modules/deployment/chart/templates/${destinationName}`,
                 context,
             );
         }
