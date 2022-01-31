@@ -163,22 +163,22 @@ workflows:
                 - main
 <% } %>
 <% if (deployment === 'kubernetes') { %>
-  - <%= packageName %>-build-and-push:
-      context:
-        - docker-registry
-      requires:
-        - <%= packageName %>-test
-      filters:
-        branches:
-          only:
-            - develop
-            - main
-  - <%= packageName %>-build:
-      requires:
-        - <%= packageName %>-test
-      filters:
-        branches:
-          ignore:
-            - develop
-            - main
+      - <%= packageName %>-build-and-push:
+          context:
+            - docker-registry
+          requires:
+            - <%= packageName %>-test
+          filters:
+            branches:
+              only:
+                - develop
+                - main
+      - <%= packageName %>-build:
+          requires:
+            - <%= packageName %>-test
+          filters:
+            branches:
+              ignore:
+                - develop
+                - main
 <% } %>
