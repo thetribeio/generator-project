@@ -3,11 +3,14 @@ import express, { RequestHandler } from 'express';
 import session from 'express-session';
 import auth from './auth';
 import authRouter from './routes/auth';
+import healthRouter from './routes/health';
 import usersRouter from './routes/users';
 
 const app = express();
 
 app.use(Sentry.Handlers.requestHandler());
+
+app.use('/health', healthRouter);
 
 // Parse request
 app.use(express.json());
