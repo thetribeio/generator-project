@@ -1,6 +1,9 @@
 version: '2.1'
 
 orbs:
+<% if (deployment === 'kubernetes') { %>
+  docker: circleci/docker@2.0.1
+<% } %>
   node: circleci/node@4.5.1
 
 executors:
@@ -44,6 +47,7 @@ jobs:
       - run:
           command: yarn test
 
+<% if (deployment === 'ansible') { %>
   <%= packageName %>-build:
     executor: node
     working_directory: ~/project/<%= packagePath %>
@@ -97,6 +101,38 @@ jobs:
       - run: sentry-cli releases new <%= projectName %>-<%= packageName %>@${CIRCLE_SHA1}
       - run: sentry-cli releases files <%= projectName %>-<%= packageName %>@${CIRCLE_SHA1} upload-sourcemaps <%= packagePath %>/dist
       - run: sentry-cli releases finalize <%= projectName %>-<%= packageName %>@${CIRCLE_SHA1}
+<% } %>
+<% if (deployment === 'kubernetes') { %>
+  <%= packageName %>-build:
+    executor: docker/docker
+    steps:
+      - setup_remote_docker
+      - checkout
+      - docker/build:
+          image: <%= projectName %>-<%= packageName %>
+          tag: << pipeline.git.branch >>
+          path: <%= packagePath %>
+          docker-context: <%= packagePath %>
+          extra_build_args: '--build-arg VERSION=$(git log --max-count 1 --pretty=format:%H "<%= packagePath %>")'
+  <%= packageName %>-build-and-push:
+    executor: docker/docker
+    steps:
+      - setup_remote_docker
+      - checkout
+      - docker/build:
+          registry: $DOCKER_REGISTRY
+          image: <%= projectName %>-<%= packageName %>
+          tag: << pipeline.git.branch >>
+          path: <%= packagePath %>
+          docker-context: <%= packagePath %>
+          extra_build_args: '--build-arg VERSION=$(git log --max-count 1 --pretty=format:%H "<%= packagePath %>")'
+      - docker/check:
+          registry: $DOCKER_REGISTRY
+      - docker/push:
+          registry: $DOCKER_REGISTRY
+          image: <%= projectName %>-<%= packageName %>
+          tag: << pipeline.git.branch >>
+<% } %>
 
 workflows:
   version: '2'
@@ -109,6 +145,7 @@ workflows:
       - <%= packageName %>-test:
           requires:
             - <%= packageName %>-lint
+<% if (deployment === 'ansible') { %>
       - <%= packageName %>-build:
           requires:
             - <%= packageName %>-test
@@ -124,3 +161,24 @@ workflows:
               only:
                 - develop
                 - main
+<% } %>
+<% if (deployment === 'kubernetes') { %>
+  - <%= packageName %>-build-and-push:
+      context:
+        - docker-registry
+      requires:
+        - <%= packageName %>-test
+      filters:
+        branches:
+          only:
+            - develop
+            - main
+  - <%= packageName %>-build:
+      requires:
+        - <%= packageName %>-test
+      filters:
+        branches:
+          ignore:
+            - develop
+            - main
+<% } %>
