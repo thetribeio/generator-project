@@ -10,7 +10,7 @@
         "ext-pdo_pgsql": "*",
         "doctrine/doctrine-bundle": "^2.5.5",
         "doctrine/doctrine-migrations-bundle": "^3.2.1",
-        "doctrine/orm": "^2.11.0",
+        "doctrine/orm": "^2.11.1",
         "sensio/framework-extra-bundle": "^6.2",
         "sentry/sentry-symfony": "^4.2.6",
         "symfony/console": "^5.4.3",
