@@ -1,6 +1,6 @@
 {{ if .Values.basic_auth_password }}
 apiVersion: v1
-data:
+stringData:
   auth: {{ htpasswd "<%= projectName %>" .Values.basic_auth_password }}
 kind: Secret
 metadata:
