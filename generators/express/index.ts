@@ -37,7 +37,7 @@ class ExpressGenerator extends PackageGenerator {
                 this.replaceDestination(
                     'modules/deployment/chart/values.yaml',
                     /$/s,
-                    `\n${varify(packageName)}:\n  image:\n    tag: latest\n    digest: ~\n  sentry:\n    dsn: ~\n  database:\n    host: ~\n    port: ~\n    user: ~\n    password: ~\n    name: ~\n`,
+                    `\n${varify(packageName)}:\n  image:\n    tag: latest\n    digest: ~\n  sentry:\n    dsn: ~\n  database:\n    host: ~\n    port: ~\n    user: ~\n    password: ~\n    name: ~\n  cookie:\n    secret: ~\n`,
                 );
 
                 this.writeTerraformVariable(`${varify(packageName)}_sentry_dsn`, 'string', '"" # TODO Add sentry DSN here');
@@ -51,6 +51,13 @@ class ExpressGenerator extends PackageGenerator {
 
                 this.writeReleaseVariable(`${varify(packageName)}.image.digest`, `data.docker_registry_image.${varify(packageName)}.sha256_digest`);
                 this.writeReleaseVariable(`${varify(packageName)}.sentry.dsn`, `var.${varify(packageName)}_sentry_dsn`);
+
+                this.replaceDestination(
+                    'modules/deployment/release.tf',
+                    /$/s,
+                    `\nresource "random_password" "${varify(packageName)}_cookie_secret" {\n    length = 32\n}\n`,
+                );
+                this.writeReleaseVariable(`${varify(packageName)}.cookie.secret`, `random_password.${varify(packageName)}_cookie_secret.result`);
                 break;
         }
 
