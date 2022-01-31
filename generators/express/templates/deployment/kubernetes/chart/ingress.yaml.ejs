@@ -5,6 +5,7 @@ metadata:
   labels:
     app.kubernetes.io/component: <%= packageName %>
     {{- include "<%= projectName %>.labels" . | nindent 4 }}
+  annotations:
     {{- if .Values.basic_auth_password }}
     nginx.ingress.kubernetes.io/auth-type: basic
     nginx.ingress.kubernetes.io/auth-secret: {{ include "<%= projectName %>.fullname" . }}-basic-auth
