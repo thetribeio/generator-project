@@ -2,7 +2,7 @@ resource "helm_release" "main" {
     name      = var.release_name
     namespace = var.release_namespace
 
-    chart = "./chart/"
+    chart = "${path.module}/chart/"
 
     set {
         name  = "environment_name"
