@@ -30,6 +30,11 @@ spec:
                   key: url
             - name: ENVIRONMENT_NAME
               value: {{ .Values.environment_name }}
+            - name: COOKIE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "<%= projectName %>.fullname" . }}-<%= packageName %>-cookie
+                  key: secret
             - name: SENTRY_DSN
               value: {{ .Values.<%= varify(packageName) %>.sentry.dsn }}
           ports:
@@ -38,11 +43,11 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /health
               port: http
           readinessProbe:
             httpGet:
-              path: /
+              path: /health
               port: http
       imagePullSecrets:
         - name: registry-secret

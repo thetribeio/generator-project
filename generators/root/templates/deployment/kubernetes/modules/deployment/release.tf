@@ -2,7 +2,7 @@ resource "helm_release" "main" {
     name      = var.release_name
     namespace = var.release_namespace
 
-    chart = "./chart/"
+    chart = "${path.module}/chart/"
 
     set {
         name  = "environment_name"
@@ -26,7 +26,7 @@ resource "helm_release" "main" {
 
     set {
         name  = "basic_auth_password"
-        value = var.basic_auth ? random_password.basic_auth : null
+        value = var.basic_auth ? random_password.basic_auth.result : null
     }
 }
 
