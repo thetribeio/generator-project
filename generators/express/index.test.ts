@@ -39,6 +39,10 @@ describe('When running the generator', () => {
         await run('test', 'yarn', ['lint']);
     });
 
+    test('It generates a project which correctly pass tests', async () => {
+        await run('test', 'yarn', ['test']);
+    });
+
     test('It generates a docker-compose.yaml with the right fields', async () => {
         const all = YAML.parse(await fs.promises.readFile(path.resolve(root, 'docker-compose.yaml'), 'utf8'));
         expect(all.version).toBeDefined();
