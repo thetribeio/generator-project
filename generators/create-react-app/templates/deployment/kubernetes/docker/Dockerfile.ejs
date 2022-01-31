@@ -32,9 +32,9 @@ RUN cp --recursive build build-final && rm build-final/static/*/*.map
 # Sentry release
 FROM getsentry/sentry-cli:1.61.0 as sentry
 
-WORKDIR /srv/admin/
+WORKDIR /srv/<%= packageName %>/
 
-COPY --from=build /srv/admin/build /srv/admin
+COPY --from=build /srv/<%= packageName %>/build /srv/<%= packageName %>
 
 # Final image
 FROM nginx:1.21.0

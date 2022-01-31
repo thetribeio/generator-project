@@ -104,6 +104,10 @@ describe('When running the generator with kubernetes deployment', () => {
 
         await execa('helm', ['lint'], { cwd });
     });
+
+    test('It generates a Dockerfile that correctly builds', async () => {
+        await execa('docker', ['build', 'test'], { cwd: root });
+    });
 });
 
 describe('When running the generator with the path option', () => {
