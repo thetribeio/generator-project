@@ -4,6 +4,7 @@ import BaseGenerator from '../../utils/BaseGenerator';
 enum BackendChoice {
     Express = 'express',
     Symfony = 'symfony',
+    FastAPI = 'fast-api',
 }
 
 enum FrontendChoice {
@@ -37,6 +38,10 @@ const prompt: Question<Prompt>[] = [
             {
                 name: 'Symfony',
                 value: BackendChoice.Symfony,
+            },
+            {
+                name: 'FastAPI',
+                value: BackendChoice.FastAPI,
             },
         ],
     },
@@ -92,6 +97,9 @@ class AppGenerator extends BaseGenerator {
         switch (backend) {
             case BackendChoice.Express:
                 this.composeWith(require.resolve('../express'), { arguments: ['backend', '--http-path=/api/'] });
+                break;
+            case BackendChoice.FastAPI:
+                this.composeWith(require.resolve('../fast-api'), { arguments: ['backend', '--http-path=/api/'] });
                 break;
             case BackendChoice.Symfony: {
                 const args = frontend === FrontendChoice.Twig
