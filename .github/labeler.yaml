@@ -4,6 +4,9 @@ generator/create-react-app:
 generator/express:
   - generators/express/**/*
 
+generator/fast-api:
+  - generators/fast-api/**/*
+
 generator/flutter-mobile:
   - generators/flutter-mobile/**/*
 
