@@ -12,7 +12,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/database-secret: {{ include (print $.Template.BasePath "/<%= packageName %>-database-secret.yaml") . | sha256sum }}
+        checksum/database-secret: {{ include (print $.Template.BasePath "/<%= packageName %>-migrate-secret.yaml") . | sha256sum }}
     spec:
       containers:
         - name: node
@@ -24,7 +24,7 @@ spec:
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "<%= projectName %>.fullname" . }}-<%= packageName %>-database
+                  name: {{ include "<%= projectName %>.fullname" . }}-<%= packageName %>-migrate
                   key: url
             - name: ENVIRONMENT_NAME
               value: {{ .Values.environment_name }}
