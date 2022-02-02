@@ -5040,10 +5040,10 @@ sass-loader@^12.4.0:
     klona "^2.0.4"
     neo-async "^2.6.2"
 
-sass@^1.49.1:
-  version "1.49.1"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.49.1.tgz#a4b79241b4f219cf591453e4477db0136b9d41be"
-  integrity sha512-VF/Ov0LVmcQeeScqAc6NVodjtE1mrXbSutEFKYmiyS/9WL1mKPFpZ9kJHha/D6t4ofWWpCDvk1B75lfu+cF1XQ==
+sass@^1.49.7:
+  version "1.49.7"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.49.7.tgz#22a86a50552b9b11f71404dfad1b9ff44c6b0c49"
+  integrity sha512-13dml55EMIR2rS4d/RDHHP0sXMY3+30e1TKsyXaSz3iLWVoDWEoboY8WzJd5JMnxrRHffKO3wq2mpJ0jxRJiEQ==
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
     immutable "^4.0.0"
