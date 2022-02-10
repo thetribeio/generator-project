@@ -12,7 +12,7 @@ You can find the tutorial to install terraform [here](https://learn.hashicorp.co
 
 ## Configuration
 
-You need first to configure the credentials for the environment you want to use.
+You need first to configure the Scaleway credentials for the environment you want to use.
 
 First you need to create an API key and secret [here](https://console.scaleway.com/project/credentials),
 then you need to go to the folder corresponding to the environment you want to configure and run
