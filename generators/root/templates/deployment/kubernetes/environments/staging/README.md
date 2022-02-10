@@ -2,7 +2,7 @@
 
 ## Configuration
 
-First you need to create an API key and secret [here](https://console.scaleway.com/project/credentials).
+First you need to create a Scaleway API key and secret [here](https://console.scaleway.com/project/credentials).
 
 Then you need to run initialize terraform with:
 
