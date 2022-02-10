@@ -6,7 +6,7 @@ orbs:
 executors:
   node:
     docker:
-      - image: circleci/node:16.13.1
+      - image: node:16.13.1
 
 jobs:
   <%= packageName %>-build-assets:
@@ -50,6 +50,8 @@ jobs:
     environment:
       APP_ENV: prod
     steps:
+      - install-php-extensions:
+          extensions: intl
       - checkout:
           path: ~/project
       - attach_workspace:
@@ -64,6 +66,9 @@ jobs:
       APP_ENV: prod
     working_directory: ~/project/<%= packagePath %>
     steps:
+      - install-php-extensions:
+          extensions: intl
+      - install-composer
       - checkout:
           path: ~/project
       - attach_workspace:

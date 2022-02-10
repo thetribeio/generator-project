@@ -1,29 +1,50 @@
 version: '2.1'
 
+orbs:
+  docker: circleci/docker@2.0.1
+  php: circleci/php@1.1.0
+
 executors:
   php:
     docker:
-      - image: circleci/php:8.0.7
+      - image: php:8.0.7
+
+commands:
+  install-composer:
+    steps:
+      - run:
+          name: Install composer
+          command: |
+            curl -f -L "https://getcomposer.org/download/2.0.11/composer.phar" -o /usr/local/bin/composer
+            echo "d6eee0d4637f4bd82bdae098fceda300dcb3ec35bf502604fbe7510933b8f952 /usr/local/bin/composer" | sha256sum -c -
+            chmod 755 /usr/local/bin/composer
+          working_directory: /tmp/
+  install-php-extensions:
+    parameters:
+      extensions:
+        type: string
+    steps:
+      - run:
+          name: Install PHP extensions
+          command: |
+            curl --fail --location --output /usr/local/bin/install-php-extensions https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/1.0.4/install-php-extensions
+            echo "8bb61096c6cb1edc4d5039cf085c0e774f222c45d3f0546f3c58053a58253fb7 /usr/local/bin/install-php-extensions" | sha256sum -c -
+            chmod uga+x /usr/local/bin/install-php-extensions
+
+            install-php-extensions << parameters.extensions >>
+          working_directory: /tmp/
 
 jobs:
   <%= packageName %>-php-dependencies:
     docker:
       - image: composer/composer:2.0.11
-    working_directory: ~/project/<%= packagePath %>
     steps:
-      - checkout:
-          path: ~/project
-      - restore_cache:
-          key: vendor-{{ checksum "composer.json" }}-{{ checksum "composer.lock" }}
-          paths:
-            - vendor
-      - run: composer install --ignore-platform-reqs --no-scripts
-      - save_cache:
-          key: vendor-{{ checksum "composer.json" }}-{{ checksum "composer.lock" }}
-          paths:
-            - vendor
+      - checkout
+      - php/install-packages:
+          app-dir: <%= packagePath %>
+          install-flags: --ignore-platform-reqs --no-scripts
       - persist_to_workspace:
-          root: ~/project
+          root: .
           paths:
             - <%= packagePath %>/vendor
 
@@ -44,7 +65,7 @@ jobs:
 
   <%= packageName %>-migrations:
     docker:
-      - image: circleci/php:8.0.7
+      - image: php:8.0.7
         environment:
           DATABASE_URL: postgresql://thetribe:424242@localhost:5432/thetribe
       - image: postgres:12.5
@@ -53,13 +74,13 @@ jobs:
           POSTGRES_PASSWORD: 424242
     working_directory: ~/project/<%= packagePath %>
     steps:
+      - install-php-extensions:
+          extensions: intl pdo_pgsql
       - checkout:
           path: ~/project
+      - docker/install-dockerize
       - attach_workspace:
           at: ~/project
-      - run:
-          name: Install pdo_pgsql php extension
-          command: sudo apt update && sudo apt install --yes libpq-dev && sudo docker-php-ext-install pdo_pgsql
       - run:
           name: Wait for db
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
@@ -72,6 +93,9 @@ jobs:
       APP_ENV: prod
     working_directory: ~/project/<%= packagePath %>
     steps:
+      - install-php-extensions:
+          extensions: intl
+      - install-composer
       - checkout:
           path: ~/project
       - attach_workspace:

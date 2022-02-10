@@ -56,8 +56,8 @@ for (const file of [
 ]) {
     updated = await replace(
         file,
-        /image: circleci\/node:\d+\.\d+\.\d+/,
-        `image: circleci/node:${lastVersion}`,
+        /image: node:\d+\.\d+\.\d+/,
+        `image: node:${lastVersion}`,
     ) || updated;
 }
 

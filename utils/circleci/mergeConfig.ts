@@ -22,6 +22,10 @@ const mergeConfig = (first: Config, second: Config): Config => new Config({
         ...first.executors,
         ...second.executors,
     },
+    commands: {
+        ...first.commands,
+        ...second.commands,
+    },
     jobs: {
         ...first.jobs,
         ...second.jobs,

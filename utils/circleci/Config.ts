@@ -9,6 +9,9 @@ interface ConfigConstructor {
     executors?: {
         [name: string]: Record<string, any>,
     };
+    commands?: {
+        [name: string]: any,
+    }
     jobs: {
         [name: string]: Record<string, any>,
     };
@@ -29,6 +32,10 @@ class Config {
         [name: string]: Record<string, any>,
     };
 
+    commands: {
+        [name: string]: any,
+    };
+
     jobs: {
         [name: string]: Record<string, any>,
     };
@@ -39,18 +46,32 @@ class Config {
         [name: string]: Workflow,
     };
 
-    constructor({ version, orbs = {}, executors = {}, jobs, workflowsVersion, workflows }: ConfigConstructor) {
+    constructor({
+        version,
+        orbs = {},
+        executors = {},
+        commands = {},
+        jobs,
+        workflowsVersion,
+        workflows,
+    }: ConfigConstructor) {
         this.version = version;
         this.orbs = orbs;
         this.executors = executors;
+        this.commands = commands;
         this.jobs = jobs;
         this.workflowsVersion = workflowsVersion;
         this.workflows = workflows;
     }
 
-    static fromRaw(raw: any): Config {
-        const { version, orbs, executors, jobs, workflows: { version: workflowsVersion, ...workflows } } = raw;
-
+    static fromRaw({
+        version,
+        orbs,
+        executors,
+        commands,
+        jobs,
+        workflows: { version: workflowsVersion, ...workflows },
+    }: any): Config {
         if ('2' !== workflowsVersion) {
             throw new Error(`Invalid workflows version: ${workflowsVersion}`);
         }
@@ -61,6 +82,7 @@ class Config {
             version,
             orbs,
             executors,
+            commands,
             jobs,
             workflowsVersion,
             workflows: map<Record<string, any>, Record<string, Workflow>>(Workflow.fromRaw, workflows),
@@ -78,6 +100,10 @@ class Config {
 
         if (Object.keys(this.executors).length > 0) {
             raw.executors = this.executors;
+        }
+
+        if (Object.keys(this.commands).length > 0) {
+            raw.commands = this.commands;
         }
 
         raw.jobs = this.jobs;

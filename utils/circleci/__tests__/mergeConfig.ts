@@ -120,6 +120,33 @@ test('It merges executors from different configs', () => {
     expect(mergedConfig.executors.second).toBeDefined();
 });
 
+test('It merges commands from different configs', () => {
+    const firstConfig = new Config({
+        version: '2',
+        commands: {
+            first: {},
+        },
+        jobs: {},
+        workflowsVersion: '2',
+        workflows: {},
+    });
+
+    const secondConfig = new Config({
+        version: '2',
+        commands: {
+            second: {},
+        },
+        jobs: {},
+        workflowsVersion: '2',
+        workflows: {},
+    });
+
+    const mergedConfig = mergeConfig(firstConfig, secondConfig);
+
+    expect(mergedConfig.commands.first).toBeDefined();
+    expect(mergedConfig.commands.second).toBeDefined();
+});
+
 test('It merges orbs from different configs', () => {
     const firstConfig = new Config({
         version: '2',
