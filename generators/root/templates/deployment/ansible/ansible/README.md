@@ -15,7 +15,8 @@ Note that you probably don't need to touch this file! Below is just explanations
 
 The `staging.py` and `production.py` are inventory scripts that automaticaly
 pulls servers informations from terraform outputs. To use them you need to
-[setup terraform](../terraform/README.md#Configuration) first.
+[setup terraform](../terraform/README.md#Configuration) and 
+[create your environment](../terraform/README.md#creating-or-updating-an-environment).
 
 ## Roles
 
