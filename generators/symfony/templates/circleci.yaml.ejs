@@ -15,8 +15,8 @@ commands:
       - run:
           name: Install composer
           command: |
-            curl -f -L "https://getcomposer.org/download/2.0.11/composer.phar" -o /usr/local/bin/composer
-            echo "d6eee0d4637f4bd82bdae098fceda300dcb3ec35bf502604fbe7510933b8f952 /usr/local/bin/composer" | sha256sum -c -
+            curl -f -L "https://getcomposer.org/download/2.2.6/composer.phar" -o /usr/local/bin/composer
+            echo "1d58486b891e59e9e064c0d54bb38538f74d6014f75481542c69ad84d4e97704 /usr/local/bin/composer" | sha256sum -c -
             chmod 755 /usr/local/bin/composer
           working_directory: /tmp/
   install-php-extensions:
@@ -37,7 +37,7 @@ commands:
 jobs:
   <%= packageName %>-php-dependencies:
     docker:
-      - image: composer/composer:2.0.11
+      - image: composer/composer:2.2.6
     steps:
       - checkout
       - php/install-packages:
