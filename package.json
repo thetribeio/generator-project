@@ -43,7 +43,7 @@
     "build": "./scripts/build.mjs",
     "lint": "eslint --ext ts generators utils",
     "test": "yarn test:utils && yarn test:generators",
-    "test:generators": "jest --runInBand --testTimeout 300000 generators",
+    "test:generators": "jest --testTimeout 300000 generators",
     "test:utils": "jest utils",
     "test:utils:coverage": "yarn test:utils --coverage --collectCoverageFrom 'utils/**/*'"
   }
