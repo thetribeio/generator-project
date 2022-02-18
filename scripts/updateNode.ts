@@ -75,7 +75,7 @@ for (const file of [
 
 // Update ansible config
 updated = await replace(
-    'generators/express/templates/ansible/package/provision.yaml.ejs',
+    'generators/express/templates/deployment/ansible/package/provision.yaml.ejs',
     /version: \d+/,
     `version: ${lastMajor}`,
 ) || updated;
