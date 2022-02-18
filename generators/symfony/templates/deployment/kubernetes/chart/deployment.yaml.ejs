@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "<%= projectName %>.fullname" . }}-<%= packageName %>
+  labels:
+    app.kubernetes.io/component: <%= packageName %>
+    {{- include "<%= projectName %>.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: <%= packageName %>
+      {{- include "<%= projectName %>.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/database-secret: {{ include (print $.Template.BasePath "/<%= packageName %>-database-secret.yaml") . | sha256sum }}
+      labels:
+        app.kubernetes.io/component: <%= packageName %>
+        {{- include "<%= projectName %>.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: php
+          image: {{ include "<%= projectName %>.<%= packageName %>.image.php" . }}
+          env:
+            - name: APP_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "<%= projectName %>.fullname" . }}-<%= packageName %>-app
+                  key: secret
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "<%= projectName %>.fullname" . }}-<%= packageName %>-database
+                  key: url
+            - name: ENVIRONMENT_NAME
+              value: {{ .Values.environment_name }}
+            - name: SENTRY_DSN
+              value: {{ .Values.<%= varify(packageName) %>.sentry.dsn }}
+        - name: nginx
+          image: {{ include "<%= projectName %>.<%= packageName %>.image.nginx" . }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+      imagePullSecrets:
+        - name: registry-secret
