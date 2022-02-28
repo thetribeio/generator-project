@@ -51,6 +51,10 @@
         "preferred-install": {
             "*": "dist"
         },
+        "allow-plugins": {
+            "symfony/flex": true,
+            "phpstan/extension-installer": true
+        },
         "sort-packages": true
     },
     "autoload": {
