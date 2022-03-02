@@ -91,7 +91,8 @@ jobs:
   <%= packageName %>-build:
     executor: docker/docker
     steps:
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 20.10.11
       - checkout
       - docker/build:
           image: <%= projectName %>-<%= packageName %>
@@ -102,7 +103,8 @@ jobs:
   <%= packageName %>-build-and-push:
     executor: docker/docker
     steps:
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 20.10.11
       - checkout
       - docker/build:
           registry: $DOCKER_REGISTRY
