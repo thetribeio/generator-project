@@ -1,0 +1,17 @@
+{{- define "<%= projectName %>.<%= packageName %>.image.php" }}
+{{- .Values.registry }}/<%= projectName %>-<%= packageName %>-php
+{{- if .Values.<%= varify(packageName) %>.image.digests.php -}}
+@{{ .Values.<%= varify(packageName) %>.image.digests.php }}
+{{- else -}}
+:{{ .Values.<%= varify(packageName) %>.image.tag }}
+{{- end -}}
+{{- end }}
+
+{{- define "<%= projectName %>.<%= packageName %>.image.nginx" }}
+{{- .Values.registry }}/<%= projectName %>-<%= packageName %>-nginx
+{{- if .Values.<%= varify(packageName) %>.image.digests.nginx -}}
+@{{ .Values.<%= varify(packageName) %>.image.digests.nginx }}
+{{- else -}}
+:{{ .Values.<%= varify(packageName) %>.image.tag }}
+{{- end -}}
+{{- end }}

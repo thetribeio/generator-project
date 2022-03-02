@@ -3,6 +3,7 @@ import path from 'path';
 import execa from 'execa';
 import YAML from 'yaml';
 import helpers from 'yeoman-test';
+import { Config } from '../../utils/circleci';
 
 describe('When running the generator', () => {
     let root: string;
@@ -70,6 +71,78 @@ describe('When running the generator', () => {
         const staging = path.join(root, 'terraform', 'staging');
         await execa('terraform', ['init', '--backend=false'], { cwd: staging });
         await execa('terraform', ['validate'], { cwd: staging });
+    });
+});
+
+describe('When running the generator with kubernetes deployment', () => {
+    let root: string;
+
+    beforeAll(async () => {
+        const result = await helpers.run(path.resolve(__dirname, '../root'))
+            .withPrompts({ deployment: 'kubernetes' });
+
+        root = result.cwd;
+
+        await helpers.run(__dirname)
+            .cd(root)
+            .withArguments(['test']);
+    });
+
+    afterAll(async () => {
+        await fs.promises.rm(root, { recursive: true });
+    });
+
+    test('It generates a valid CircleCI config', async () => {
+        const content = await fs.promises.readFile(path.join(root, '.circleci', 'config.yml'), 'utf8');
+
+        Config.fromRaw(YAML.parse(content));
+    });
+
+    test('It generates a valid terraform config', async () => {
+        const cwd = path.join(root, 'environments', 'staging');
+
+        await execa('terraform', ['init', '--backend=false'], { cwd });
+        await execa('terraform', ['validate'], { cwd });
+    });
+
+    test('It generates a valid helm chart', async () => {
+        const cwd = path.join(root, 'modules', 'deployment', 'chart');
+
+        await execa('helm', ['lint'], { cwd });
+    });
+
+    test('It generates a Dockerfile that correctly builds', async () => {
+        await execa('docker', ['build', 'test'], { cwd: root });
+    });
+});
+
+describe('When running the generator with twig frontend and kubernetes deployment', () => {
+    let root: string;
+
+    beforeAll(async () => {
+        const result = await helpers.run(path.resolve(__dirname, '../root'))
+            .withPrompts({ deployment: 'kubernetes' });
+
+        root = result.cwd;
+
+        await helpers.run(__dirname)
+            .cd(root)
+            .withOptions({ twig: true })
+            .withArguments(['test']);
+    });
+
+    test('It generates a valid CircleCI config', async () => {
+        const content = await fs.promises.readFile(path.join(root, '.circleci', 'config.yml'), 'utf8');
+
+        Config.fromRaw(YAML.parse(content));
+    });
+
+    afterAll(async () => {
+        await fs.promises.rm(root, { recursive: true });
+    });
+
+    test('It generates a Dockerfile that correctly builds', async () => {
+        await execa('docker', ['build', 'test'], { cwd: root });
     });
 });
 
