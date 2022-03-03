@@ -5,7 +5,7 @@ import { CopyOptions } from 'mem-fs-editor';
 import Generator, { GeneratorOptions } from 'yeoman-generator';
 import { rootDomain, subdomain } from './domain';
 import indent from './indent';
-import varify from './varify';
+import varName from './varName';
 
 const processDestinationPath = (path: string): string => path
     .replace(/\.ejs$/, '')
@@ -40,7 +40,7 @@ class BaseGenerator<T extends GeneratorOptions = GeneratorOptions> extends Gener
             indent,
             rootDomain,
             subdomain,
-            varify,
+            varName,
 
             // Common variables
             deployment: this.config.get('deployment'),

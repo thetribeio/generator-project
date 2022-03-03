@@ -1,5 +1,5 @@
 import PackageGenerator from '../../utils/PackageGenerator';
-import varify from '../../utils/varify';
+import varName from '../../utils/varName';
 import { DeploymentChoice } from '../root';
 
 class ExpressGenerator extends PackageGenerator {
@@ -37,27 +37,27 @@ class ExpressGenerator extends PackageGenerator {
                 this.replaceDestination(
                     'modules/deployment/chart/values.yaml',
                     /$/s,
-                    `\n${varify(packageName)}:\n  image:\n    tag: latest\n    digest: ~\n  sentry:\n    dsn: ~\n  database:\n    host: ~\n    port: ~\n    user: ~\n    password: ~\n    name: ~\n  cookie:\n    secret: ~\n`,
+                    `\n${varName(packageName)}:\n  image:\n    tag: latest\n    digest: ~\n  sentry:\n    dsn: ~\n  database:\n    host: ~\n    port: ~\n    user: ~\n    password: ~\n    name: ~\n  cookie:\n    secret: ~\n`,
                 );
 
-                this.writeTerraformVariable(`${varify(packageName)}_sentry_dsn`, 'string', '"" # TODO Add sentry DSN here');
-                this.writeTerraformVariable(`${varify(packageName)}_image_tag`, 'string', '"develop"');
+                this.writeTerraformVariable(`${varName(packageName)}_sentry_dsn`, 'string', '"" # TODO Add sentry DSN here');
+                this.writeTerraformVariable(`${varName(packageName)}_image_tag`, 'string', '"develop"');
 
                 this.replaceDestination(
                     'modules/deployment/release.tf',
                     /$/s,
-                    `\ndata "docker_registry_image" "${varify(packageName)}" {\n    name = "\${var.registry}/${projectName}-${packageName}:\${var.${varify(packageName)}_image_tag}"\n}\n`,
+                    `\ndata "docker_registry_image" "${varName(packageName)}" {\n    name = "\${var.registry}/${projectName}-${packageName}:\${var.${varName(packageName)}_image_tag}"\n}\n`,
                 );
 
-                this.writeReleaseVariable(`${varify(packageName)}.image.digest`, `data.docker_registry_image.${varify(packageName)}.sha256_digest`);
-                this.writeReleaseVariable(`${varify(packageName)}.sentry.dsn`, `var.${varify(packageName)}_sentry_dsn`);
+                this.writeReleaseVariable(`${varName(packageName)}.image.digest`, `data.docker_registry_image.${varName(packageName)}.sha256_digest`);
+                this.writeReleaseVariable(`${varName(packageName)}.sentry.dsn`, `var.${varName(packageName)}_sentry_dsn`);
 
                 this.replaceDestination(
                     'modules/deployment/release.tf',
                     /$/s,
-                    `\nresource "random_password" "${varify(packageName)}_cookie_secret" {\n    length = 32\n}\n`,
+                    `\nresource "random_password" "${varName(packageName)}_cookie_secret" {\n    length = 32\n}\n`,
                 );
-                this.writeReleaseVariable(`${varify(packageName)}.cookie.secret`, `random_password.${varify(packageName)}_cookie_secret.result`);
+                this.writeReleaseVariable(`${varName(packageName)}.cookie.secret`, `random_password.${varName(packageName)}_cookie_secret.result`);
                 break;
         }
 

@@ -7,7 +7,7 @@
   delegate_to: localhost
 - import_role:
     name: deploy
-  environment: '{{ <%= varify(packageName) %>_env }}'
+  environment: '{{ <%= varName(packageName) %>_env }}'
   vars:
     path: /home/<%= packageName %>
     artifact_path: <%= packageName %>.tar.gz

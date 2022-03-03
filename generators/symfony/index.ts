@@ -1,7 +1,7 @@
 import cryptoRandomString from 'crypto-random-string';
 import { createEncrypt } from '../../utils/ansible';
 import PackageGenerator, { PackageGeneratorOptions } from '../../utils/PackageGenerator';
-import varify from '../../utils/varify';
+import varName from '../../utils/varName';
 import { DeploymentChoice } from '../root';
 
 interface Options extends PackageGeneratorOptions {
@@ -61,34 +61,34 @@ class SymfonyGenerator extends PackageGenerator<Options> {
                 this.replaceDestination(
                     'modules/deployment/chart/values.yaml',
                     /$/s,
-                    `\n${varify(packageName)}:\n  image:\n    tag: latest\n    digests:\n      nginx: ~\n      php: ~\n  sentry:\n    dsn: ~\n  database:\n    host: ~\n    port: ~\n    user: ~\n    password: ~\n    name: ~\n  app:\n    secret: ~\n`,
+                    `\n${varName(packageName)}:\n  image:\n    tag: latest\n    digests:\n      nginx: ~\n      php: ~\n  sentry:\n    dsn: ~\n  database:\n    host: ~\n    port: ~\n    user: ~\n    password: ~\n    name: ~\n  app:\n    secret: ~\n`,
                 );
 
-                this.writeTerraformVariable(`${varify(packageName)}_sentry_dsn`, 'string', '"" # TODO Add sentry DSN here');
-                this.writeTerraformVariable(`${varify(packageName)}_image_tag`, 'string', '"develop"');
+                this.writeTerraformVariable(`${varName(packageName)}_sentry_dsn`, 'string', '"" # TODO Add sentry DSN here');
+                this.writeTerraformVariable(`${varName(packageName)}_image_tag`, 'string', '"develop"');
 
                 this.replaceDestination(
                     'modules/deployment/release.tf',
                     /$/s,
-                    `\ndata "docker_registry_image" "${varify(packageName)}_nginx" {\n    name = "\${var.registry}/${projectName}-${packageName}-nginx:\${var.${varify(packageName)}_image_tag}"\n}\n`,
+                    `\ndata "docker_registry_image" "${varName(packageName)}_nginx" {\n    name = "\${var.registry}/${projectName}-${packageName}-nginx:\${var.${varName(packageName)}_image_tag}"\n}\n`,
                 );
 
                 this.replaceDestination(
                     'modules/deployment/release.tf',
                     /$/s,
-                    `\ndata "docker_registry_image" "${varify(packageName)}_php" {\n    name = "\${var.registry}/${projectName}-${packageName}-php:\${var.${varify(packageName)}_image_tag}"\n}\n`,
+                    `\ndata "docker_registry_image" "${varName(packageName)}_php" {\n    name = "\${var.registry}/${projectName}-${packageName}-php:\${var.${varName(packageName)}_image_tag}"\n}\n`,
                 );
 
-                this.writeReleaseVariable(`${varify(packageName)}.image.digests.nginx`, `data.docker_registry_image.${varify(packageName)}_nginx.sha256_digest`);
-                this.writeReleaseVariable(`${varify(packageName)}.image.digests.php`, `data.docker_registry_image.${varify(packageName)}_php.sha256_digest`);
-                this.writeReleaseVariable(`${varify(packageName)}.sentry.dsn`, `var.${varify(packageName)}_sentry_dsn`);
+                this.writeReleaseVariable(`${varName(packageName)}.image.digests.nginx`, `data.docker_registry_image.${varName(packageName)}_nginx.sha256_digest`);
+                this.writeReleaseVariable(`${varName(packageName)}.image.digests.php`, `data.docker_registry_image.${varName(packageName)}_php.sha256_digest`);
+                this.writeReleaseVariable(`${varName(packageName)}.sentry.dsn`, `var.${varName(packageName)}_sentry_dsn`);
 
                 this.replaceDestination(
                     'modules/deployment/release.tf',
                     /$/s,
-                    `\nresource "random_password" "${varify(packageName)}_app_secret" {\n    length = 32\n}\n`,
+                    `\nresource "random_password" "${varName(packageName)}_app_secret" {\n    length = 32\n}\n`,
                 );
-                this.writeReleaseVariable(`${varify(packageName)}.app.secret`, `random_password.${varify(packageName)}_app_secret.result`);
+                this.writeReleaseVariable(`${varName(packageName)}.app.secret`, `random_password.${varName(packageName)}_app_secret.result`);
                 break;
         }
 

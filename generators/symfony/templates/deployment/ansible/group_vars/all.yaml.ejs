@@ -1,7 +1,7 @@
-<%= varify(packageName) %>_env:
-  DATABASE_URL: postgresql://<%= varify(packageName) %>:{{ database_<%= varify(packageName) %>_password }}@{{ database_host }}/<%= varify(packageName) %>
+<%= varName(packageName) %>_env:
+  DATABASE_URL: postgresql://<%= varName(packageName) %>:{{ database_<%= varName(packageName) %>_password }}@{{ database_host }}/<%= varName(packageName) %>
   ENVIRONMENT_NAME: '{{ environment_name }}'
   APP_ENV: prod
-  APP_SECRET: '{{ <%= varify(packageName) %>_secret }}'
+  APP_SECRET: '{{ <%= varName(packageName) %>_secret }}'
   SENTRY_DSN: ~ # TODO: Add your sentry DSN here
-<%= varify(packageName) %>_php_version: 8.1
+<%= varName(packageName) %>_php_version: 8.1

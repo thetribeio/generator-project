@@ -1,4 +1,4 @@
 
-output "<%= varify(packageName) %>_password" {
-    value = random_password.<%= varify(packageName) %>.result
+output "<%= varName(packageName) %>_password" {
+    value = random_password.<%= varName(packageName) %>.result
 }

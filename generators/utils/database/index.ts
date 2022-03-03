@@ -2,7 +2,7 @@ import cryptoRandomString from 'crypto-random-string';
 import { GeneratorOptions } from 'yeoman-generator';
 import { createEncrypt } from '../../../utils/ansible';
 import BaseGenerator from '../../../utils/BaseGenerator';
-import varify from '../../../utils/varify';
+import varName from '../../../utils/varName';
 import { DeploymentChoice } from '../../root';
 
 interface DatabaseUtilGeneratorOptions extends GeneratorOptions {
@@ -54,7 +54,7 @@ class DatabaseUtilGenerator extends BaseGenerator<DatabaseUtilGeneratorOptions> 
             this.replaceDestination(
                 'terraform/production/outputs.tf',
                 /(output "vars" {\n {4}value = {.*?)(\n {4}})/s,
-                `$1\n        database_${varify(packageName)}_password = module.database.${varify(packageName)}_password$2`,
+                `$1\n        database_${varName(packageName)}_password = module.database.${varName(packageName)}_password$2`,
             );
         } else {
             this.log(
@@ -68,11 +68,11 @@ class DatabaseUtilGenerator extends BaseGenerator<DatabaseUtilGeneratorOptions> 
         const { packageName } = this.options;
 
         this.appendTemplate('deployment/kubernetes/database.tf.ejs', 'modules/deployment/database.tf', { packageName });
-        this.writeReleaseVariable(`${varify(packageName)}.database.host`, 'data.scaleway_rdb_instance.main.endpoint_ip');
-        this.writeReleaseVariable(`${varify(packageName)}.database.port`, 'data.scaleway_rdb_instance.main.endpoint_port');
-        this.writeReleaseVariable(`${varify(packageName)}.database.user`, `scaleway_rdb_user.${varify(packageName)}.name`);
-        this.writeReleaseVariable(`${varify(packageName)}.database.password`, `random_password.${varify(packageName)}.result`);
-        this.writeReleaseVariable(`${varify(packageName)}.database.name`, `scaleway_rdb_database.${varify(packageName)}.name`);
+        this.writeReleaseVariable(`${varName(packageName)}.database.host`, 'data.scaleway_rdb_instance.main.endpoint_ip');
+        this.writeReleaseVariable(`${varName(packageName)}.database.port`, 'data.scaleway_rdb_instance.main.endpoint_port');
+        this.writeReleaseVariable(`${varName(packageName)}.database.user`, `scaleway_rdb_user.${varName(packageName)}.name`);
+        this.writeReleaseVariable(`${varName(packageName)}.database.password`, `random_password.${varName(packageName)}.result`);
+        this.writeReleaseVariable(`${varName(packageName)}.database.name`, `scaleway_rdb_database.${varName(packageName)}.name`);
     }
 }
 

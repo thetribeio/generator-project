@@ -1,7 +1,7 @@
-<%= varify(packageName) %>_port: 4000
-<%= varify(packageName) %>_env:
-  DATABASE_URL: postgres://<%= varify(packageName) %>:{{ database_<%= varify(packageName) %>_password }}@{{ database_host }}/<%= varify(packageName) %>
+<%= varName(packageName) %>_port: 4000
+<%= varName(packageName) %>_env:
+  DATABASE_URL: postgres://<%= varName(packageName) %>:{{ database_<%= varName(packageName) %>_password }}@{{ database_host }}/<%= varName(packageName) %>
   ENVIRONMENT_NAME: '{{ environment_name }}'
   NODE_ENV: production
-  PORT: '{{ <%= varify(packageName) %>_port }}'
+  PORT: '{{ <%= varName(packageName) %>_port }}'
   SENTRY_DSN: ~ # TODO: Add your sentry DSN here

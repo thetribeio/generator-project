@@ -13,7 +13,7 @@
     before_finalize:
       - >
         sed --in-place --expression='s#<div id="root"[^>]*>#<div id="root"
-        {%- for key, value in <%= varify(packageName) %>_data|dictsort %} data-{{ key }}="{{ value }}"{% endfor -%}
+        {%- for key, value in <%= varName(packageName) %>_data|dictsort %} data-{{ key }}="{{ value }}"{% endfor -%}
         >#g' build/index.html
     job_name: <%= packageName %>-archive
     repository_name: <%= repositoryName %>
