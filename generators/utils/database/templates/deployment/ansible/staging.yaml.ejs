@@ -1,2 +1,2 @@
-database_<%= varify(packageName) %>_password: !vault |
+database_<%= varName(packageName) %>_password: !vault |
 <%= indent(encrypt(databasePassword), 2) %>

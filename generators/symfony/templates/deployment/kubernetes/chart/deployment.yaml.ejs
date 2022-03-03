@@ -36,7 +36,7 @@ spec:
             - name: ENVIRONMENT_NAME
               value: {{ .Values.environment_name }}
             - name: SENTRY_DSN
-              value: {{ .Values.<%= varify(packageName) %>.sentry.dsn }}
+              value: {{ .Values.<%= varName(packageName) %>.sentry.dsn }}
         - name: nginx
           image: {{ include "<%= projectName %>.<%= packageName %>.image.nginx" . }}
           ports:

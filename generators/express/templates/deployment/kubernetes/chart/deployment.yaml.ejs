@@ -36,7 +36,7 @@ spec:
                   name: {{ include "<%= projectName %>.fullname" . }}-<%= packageName %>-cookie
                   key: secret
             - name: SENTRY_DSN
-              value: {{ .Values.<%= varify(packageName) %>.sentry.dsn }}
+              value: {{ .Values.<%= varName(packageName) %>.sentry.dsn }}
           ports:
             - name: http
               containerPort: 3000
