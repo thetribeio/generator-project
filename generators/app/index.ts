@@ -2,19 +2,17 @@ import { Question } from 'yeoman-generator';
 import BaseGenerator from '../../utils/BaseGenerator';
 
 enum BackendChoice {
+    None = 'none',
     Express = 'express',
     Symfony = 'symfony',
     FastAPI = 'fast-api',
 }
 
 enum FrontendChoice {
+    None = 'none',
     CreateReactApp = 'create-react-app',
     NextJS = 'next-js',
     Twig = 'twig',
-}
-
-enum MobileChoice {
-    None = 'none',
     Flutter = 'flutter',
 }
 
@@ -22,8 +20,36 @@ interface Prompt {
     admin: boolean;
     backend: BackendChoice;
     frontend: FrontendChoice;
-    mobile: MobileChoice;
+    loopfront: boolean;
 }
+
+const promptLoop: Question<Prompt>[] = [
+    {
+        type: 'list',
+        name: 'frontend',
+        message: 'What frontend do you want to use?',
+        choices: () => [
+            {
+                name: 'Create React App',
+                value: FrontendChoice.CreateReactApp,
+            },
+            {
+                name: 'Next.js',
+                value: FrontendChoice.NextJS,
+            },
+            {
+                name: 'Flutter',
+                value: FrontendChoice.Flutter,
+            },
+        ],
+    },
+    {
+        type: 'confirm',
+        name: 'loopfront',
+        message: 'Would you like to add another frontend ?',
+        default: false,
+    },
+];
 
 const prompt: Question<Prompt>[] = [
     {
@@ -62,6 +88,10 @@ const prompt: Question<Prompt>[] = [
                 name: 'Twig',
                 value: FrontendChoice.Twig,
             },
+            {
+                name: 'Flutter',
+                value: FrontendChoice.Flutter,
+            },
         ].filter(({ value }) => value !== FrontendChoice.Twig || backend === BackendChoice.Symfony),
     },
     {
@@ -71,26 +101,24 @@ const prompt: Question<Prompt>[] = [
         default: false,
     },
     {
-        type: 'list',
-        name: 'mobile',
-        message: 'What mobile framework do you want to use ?',
-        choices: [
-            {
-                name: 'No mobile app',
-                value: MobileChoice.None,
-            },
-            {
-                name: 'Flutter',
-                value: MobileChoice.Flutter,
-            },
-        ],
-        default: MobileChoice.None,
+        type: 'confirm',
+        name: 'loopfront',
+        message: 'Would you like to add another frontend ?',
+        default: false,
     },
 ];
 
 class AppGenerator extends BaseGenerator {
     async prompting() {
-        const { admin, backend, frontend, mobile }: Prompt = await this.promptConfig<Prompt>(prompt);
+        const { admin, backend, frontend, loopfront }: Prompt = await this.promptConfig<Prompt>(prompt);
+        const fronts = [frontend];
+        let shouldLoop = loopfront;
+
+        while (shouldLoop) {
+            const loopPrompt: Prompt = await this.promptConfig<Prompt>(promptLoop);
+            shouldLoop = loopPrompt.loopfront;
+            fronts.push(loopPrompt.frontend);
+        }
 
         this.composeWith(require.resolve('../root'));
 
@@ -102,40 +130,41 @@ class AppGenerator extends BaseGenerator {
                 this.composeWith(require.resolve('../fast-api'), { arguments: ['backend', '--http-path=/api/'] });
                 break;
             case BackendChoice.Symfony: {
-                const args = frontend === FrontendChoice.Twig
+                const args = fronts.includes(FrontendChoice.Twig)
                     ? ['backend', '--http-path=/', '--twig']
                     : ['backend', '--http-path=/api/'];
 
                 this.composeWith(require.resolve('../symfony'), { arguments: args });
                 break;
             }
+            case BackendChoice.None:
+                break;
         }
 
-        switch (frontend) {
-            case FrontendChoice.CreateReactApp:
-                this.composeWith(require.resolve('../create-react-app'), { arguments: ['frontend', '--http-path=/'] });
-                break;
-            case FrontendChoice.NextJS:
-                this.composeWith(require.resolve('../next-js'), { arguments: ['frontend', '--http-path=/'] });
-                break;
-            case FrontendChoice.Twig:
-                // Do nothing since the twig frontend is included in the Symfony generator
-                break;
-        }
+        fronts.forEach((frontendChoice) => {
+            switch (frontendChoice) {
+                case FrontendChoice.CreateReactApp:
+                    this.composeWith(
+                        require.resolve('../create-react-app'),
+                        { arguments: ['frontend', '--http-path=/'] },
+                    );
+                    break;
+                case FrontendChoice.NextJS:
+                    this.composeWith(require.resolve('../next-js'), { arguments: ['frontend', '--http-path=/'] });
+                    break;
+                case FrontendChoice.Twig:
+                    // Do nothing since the twig frontend is included in the Symfony generator
+                    break;
+                case FrontendChoice.Flutter:
+                    this.composeWith(require.resolve('../flutter-mobile'), ['mobile']);
+                    break;
+                case FrontendChoice.None:
+                    break;
+            }
+        });
 
         if (admin) {
             this.composeWith(require.resolve('../react-admin'), ['admin', '--http-path=/admin/']);
-        }
-
-        switch (mobile) {
-            case MobileChoice.Flutter:
-                this.composeWith(
-                    require.resolve('../flutter-mobile'),
-                    ['mobile'],
-                );
-                break;
-            case MobileChoice.None:
-                break;
         }
     }
 
