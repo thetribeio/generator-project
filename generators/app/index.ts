@@ -23,40 +23,16 @@ interface Prompt {
     loopfront: boolean;
 }
 
-const promptLoop: Question<Prompt>[] = [
-    {
-        type: 'list',
-        name: 'frontend',
-        message: 'What frontend do you want to use?',
-        choices: () => [
-            {
-                name: 'Create React App',
-                value: FrontendChoice.CreateReactApp,
-            },
-            {
-                name: 'Next.js',
-                value: FrontendChoice.NextJS,
-            },
-            {
-                name: 'Flutter',
-                value: FrontendChoice.Flutter,
-            },
-        ],
-    },
-    {
-        type: 'confirm',
-        name: 'loopfront',
-        message: 'Would you like to add another frontend ?',
-        default: false,
-    },
-];
-
 const prompt: Question<Prompt>[] = [
     {
         type: 'list',
         name: 'backend',
         message: 'What backend do you want to use?',
         choices: [
+            {
+                name: 'None',
+                value: BackendChoice.None,
+            },
             {
                 name: 'Express',
                 value: BackendChoice.Express,
@@ -76,6 +52,10 @@ const prompt: Question<Prompt>[] = [
         name: 'frontend',
         message: 'What frontend do you want to use?',
         choices: ({ backend }: Prompt) => [
+            {
+                name: 'None',
+                value: FrontendChoice.None,
+            },
             {
                 name: 'Create React App',
                 value: FrontendChoice.CreateReactApp,
@@ -103,7 +83,7 @@ const prompt: Question<Prompt>[] = [
     {
         type: 'confirm',
         name: 'loopfront',
-        message: 'Would you like to add another frontend ?',
+        message: 'Would you like to add another frontend?',
         default: false,
     },
 ];
@@ -115,7 +95,7 @@ class AppGenerator extends BaseGenerator {
         let shouldLoop = loopfront;
 
         while (shouldLoop) {
-            const loopPrompt: Prompt = await this.promptConfig<Prompt>(promptLoop);
+            const loopPrompt: Prompt = await this.promptConfig<Prompt>([prompt[1], prompt[3]]);
             shouldLoop = loopPrompt.loopfront;
             fronts.push(loopPrompt.frontend);
         }
