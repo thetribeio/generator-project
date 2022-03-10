@@ -126,17 +126,20 @@ class AppGenerator extends BaseGenerator {
                 case FrontendChoice.CreateReactApp:
                     this.composeWith(
                         require.resolve('../create-react-app'),
-                        { arguments: ['frontend', '--http-path=/'] },
+                        { arguments: ['frontend-react', '--http-path=/'] },
                     );
                     break;
                 case FrontendChoice.NextJS:
-                    this.composeWith(require.resolve('../next-js'), { arguments: ['frontend', '--http-path=/'] });
+                    this.composeWith(
+                        require.resolve('../next-js'),
+                        { arguments: ['frontend-nextjs', '--http-path=/'] },
+                    );
                     break;
                 case FrontendChoice.Twig:
                     // Do nothing since the twig frontend is included in the Symfony generator
                     break;
                 case FrontendChoice.Flutter:
-                    this.composeWith(require.resolve('../flutter-mobile'), ['mobile']);
+                    this.composeWith(require.resolve('../flutter-mobile'), ['mobile-flutter']);
                     break;
                 case FrontendChoice.None:
                     break;

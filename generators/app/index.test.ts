@@ -28,7 +28,9 @@ describe('When running the generator with Create React App', () => {
     });
 
     test('It generates a Create React App frontend', async () => {
-        const config = JSON.parse(await fs.promises.readFile(path.resolve(root, 'frontend', 'package.json'), 'utf8'));
+        const config = JSON.parse(
+            await fs.promises.readFile(path.resolve(root, 'frontend-react', 'package.json'), 'utf8'),
+        );
 
         expect(config.dependencies['react-scripts']).toBeDefined();
     });
@@ -55,7 +57,9 @@ describe('When running the generator with Next.js', () => {
     });
 
     test('It generates an Next.js frontend', async () => {
-        const config = JSON.parse(await fs.promises.readFile(path.resolve(root, 'frontend', 'package.json'), 'utf8'));
+        const config = JSON.parse(
+            await fs.promises.readFile(path.resolve(root, 'frontend-nextjs', 'package.json'), 'utf8'),
+        );
 
         expect(config.dependencies.next).toBeDefined();
     });
@@ -70,8 +74,7 @@ describe('When running the generator with Flutter', () => {
                 projectName: 'my_project',
                 backend: 'express',
                 contactEmail: 'test@example.com',
-                frontend: 'next-js',
-                mobile: 'flutter',
+                frontend: 'flutter',
                 applicationPrefix: 'com.example',
                 applicationDisplayName: 'My Project',
             });
@@ -87,7 +90,7 @@ describe('When running the generator with Flutter', () => {
         const config = YAML.parse(await fs.promises.readFile(
             path.resolve(
                 root,
-                'mobile',
+                'mobile-flutter',
                 'pubspec.yaml',
             ),
             'utf8',
