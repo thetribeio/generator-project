@@ -16,6 +16,7 @@ enum FrontendChoice {
 enum MobileChoice {
     None = 'none',
     Flutter = 'flutter',
+    ReactNative = 'react-native',
 }
 
 interface Prompt {
@@ -83,6 +84,10 @@ const prompt: Question<Prompt>[] = [
                 name: 'Flutter',
                 value: MobileChoice.Flutter,
             },
+            {
+                name: 'React-native',
+                value: MobileChoice.ReactNative,
+            },
         ],
         default: MobileChoice.None,
     },
@@ -131,6 +136,12 @@ class AppGenerator extends BaseGenerator {
             case MobileChoice.Flutter:
                 this.composeWith(
                     require.resolve('../flutter-mobile'),
+                    ['mobile'],
+                );
+                break;
+            case MobileChoice.ReactNative:
+                this.composeWith(
+                    require.resolve('../react-native-mobile'),
                     ['mobile'],
                 );
                 break;
