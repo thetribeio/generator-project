@@ -65,7 +65,9 @@ class ReactNativeMobileGenerator extends PackageGenerator<PackageGeneratorOption
                     'ios',
                     `${applicationName}Tests`,
                     `${applicationName}Tests.m`,
-                ) }];
+                ) },
+            { source: 'natif/ios-xcworkspace',
+                destination: path.resolve(packagePath, 'ios', `${applicationName}.xcworkspace`) }];
 
         templates.forEach((template) => {
             this.renderTemplate(

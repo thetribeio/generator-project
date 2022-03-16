@@ -153,6 +153,19 @@ describe('When running the generator with valid options', () => {
         );
     });
 
+    test('It generates an iOS xcworkspace folder with the project name', async () => {
+        await fs.promises.access(
+            path.join(
+                root,
+                'mobile',
+                'ios',
+                'mygreatproject.xcworkspace',
+                'contents.xcworkspacedata',
+            ),
+            fs.constants.R_OK,
+        );
+    });
+
     test('It adds react-native-android workflow to Codemagic setup with right recipient email', async () => {
         const codemagic = YAML.parse(await fs.promises.readFile(path.resolve(
             root,
