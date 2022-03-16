@@ -46,7 +46,7 @@ class ReactNativeMobileGenerator extends PackageGenerator<PackageGeneratorOption
                     applicationName,
                 ) },
             { source: 'natif/ios-main', destination: path.resolve(packagePath, 'ios', applicationName) },
-            { source: 'natif/ios-xcodeproj/base.xcscheme',
+            { source: 'natif/ios-xcodeproj/base.xcscheme.ejs',
                 destination: path.resolve(
                     packagePath,
                     'ios',
@@ -55,11 +55,11 @@ class ReactNativeMobileGenerator extends PackageGenerator<PackageGeneratorOption
                     'xcschemes',
                     `${applicationName}.xcscheme`,
                 ) },
-            { source: 'natif/ios-xcodeproj/project.pbxproj',
+            { source: 'natif/ios-xcodeproj/project.pbxproj.ejs',
                 destination: path.resolve(packagePath, 'ios', `${applicationName}.xcodeproj`, 'project.pbxproj') },
             { source: 'natif/ios-tests/Info.plist',
                 destination: path.resolve(packagePath, 'ios', `${applicationName}Tests`, 'Info.plist') },
-            { source: 'natif/ios-tests/baseTests.m',
+            { source: 'natif/ios-tests/baseTests.m.ejs',
                 destination: path.resolve(
                     packagePath,
                     'ios',
