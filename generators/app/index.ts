@@ -95,10 +95,12 @@ class AppGenerator extends BaseGenerator {
         let shouldLoop = loopfront;
 
         while (shouldLoop) {
-            const loopPrompt: Prompt = await this.promptConfig<Prompt>([prompt[1], prompt[3]]);
+            const loopPrompt = await this.prompt([prompt[1], prompt[3]]);
             shouldLoop = loopPrompt.loopfront;
             fronts.push(loopPrompt.frontend);
         }
+
+        this.config.set('frontend', fronts);
 
         this.composeWith(require.resolve('../root'));
 
