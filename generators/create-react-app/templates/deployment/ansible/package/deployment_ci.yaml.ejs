@@ -1,0 +1,12 @@
+---
+- import_role:
+    name: deploy
+  environment: '{{ <%= varName(packageName) %>_env }}'
+  vars:
+    path: /home/<%= packageName %>
+    artifact_file: '{{ playbook_dir }}/../<%= packagePath %>/archive.tar.gz'
+    before_finalize:
+      - >
+        sed --in-place --expression='s#<div id="root"[^>]*>#<div id="root"
+        {%- for key, value in <%= varName(packageName) %>_data|dictsort %} data-{{ key }}="{{ value }}"{% endfor -%}
+        >#g' build/index.html

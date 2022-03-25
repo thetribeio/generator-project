@@ -1,3 +1,12 @@
+# Continuous deployment
+
+The project is configured automatically deploy the app on the CI.
+
+For the deploy job to work properly you have to:
+ - Add the project vault pass to the env variables of your project in CircleCI
+ - Generate a SSH key pair, add the private key to your project in CircleCI
+   and the public key to the authorized keys on the server
+
 # Where to put what
 
 To properly kickstart ansible in your project, take care of the files in the order
