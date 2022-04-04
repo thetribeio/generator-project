@@ -19,7 +19,7 @@
     "sass": "^1.49.11",
     "sass-lint": "^1.13.1",
     "sass-loader": "^12.6.0",
-    "webpack": "^5.70.0",
+    "webpack": "^5.71.0",
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.7.4",
     "webpack-manifest-plugin": "^4.1.1"
