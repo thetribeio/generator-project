@@ -1,0 +1,52 @@
+version: '2.1'
+orbs:
+  terraform: circleci/terraform@3.0.1
+
+jobs:
+  deploy:
+    docker:
+      - image: python:3.8.0
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/project
+      - terraform/install:
+          terraform_version: 1.1.7
+      - run:
+          name: Setup terraform
+          command: |
+            echo "scw_access_key = $SCW_ACCESS_KEY" >> terraform.tfvars
+            echo "scw_secret_key = $SCW_SECRET_KEY" >> terraform.tfvars
+
+            terraform init --backend-config="access_key=$SCW_ACCESS_KEY" --backend-config="secret_key=$SCW_SECRET_KEY"
+          working_directory: ~/project/terraform/staging
+      - run:
+          name: Setup ansible
+          command: |
+            apt-get update
+            apt-get install --yes jq
+
+            pip install ansible==2.9.6 jmespath
+
+            echo "$VAULT_PASS" > vault_pass.txt
+
+            git submodule update --init
+
+            ssh-keyscan -H $(cd ../terraform/staging/ && terraform output --json hosts | jq --raw-output .server) >> ~/.ssh/known_hosts
+          working_directory: ~/project/ansible
+      - run:
+          command: ansible-playbook --inventory staging.py deployment_ci.yaml
+          working_directory: ~/project/ansible
+
+workflows:
+  version: '2'
+  build:
+    jobs:
+      - deploy:
+          context:
+            - scaleway
+          requires: []
+          filters:
+            branches:
+              only:
+                - develop

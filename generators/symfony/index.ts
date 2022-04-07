@@ -50,6 +50,10 @@ class SymfonyGenerator extends PackageGenerator<Options> {
                     secret: cryptoRandomString({ length: 64, type: 'alphanumeric' }),
                     twig,
                 });
+
+                this.updateCircleCIConfig((config) => {
+                    config.workflows.build.jobs.deploy.requires.push(`${packageName}-build`);
+                });
                 break;
             case DeploymentChoice.Kubernetes:
                 // Add files required for docker build

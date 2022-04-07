@@ -1,0 +1,11 @@
+---
+- import_role:
+    name: deploy
+  environment: '{{ <%= varName(packageName) %>_env }}'
+  vars:
+    path: /home/<%= packageName %>
+    artifact_file: '{{ playbook_dir }}/../<%= packagePath %>/archive.tar.gz'
+    before_finalize:
+      - ./node_modules/.bin/typeorm migration:run
+    after_finalize:
+      - systemctl restart <%= packageName %>

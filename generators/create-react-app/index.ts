@@ -20,6 +20,10 @@ class CreateReactAppGenerator extends PackageGenerator {
                 this.configureAnsible('deployment/ansible', {
                     repositoryName: this.config.get('repositoryName'),
                 });
+
+                this.updateCircleCIConfig((config) => {
+                    config.workflows.build.jobs.deploy.requires.push(`${packageName}-archive`);
+                });
                 break;
             case DeploymentChoice.Kubernetes:
                 // Add files required for docker build

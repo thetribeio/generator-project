@@ -89,6 +89,14 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
         );
     }
 
+    updateCircleCIConfig(updater: (config: CircleCI.Config) => void): void {
+        const config = CircleCI.Config.fromRaw(YAML.parse(this.readDestination('.circleci/config.yml')));
+
+        updater(config);
+
+        this.writeDestination('.circleci/config.yml', YAML.stringify(config.toRaw()));
+    }
+
     configureAnsible(templatePath: string, context: TemplateData = {}): void {
         const { packageName } = this.options;
 
@@ -98,7 +106,7 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
             }
         }
 
-        for (const file of ['deployment.yaml', 'provision.yaml', 'nginx.conf.j2']) {
+        for (const file of ['deployment.yaml', 'deployment_ci.yaml', 'provision.yaml', 'nginx.conf.j2']) {
             this.renderTemplate(
                 `${templatePath}/package/${file}.ejs`,
                 `ansible/packages/${packageName}/${file}`,

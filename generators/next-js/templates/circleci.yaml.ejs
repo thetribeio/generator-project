@@ -76,6 +76,10 @@ jobs:
       - store_artifacts:
           path: archive.tar.gz
           destination: <%= packageName %>.tar.gz
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - <%= packagePath %>/archive.tar.gz
 <% } %>
 <% if (deployment === 'kubernetes') { %>
   <%= packageName %>-build:

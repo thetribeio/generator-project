@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import YAML from 'yaml';
 import helpers from 'yeoman-test';
+import * as CircleCI from '../../utils/circleci';
 
 describe('When running the generator with Create React App', () => {
     let root: string;
@@ -32,6 +33,16 @@ describe('When running the generator with Create React App', () => {
 
         expect(config.dependencies['react-scripts']).toBeDefined();
     });
+
+    test('It add the right dependencies to the deploy job', async () => {
+        const content = await fs.promises.readFile(path.resolve(root, '.circleci', 'config.yml'), 'utf8');
+        const config = CircleCI.Config.fromRaw(YAML.parse(content));
+
+        expect(config.workflows.build.jobs.deploy.requires).toEqual([
+            'backend-archive',
+            'frontend-archive',
+        ]);
+    });
 });
 
 describe('When running the generator with Next.js', () => {
@@ -58,6 +69,44 @@ describe('When running the generator with Next.js', () => {
         const config = JSON.parse(await fs.promises.readFile(path.resolve(root, 'frontend', 'package.json'), 'utf8'));
 
         expect(config.dependencies.next).toBeDefined();
+    });
+
+    test('It add the right dependencies to the deploy job', async () => {
+        const content = await fs.promises.readFile(path.resolve(root, '.circleci', 'config.yml'), 'utf8');
+        const config = CircleCI.Config.fromRaw(YAML.parse(content));
+
+        expect(config.workflows.build.jobs.deploy.requires).toEqual([
+            'backend-archive',
+            'frontend-archive',
+        ]);
+    });
+});
+
+describe('When running the generator with Symfony', () => {
+    let root: string;
+
+    beforeAll(async () => {
+        const result = await helpers.run(__dirname)
+            .withPrompts({
+                backend: 'symfony',
+                contactEmail: 'test@example.com',
+                frontend: 'twig',
+            });
+
+        root = result.cwd;
+    });
+
+    afterAll(async () => {
+        await fs.promises.rm(root, { recursive: true });
+    });
+
+    test('It add the right dependencies to the deploy job', async () => {
+        const content = await fs.promises.readFile(path.resolve(root, '.circleci', 'config.yml'), 'utf8');
+        const config = CircleCI.Config.fromRaw(YAML.parse(content));
+
+        expect(config.workflows.build.jobs.deploy.requires).toEqual([
+            'backend-build',
+        ]);
     });
 });
 
