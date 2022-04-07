@@ -1,14 +1,11 @@
 import fs from 'fs';
 import { Data as TemplateData } from 'ejs';
-import YAML, { Options } from 'yaml';
-import { strOptions } from 'yaml/types';
+import YAML from 'yaml';
 import { GeneratorOptions } from 'yeoman-generator';
 import BaseGenerator from './BaseGenerator';
 import * as CircleCI from './circleci';
 import * as Codemagic from './codemagic';
 import validateProjectPath from './validation/validatePackagePath';
-
-strOptions.fold.lineWidth = 0;
 
 interface PackageGeneratorOptions extends GeneratorOptions {
     'http-path': string;
@@ -141,7 +138,7 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
         destination: string,
         context: TemplateData,
         merger: (a: any, b: any) => any,
-        options: Options = {},
+        options: { indent?: number; } = {},
     ): void {
         // If the destination doesn't exists, only render the template instead of merging.
         if (!this.existsDestination(destination)) {
@@ -156,7 +153,7 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
 
         const newConfig = merger(oldConfig, config);
 
-        this.writeDestination(destination, YAML.stringify(newConfig, options));
+        this.writeDestination(destination, YAML.stringify(newConfig, { lineWidth: 0, ...options }));
     }
 }
 

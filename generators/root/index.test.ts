@@ -1,11 +1,12 @@
 import fs from 'fs';
 import path from 'path';
 import execa from 'execa';
-import YAML from 'yaml';
+import YAML, { ScalarTag } from 'yaml';
 import helpers from 'yeoman-test';
 
 // Vault custom tag stub
-const regexp = {
+const vault: ScalarTag = {
+    default: false,
     identify: () => false,
     tag: '!vault',
     resolve: () => null,
@@ -36,7 +37,7 @@ describe('When running the generator', () => {
 
     test('It add a basic auth to staging config', async () => {
         const content = await fs.promises.readFile(path.join(root, 'ansible', 'group_vars', 'staging.yaml'), 'utf8');
-        const vars = YAML.parse(content, { customTags: [regexp] });
+        const vars = YAML.parse(content, { customTags: [vault] });
 
         expect(vars.basic_auth).toBeDefined();
     });
