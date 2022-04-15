@@ -16,7 +16,7 @@
         "symfony/asset": "^6.0.7",
         "symfony/console": "^6.0.7",
         "symfony/expression-language": "^6.0.7",
-        "symfony/flex": "^2.1.6",
+        "symfony/flex": "^2.1.7",
         "symfony/form": "^6.0.7",
         "symfony/framework-bundle": "^6.0.7",
         "symfony/http-client": "^6.0.7",
