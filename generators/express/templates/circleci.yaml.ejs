@@ -115,7 +115,6 @@ jobs:
       - checkout
       - docker/build:
           image: <%= projectName %>-<%= packageName %>
-          tag: << pipeline.git.branch >>
           path: <%= packagePath %>
           docker-context: <%= packagePath %>
           extra_build_args: '--build-arg VERSION=$(git log --max-count 1 --pretty=format:%H "<%= packagePath %>")'

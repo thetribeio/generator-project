@@ -215,13 +215,11 @@ jobs:
       - checkout
       - docker/build:
           image: <%= projectName %>-<%= packageName %>-php
-          tag: << pipeline.git.branch >>
           path: <%= packagePath %>
           docker-context: <%= packagePath %>
           extra_build_args: '--target=php --build-arg VERSION=$(git log --max-count 1 --pretty=format:%H "<%= packagePath %>")'
       - docker/build:
           image: <%= projectName %>-<%= packageName %>-nginx
-          tag: << pipeline.git.branch >>
           path: <%= packagePath %>
           docker-context: <%= packagePath %>
           extra_build_args: '--target=nginx --build-arg VERSION=$(git log --max-count 1 --pretty=format:%H "<%= packagePath %>")'
