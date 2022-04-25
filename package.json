@@ -12,6 +12,7 @@
     "binascii": "^0.0.2",
     "crypto-random-string": "^3.3.1",
     "ejs": "^3.1.8",
+    "indent-tag": "^0.3.1",
     "ramda": "^0.28.0",
     "tslib": "^2.4.1",
     "yaml": "^2.1.3",
