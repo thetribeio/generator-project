@@ -13,6 +13,7 @@ metadata:
     nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
     {{- end }}
 spec:
+  ingressClassName: nginx
   rules:
     - host: {{ .Values.host }}
       http:
