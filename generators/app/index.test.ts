@@ -145,3 +145,39 @@ describe('When running the generator with Flutter', () => {
         expect(config).toBeDefined();
     });
 });
+
+describe('When running the generator with React-Native', () => {
+    let root: string;
+
+    beforeAll(async () => {
+        const result = await helpers.run(__dirname)
+            .withPrompts({
+                projectName: 'my_project',
+                backend: 'express',
+                contactEmail: 'test@example.com',
+                frontend: 'next-js',
+                mobile: 'react-native',
+                applicationPrefix: 'com.example',
+                applicationDisplayName: 'My Project',
+            });
+
+        root = result.cwd;
+    });
+
+    afterAll(async () => {
+        await fs.promises.rm(root, { recursive: true });
+    });
+
+    it('It generates a React-Native mobile app', async () => {
+        const config = YAML.parse(await fs.promises.readFile(
+            path.resolve(
+                root,
+                'mobile',
+                'package.json',
+            ),
+            'utf8',
+        ));
+
+        expect(config).toBeDefined();
+    });
+});
