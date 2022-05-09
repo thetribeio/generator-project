@@ -12,7 +12,7 @@ describe('When running the generator with Create React App', () => {
             .withPrompts({
                 backend: 'express',
                 contactEmail: 'test@example.com',
-                frontend: 'create-react-app',
+                type: 'create-react-app',
             });
 
         root = result.cwd;
@@ -50,7 +50,11 @@ describe('When running the generator with Next.js', () => {
 
     beforeAll(async () => {
         const result = await helpers.run(__dirname)
-            .withPrompts({ backend: 'express', contactEmail: 'test@example.com', frontend: 'next-js' });
+            .withPrompts({
+                backend: 'express',
+                contactEmail: 'test@example.com',
+                type: 'next-js',
+            });
 
         root = result.cwd;
     });
@@ -90,7 +94,8 @@ describe('When running the generator with Symfony', () => {
             .withPrompts({
                 backend: 'symfony',
                 contactEmail: 'test@example.com',
-                frontend: 'twig',
+                add: false,
+                twig: true,
             });
 
         root = result.cwd;
@@ -119,8 +124,7 @@ describe('When running the generator with Flutter', () => {
                 projectName: 'my_project',
                 backend: 'express',
                 contactEmail: 'test@example.com',
-                frontend: 'next-js',
-                mobile: 'flutter',
+                type: 'flutter',
                 applicationPrefix: 'com.example',
                 applicationDisplayName: 'My Project',
             });
@@ -155,8 +159,7 @@ describe('When running the generator with React-Native', () => {
                 projectName: 'my_project',
                 backend: 'express',
                 contactEmail: 'test@example.com',
-                frontend: 'next-js',
-                mobile: 'react-native',
+                type: 'react-native',
                 applicationPrefix: 'com.example',
                 applicationDisplayName: 'My Project',
             });

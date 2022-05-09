@@ -1,29 +1,38 @@
 import cryptoRandomString from 'crypto-random-string';
+import { Question } from 'yeoman-generator';
 import { createEncrypt } from '../../utils/ansible';
-import PackageGenerator, { PackageGeneratorOptions } from '../../utils/PackageGenerator';
+import PackageGenerator from '../../utils/PackageGenerator';
 import varName from '../../utils/varName';
 import { DeploymentChoice } from '../root';
 
-interface Options extends PackageGeneratorOptions {
-    twig: boolean;
+interface Prompt {
+    twig: boolean,
 }
 
-class SymfonyGenerator extends PackageGenerator<Options> {
-    constructor(args: string | string[], opts: Options) {
-        super(args, opts);
+const prompt: Question<Prompt>[] = [
+    {
+        type: 'confirm',
+        name: 'twig',
+        message: 'Would you like to add twig to the Symfony backend?',
+        default: false,
+    },
+];
 
-        this.option('twig', { type: Boolean });
-    }
-
+class SymfonyGenerator extends PackageGenerator {
     initializing(): void {
         const { packageName } = this.options;
 
         this.composeWith(require.resolve('../utils/database'), [packageName]);
     }
 
+    async prompting(): Promise<void> {
+        await this.promptConfig<Prompt>(prompt);
+    }
+
     writing(): void {
         const projectName = this.config.get('projectName');
-        const { packageName, packagePath, twig } = this.options;
+        const twig = this.config.get('twig');
+        const { packageName, packagePath } = this.options;
 
         this.renderTemplate('base', packagePath);
 
