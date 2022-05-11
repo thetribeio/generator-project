@@ -52,7 +52,7 @@ for (const file of [
     'generators/create-react-app/templates/circleci.yaml.ejs',
     'generators/express/templates/circleci.yaml.ejs',
     'generators/next-js/templates/circleci.yaml.ejs',
-    'generators/symfony/templates/circleci-twig.yaml.ejs',
+    'generators/symfony/templates/circleci.yaml.ejs',
 ]) {
     updated = await replace(
         file,
