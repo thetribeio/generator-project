@@ -76,11 +76,12 @@ for (const file of [
 }
 
 // Update ansible config
-updated = await replace(
+for (const file of [
     'generators/express/templates/deployment/ansible/package/provision.yaml.ejs',
-    /version: \d+/,
-    `version: ${lastMajor}`,
-) || updated;
+    'generators/next-js/templates/deployment/ansible/package/provision.yaml.ejs',
+]) {
+    updated = await replace(file, /version: \d+/, `version: ${lastMajor}`) || updated;
+}
 
 // Update tsconfig package
 if (updated) {
