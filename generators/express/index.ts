@@ -4,9 +4,10 @@ import { DeploymentChoice } from '../root';
 
 class ExpressGenerator extends PackageGenerator {
     initializing(): void {
-        const { packageName } = this.options;
+        const { 'http-path': httpPath, packageName } = this.options;
 
         this.composeWith(require.resolve('../utils/database'), [packageName]);
+        this.composeWith(require.resolve('../utils/http'), [packageName, httpPath, 3000]);
     }
 
     writing(): void {

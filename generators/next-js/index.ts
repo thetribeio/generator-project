@@ -3,6 +3,12 @@ import varName from '../../utils/varName';
 import { DeploymentChoice } from '../root';
 
 class NextJSGenerator extends PackageGenerator {
+    initializing(): void {
+        const { 'http-path': httpPath, packageName } = this.options;
+
+        this.composeWith(require.resolve('../utils/http'), [packageName, httpPath, 3000]);
+    }
+
     writing(): void {
         const { packageName, packagePath } = this.options;
         const projectName = this.config.get('projectName');
