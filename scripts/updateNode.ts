@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-net --allow-read --allow-write
 import { dirname, fromFileUrl, join } from "https://deno.land/std@0.98.0/path/mod.ts";
-import { compare } from "https://deno.land/x/semver@v1.4.0/mod.ts";
+import { compare, major } from "https://deno.land/x/semver@v1.4.0/mod.ts";
 
 const root = dirname(dirname(fromFileUrl(import.meta.url)));
 
@@ -38,12 +38,19 @@ if (!lastLts) {
 
 const lastVersion = lastLts.version.replace(/^v/, '');
 
-const lastMajor = lastVersion.split('.').shift();
+const lastMajor = parseInt(lastVersion.split('.').shift()!, 10);
 
 // Fetch TS config package data
 const tsConfigPackage = await (await fetch(`https://registry.npmjs.com/@tsconfig/node${lastMajor}`)).json();
 
 const tsConfigVersion = tsConfigPackage.versions[tsConfigPackage['dist-tags'].latest];
+
+// Fetch @types/node package data
+const nodeTypesPackage = await (await fetch(`https://registry.npmjs.com/@types/node`)).json();
+const nodeTypesVersion: any = Object.values(nodeTypesPackage.versions)
+    .filter((version: any) => major(version.version) === lastMajor)
+    .sort((a: any, b: any) => compare(a.version, b.version))
+    .pop();
 
 let updated = false;
 
@@ -102,6 +109,27 @@ if (updated) {
         /"extends": "@tsconfig\/node\d+\/tsconfig\.json",/,
         `"extends": "@tsconfig/node${lastMajor}/tsconfig.json",`,
     );
+}
+
+// Update @types/node package
+if (updated) {
+    for (const path of [
+        'generators/create-react-app/templates/base/',
+        'generators/next-js/templates/base/',
+        'generators/react-admin/templates/base/',
+    ]) {
+        await replace(
+            `${path}/package.json.ejs`,
+            /"@types\/node": "\^\d+\.\d+\.\d+"/,
+            `"@types/node": "^${nodeTypesVersion.version}"`,
+        );
+
+        await replace(
+            `${path}/yarn.lock`,
+            /"@types\/node@\^\d+\.\d+\.\d+":\n  version "\d+\.\d+\.\d+"\n  resolved "https:\/\/registry\.yarnpkg\.com\/@types\/node\/-\/node-\d+\.\d+\.\d+\.tgz#[0-9a-f]+"\n  integrity sha512-[A-Za-z0-9+\/=]+/,
+            `"@types/node@^${nodeTypesVersion.version}":\n  version "${nodeTypesVersion.version}"\n  resolved "https://registry.yarnpkg.com/@types/node/-/node-${nodeTypesVersion.version}.tgz#${nodeTypesVersion.dist.shasum}"\n  integrity ${nodeTypesVersion.dist.integrity}`,
+        );
+    }
 }
 
 console.log(`::set-output name=version::${lastVersion}`);
