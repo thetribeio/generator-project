@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "19307082ffe2914600ae5165567517d4",
+    "content-hash": "47a07c9396725f6731ccb36de6eef2b2",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -2958,16 +2958,16 @@
         },
         {
             "name": "sentry/sentry-symfony",
-            "version": "4.2.9",
+            "version": "4.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-symfony.git",
-                "reference": "a31ea51f7270db461660de6de7e0a3e6b76c9183"
+                "reference": "d1d2895c028676113cb191516b80b91abcde31f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/a31ea51f7270db461660de6de7e0a3e6b76c9183",
-                "reference": "a31ea51f7270db461660de6de7e0a3e6b76c9183",
+                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/d1d2895c028676113cb191516b80b91abcde31f3",
+                "reference": "d1d2895c028676113cb191516b80b91abcde31f3",
                 "shasum": ""
             },
             "require": {
@@ -3057,7 +3057,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-symfony/issues",
-                "source": "https://github.com/getsentry/sentry-symfony/tree/4.2.9"
+                "source": "https://github.com/getsentry/sentry-symfony/tree/4.2.10"
             },
             "funding": [
                 {
@@ -3069,7 +3069,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2022-05-02T08:23:30+00:00"
+            "time": "2022-05-17T08:20:17+00:00"
         },
         {
             "name": "symfony/asset",
