@@ -16,7 +16,7 @@ describe('When running the generator', () => {
 
         await helpers.run(__dirname)
             .cd(root)
-            .withOptions({ twig: true })
+            .withPrompts({ twig: true })
             .withArguments(['test']);
 
         await execa(path.resolve(root, 'script', 'bootstrap'));
@@ -127,7 +127,7 @@ describe('When running the generator with twig frontend and kubernetes deploymen
 
         await helpers.run(__dirname)
             .cd(root)
-            .withOptions({ twig: true })
+            .withPrompts({ twig: true })
             .withArguments(['test']);
     });
 

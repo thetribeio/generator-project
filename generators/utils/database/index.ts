@@ -31,7 +31,7 @@ class DatabaseUtilGenerator extends BaseGenerator<DatabaseUtilGeneratorOptions> 
         }
     }
 
-    #writeAnsibleDeployment() {
+    #writeAnsibleDeployment(): void {
         const { packageName } = this.options;
 
         this.appendTemplate('deployment/ansible/staging.yaml.ejs', 'ansible/group_vars/staging.yaml', {

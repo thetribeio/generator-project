@@ -1,5 +1,6 @@
 import { Question } from 'yeoman-generator';
 import BaseGenerator from '../../utils/BaseGenerator';
+import validateFrontendName from '../../utils/validation/validateFrontendName';
 
 enum BackendChoice {
     Express = 'express',
@@ -7,26 +8,11 @@ enum BackendChoice {
     FastAPI = 'fast-api',
 }
 
-enum FrontendChoice {
-    CreateReactApp = 'create-react-app',
-    NextJS = 'next-js',
-    Twig = 'twig',
-}
-
-enum MobileChoice {
-    None = 'none',
-    Flutter = 'flutter',
-    ReactNative = 'react-native',
-}
-
-interface Prompt {
-    admin: boolean;
+interface BackendPrompt {
     backend: BackendChoice;
-    frontend: FrontendChoice;
-    mobile: MobileChoice;
 }
 
-const prompt: Question<Prompt>[] = [
+const backendPrompt: Question<BackendPrompt>[] = [
     {
         type: 'list',
         name: 'backend',
@@ -46,112 +32,157 @@ const prompt: Question<Prompt>[] = [
             },
         ],
     },
-    {
-        type: 'list',
-        name: 'frontend',
-        message: 'What frontend do you want to use?',
-        choices: ({ backend }: Prompt) => [
-            {
-                name: 'Create React App',
-                value: FrontendChoice.CreateReactApp,
-            },
-            {
-                name: 'Next.js',
-                value: FrontendChoice.NextJS,
-            },
-            {
-                name: 'Twig',
-                value: FrontendChoice.Twig,
-            },
-        ].filter(({ value }) => value !== FrontendChoice.Twig || backend === BackendChoice.Symfony),
-    },
-    {
-        type: 'confirm',
-        name: 'admin',
-        message: 'Do you want to generate an admin interface?',
-        default: false,
-    },
-    {
-        type: 'list',
-        name: 'mobile',
-        message: 'What mobile framework do you want to use ?',
-        choices: [
-            {
-                name: 'No mobile app',
-                value: MobileChoice.None,
-            },
-            {
-                name: 'Flutter',
-                value: MobileChoice.Flutter,
-            },
-            {
-                name: 'React-native',
-                value: MobileChoice.ReactNative,
-            },
-        ],
-        default: MobileChoice.None,
-    },
 ];
 
+enum FrontendType {
+    CreateReactApp = 'create-react-app',
+    NextJS = 'next-js',
+    ReactAdmin = 'react-admin',
+    Flutter = 'flutter',
+    ReactNative = 'react-native',
+}
+
+interface Frontend {
+    type: FrontendType,
+    name: string,
+}
+
+interface FrontendPrompt extends Frontend {
+    add: boolean;
+}
+
+const defaultFrontendName = (type: FrontendType): string => {
+    switch (type) {
+        case FrontendType.CreateReactApp:
+        case FrontendType.NextJS:
+            return 'frontend';
+        case FrontendType.ReactAdmin:
+            return 'admin';
+        case FrontendType.Flutter:
+        case FrontendType.ReactNative:
+            return 'mobile';
+    }
+};
+
 class AppGenerator extends BaseGenerator {
-    async prompting() {
-        const { admin, backend, frontend, mobile }: Prompt = await this.promptConfig<Prompt>(prompt);
+    async prompting(): Promise<void> {
+        const { backend }: BackendPrompt = await this.promptConfig<BackendPrompt>(backendPrompt);
+        const frontends = await this.#promptFrontends();
 
         this.composeWith(require.resolve('../root'));
 
+        // We suppose that the backend will sit at the root if there is no frontend.
+        const httpPath = frontends.length ? '/api/' : '/';
+
         switch (backend) {
             case BackendChoice.Express:
-                this.composeWith(require.resolve('../express'), { arguments: ['backend', '--http-path=/api/'] });
+                this.composeWith(require.resolve('../express'), { arguments: ['backend', `--http-path=${httpPath}`] });
                 break;
             case BackendChoice.FastAPI:
-                this.composeWith(require.resolve('../fast-api'), { arguments: ['backend', '--http-path=/api/'] });
+                this.composeWith(require.resolve('../fast-api'), { arguments: ['backend', `--http-path=${httpPath}`] });
                 break;
             case BackendChoice.Symfony: {
-                const args = frontend === FrontendChoice.Twig
-                    ? ['backend', '--http-path=/', '--twig']
-                    : ['backend', '--http-path=/api/'];
-
-                this.composeWith(require.resolve('../symfony'), { arguments: args });
+                this.composeWith(require.resolve('../symfony'), { arguments: ['backend', `--http-path=${httpPath}`] });
                 break;
             }
         }
 
-        switch (frontend) {
-            case FrontendChoice.CreateReactApp:
-                this.composeWith(require.resolve('../create-react-app'), { arguments: ['frontend', '--http-path=/'] });
-                break;
-            case FrontendChoice.NextJS:
-                this.composeWith(require.resolve('../next-js'), { arguments: ['frontend', '--http-path=/'] });
-                break;
-            case FrontendChoice.Twig:
-                // Do nothing since the twig frontend is included in the Symfony generator
-                break;
-        }
-
-        if (admin) {
-            this.composeWith(require.resolve('../react-admin'), ['admin', '--http-path=/admin/']);
-        }
-
-        switch (mobile) {
-            case MobileChoice.Flutter:
-                this.composeWith(
-                    require.resolve('../flutter-mobile'),
-                    ['mobile'],
-                );
-                break;
-            case MobileChoice.ReactNative:
-                this.composeWith(
-                    require.resolve('../react-native-mobile'),
-                    ['mobile'],
-                );
-                break;
-            case MobileChoice.None:
-                break;
+        for (const { type, name } of frontends) {
+            switch (type) {
+                case FrontendType.CreateReactApp:
+                    this.composeWith(require.resolve('../create-react-app'), { arguments: [name, '--http-path=/'] });
+                    break;
+                case FrontendType.NextJS:
+                    this.composeWith(require.resolve('../next-js'), { arguments: [name, '--http-path=/'] });
+                    break;
+                case FrontendType.ReactAdmin:
+                    this.composeWith(require.resolve('../react-admin'), [name, '--http-path=/admin/']);
+                    break;
+                case FrontendType.Flutter:
+                    this.composeWith(require.resolve('../flutter-mobile'), [name]);
+                    break;
+                case FrontendType.ReactNative:
+                    this.composeWith(require.resolve('../react-native-mobile'), [name]);
+                    break;
+            }
         }
     }
 
     end(): void {
         this.log('Your project was successfully generated, you can now start it with the ./script/server command.');
+    }
+
+    /**
+     * Custom prompting logic that allow chosing multiple frontends.
+     *
+     * This will save and reload the chosen frontends from the config in the same way `promptConfig` does.
+     */
+    async #promptFrontends(): Promise<Frontend[]> {
+        let frontends: Frontend[] = [];
+
+        const loadedFrontends = this.config.get('frontends') || [undefined];
+
+        while (true) {
+            const index = frontends.length;
+
+            const frontend = await this.prompt<FrontendPrompt>([
+                {
+                    type: 'confirm',
+                    name: 'add',
+                    message: index === 0
+                        ? 'Would you like to add a frontend?'
+                        : 'Would you like to add another frontend?',
+                    default: loadedFrontends.length > index,
+                },
+                {
+                    type: 'list',
+                    name: 'type',
+                    message: 'What frontend do you want to use?',
+                    choices: [
+                        {
+                            name: 'Create React App',
+                            value: FrontendType.CreateReactApp,
+                        },
+                        {
+                            name: 'Next.js',
+                            value: FrontendType.NextJS,
+                        },
+                        {
+                            name: 'React Admin',
+                            value: FrontendType.ReactAdmin,
+                        },
+                        {
+                            name: 'Flutter',
+                            value: FrontendType.Flutter,
+                        },
+                        {
+                            name: 'React-native',
+                            value: FrontendType.ReactNative,
+                        },
+                    ],
+                    default: loadedFrontends[index]?.type,
+                    when: ({ add }: FrontendPrompt) => add,
+                },
+                {
+                    type: 'input',
+                    name: 'name',
+                    message: 'What name do you want to use for this frontend?',
+                    default: ({ type }: FrontendPrompt) => loadedFrontends[index]?.name || defaultFrontendName(type),
+                    validate: validateFrontendName(frontends.map(({ name }) => name)),
+                    when: ({ add }: FrontendPrompt) => add,
+                },
+            ]);
+
+            if (!frontend.add) {
+                break;
+            }
+
+            frontends = [...frontends, { type: frontend.type, name: frontend.name }];
+        }
+
+        this.config.set('frontends', frontends);
+
+        return frontends;
     }
 }
 

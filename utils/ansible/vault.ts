@@ -6,7 +6,7 @@ const AES256 = 'AES256';
 const CIPHER = 'aes-256-ctr';
 const DIGEST = 'sha256';
 
-const deriveKey = (salt: Buffer, password: string) => {
+const deriveKey = (salt: Buffer, password: string): { key: Buffer, hmacKey: Buffer, iv: Buffer } => {
     const derivedKey = crypto.pbkdf2Sync(password, salt, 10000, 80, DIGEST);
     const key = derivedKey.slice(0, 32);
     const hmacKey = derivedKey.slice(32, 64);
