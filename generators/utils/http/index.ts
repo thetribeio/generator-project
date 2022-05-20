@@ -30,7 +30,7 @@ class HttpUtilGenerator extends BaseGenerator<HttpUtilGeneratorOptions> {
         }
     }
 
-    #writeAnsibleDeployment() {
+    #writeAnsibleDeployment(): void {
     }
 
     #writeKubernetesDeployment(): void {
