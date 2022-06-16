@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@thetribe/eslint-config-typescript": "^0.4.0",
-    "@tsconfig/node14": "^1.0.2",
+    "@tsconfig/node14": "^1.0.3",
     "@types/jest": "^28.1.1",
     "@types/ramda": "^0.28.14",
     "@types/xml2js": "^0.4.11",
