@@ -34,7 +34,7 @@
     "glob": "^8.0.3",
     "jest": "^28.1.1",
     "ts-jest": "^28.0.5",
-    "typescript": "^4.7.3",
+    "typescript": "^4.7.4",
     "xml2js": "^0.4.23",
     "yeoman-environment": "^3.2.0",
     "yeoman-test": "^5.1.0"
