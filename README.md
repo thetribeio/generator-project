@@ -14,10 +14,11 @@ The generator is here to make us more efficient when starting a new project by g
 ## Chosen Stack
 
 The current MVP covers the most used technologies which are:
-* DevOps: Ansible, docker-compose, circleCi
-* Backend: Node + Express + TypeORM / Symfony
-* Frontend: React with CRA / Next boilerplate
-* Miscellaneous: Cypress / Jest
+* DevOps: Ansible, docker-compose, CircleCI, Codemagic
+* Backend: Node + Express + TypeORM, Symfony, FastAPI
+* Web: Create React App, NextJS
+* Mobile: Flutter, React Native
+* Miscellaneous: Cypress, Jest
 
 More languages/tools will come in the future.
 
@@ -27,7 +28,7 @@ You can quickly use the generator by following the [quickstart guide](doc/QUICKS
 
 ## Advanced Usage
 
-You can also run the generator manually which let you pick what individual template you want to add 
+You can also run the generator manually which let you pick what individual template you want to add.
 
 Run `yo @thetribe/project:root` to generate a bare root project and then
 [add more components to your project](#add-more-components)
@@ -37,7 +38,12 @@ Run `yo @thetribe/project:root` to generate a bare root project and then
 You can add more components to an existing project with the following commands:
 - `yo @thetribe/project:create-react-app [name]`
 - `yo @thetribe/project:express [name]`
+- `yo @thetribe/project:fast-api [name]`
+- `yo @thetribe/project:flutter-mobile [name]`
 - `yo @thetribe/project:next-js [name]`
+- `yo @thetribe/project:react-admin [name]`
+- `yo @thetribe/project:react-native-mobile [name]`
+- `yo @thetribe/project:symfony [name]`
 
 ## Contributing
 
