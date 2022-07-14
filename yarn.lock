@@ -5685,10 +5685,10 @@ treeverse@^1.0.4:
   resolved "https://registry.yarnpkg.com/treeverse/-/treeverse-1.0.4.tgz#a6b0ebf98a1bca6846ddc7ecbc900df08cb9cd5f"
   integrity sha512-whw60l7r+8ZU8Tu/Uc2yxtc4ZTZbR/PF3u1IPNKGQ6p8EICLb3Z2lAgoqw9bqYd8IkgnsaOcLzYHFckjqNsf0g==
 
-ts-jest@^28.0.5:
-  version "28.0.5"
-  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-28.0.5.tgz#31776f768fba6dfc8c061d488840ed0c8eeac8b9"
-  integrity sha512-Sx9FyP9pCY7pUzQpy4FgRZf2bhHY3za576HMKJFs+OnQ9jS96Du5vNsDKkyedQkik+sEabbKAnCliv9BEsHZgQ==
+ts-jest@^28.0.6:
+  version "28.0.6"
+  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-28.0.6.tgz#d63df9a9908044cd891e066ad869b1a432e70d67"
+  integrity sha512-yLAWoaSJ6c9o+IT7+nyutp5uvwGzhMYb/LD5WEQAi2tBq4ZSAPay4Lf69pP/IU+GFYg87pdg5eADSzuNAFSK4g==
   dependencies:
     bs-logger "0.x"
     fast-json-stable-stringify "2.x"
