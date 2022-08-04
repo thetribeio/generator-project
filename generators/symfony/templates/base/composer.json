@@ -40,7 +40,7 @@
         "symfony/stopwatch": "^6.1",
         "symfony/twig-bundle": "^6.1",
         "symfony/web-profiler-bundle": "^6.1",
-        "thetribe/coding-standard": "^0.2.0"
+        "thetribe/coding-standard": "^0.3.0"
     },
     "config": {
         "platform": {
