@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "05df5fa1989d965b7bfea7f00df08354",
+    "content-hash": "e7b56bcedb5da174fb2f036b58da70e8",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -8184,17 +8184,20 @@
         },
         {
             "name": "thetribe/coding-standard",
-            "version": "v0.2.0",
+            "version": "v0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thetribeio/php-coding-standard.git",
-                "reference": "4fd2a3a65430d0797ca876727daaae5363e4b83a"
+                "reference": "cdc40dadfb00f1ada172b2a248031d3b79faf5c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thetribeio/php-coding-standard/zipball/4fd2a3a65430d0797ca876727daaae5363e4b83a",
-                "reference": "4fd2a3a65430d0797ca876727daaae5363e4b83a",
+                "url": "https://api.github.com/repos/thetribeio/php-coding-standard/zipball/cdc40dadfb00f1ada172b2a248031d3b79faf5c3",
+                "reference": "cdc40dadfb00f1ada172b2a248031d3b79faf5c3",
                 "shasum": ""
+            },
+            "require": {
+                "php": "^8.0.0"
             },
             "conflict": {
                 "friendsofphp/php-cs-fixer": "<3"
@@ -8218,9 +8221,9 @@
             "description": "PHP coding standard",
             "support": {
                 "issues": "https://github.com/thetribeio/php-coding-standard/issues",
-                "source": "https://github.com/thetribeio/php-coding-standard/tree/v0.2.0"
+                "source": "https://github.com/thetribeio/php-coding-standard/tree/v0.3.0"
             },
-            "time": "2021-06-04T14:10:11+00:00"
+            "time": "2022-08-04T09:21:57+00:00"
         }
     ],
     "aliases": [],
