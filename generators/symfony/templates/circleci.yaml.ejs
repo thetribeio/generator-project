@@ -189,13 +189,13 @@ jobs:
               migrations/ \
               public/ \
               src/ \
-              <% if (twig) { %>
+              <%_ if (twig) { _%>
               templates/ \
-              <% } %>
+              <%_ } _%>
               var/cache/prod/ \
-              <% if (twig) { %>
+              <%_ if (twig) { _%>
               var/manifest.json \
-              <% } %>
+              <%_ } _%>
               vendor/ \
       - store_artifacts:
           path: archive.tar.gz
