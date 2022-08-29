@@ -19,7 +19,7 @@ class BaseGenerator<T extends GeneratorOptions = GeneratorOptions> extends Gener
      *  - It only store the data in the local config and not the global config
      *  - It doesn't nest the value under a `promptValues` key in the config
      */
-    async promptConfig<Q>(questions: Generator.Question<Q>[]): Promise<Q> {
+    async promptConfig<Q extends Record<string, any>>(questions: Generator.Question<Q>[]): Promise<Q> {
         const loaded = questions.map((question) => ({
             ...question,
             default: this.config.get(question.name!) ?? question.default,
