@@ -1,3 +1,5 @@
+import cryptoRandomString from 'crypto-random-string';
+import { createEncrypt } from '../../utils/ansible';
 import PackageGenerator from '../../utils/PackageGenerator';
 import varName from '../../utils/varName';
 import { DeploymentChoice } from '../root';
@@ -26,6 +28,8 @@ class ExpressGenerator extends PackageGenerator {
             case DeploymentChoice.Ansible:
                 this.configureAnsible('deployment/ansible', {
                     repositoryName: this.config.get('repositoryName'),
+                    encrypt: createEncrypt(this.readDestination('ansible/vault_pass.txt').trim()),
+                    cookieSecret: cryptoRandomString({ length: 64, type: 'alphanumeric' }),
                 });
 
                 this.updateCircleCIConfig((config) => {
