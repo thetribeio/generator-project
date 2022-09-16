@@ -115,6 +115,7 @@ if (updated) {
 if (updated) {
     for (const path of [
         'generators/create-react-app/templates/base/',
+        'generators/express/templates/base/',
         'generators/next-js/templates/base/',
         'generators/react-admin/templates/base/',
     ]) {

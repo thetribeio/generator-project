@@ -1,5 +1,5 @@
+import { randomUUID } from 'crypto';
 import bcrypt from 'bcrypt';
-import { v4 as uuidv4 } from 'uuid';
 
 class User {
     id: string;
@@ -9,7 +9,7 @@ class User {
     passwordHash: string | null = null;
 
     constructor(email: string) {
-        this.id = uuidv4();
+        this.id = randomUUID();
         this.email = email;
     }
 
