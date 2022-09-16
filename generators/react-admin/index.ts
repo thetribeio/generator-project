@@ -6,8 +6,8 @@ class ReactAdminSubGenerator extends PackageGenerator {
 
         this.renderTemplate('base', packagePath, undefined, undefined, { globOptions: { dot: true } });
 
-        this.fs.delete(`${packagePath}/src/App.css`);
         this.fs.delete(`${packagePath}/src/App.test.tsx`);
+        this.fs.delete(`${packagePath}/src/components/`);
         this.fs.delete(`${packagePath}/src/logo.svg`);
     }
 }
