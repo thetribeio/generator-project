@@ -27,8 +27,9 @@ class User {
 }
 
 interface UserRepository {
-    findOne(id: string): Promise<User | undefined>;
-    findOne(condition: Partial<User>): Promise<User | undefined>;
+    all(): Promise<User[]>;
+    findById(id: string): Promise<User | null>;
+    findByEmail(email: string): Promise<User | null>;
 }
 
 export { User, UserRepository };
