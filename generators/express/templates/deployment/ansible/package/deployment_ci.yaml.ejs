@@ -6,6 +6,6 @@
     path: /home/<%= packageName %>
     artifact_file: '{{ playbook_dir }}/../<%= packagePath %>/archive.tar.gz'
     before_finalize:
-      - ./node_modules/.bin/typeorm migration:run
+      - ./node_modules/.bin/typeorm --dataSource dist/infrastructure/database/data-source.js migration:run
     after_finalize:
       - systemctl restart <%= packageName %>

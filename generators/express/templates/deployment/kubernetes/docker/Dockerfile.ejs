@@ -30,7 +30,6 @@ RUN yarn build
 # Final image
 FROM base
 
-COPY ormconfig-dist.js ./ormconfig.js
 COPY --from=dependencies /srv/<%= packageName %>/node_modules /srv/<%= packageName %>/node_modules
 COPY --from=build /srv/<%= packageName %>/dist /srv/<%= packageName %>/dist
 

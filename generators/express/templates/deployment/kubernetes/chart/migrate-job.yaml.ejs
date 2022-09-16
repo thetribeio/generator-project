@@ -19,6 +19,8 @@ spec:
           image: {{ include "<%= projectName %>.<%= packageName %>.image" . }}
           command:
             - typeorm
+            - --dataSource
+            - dist/infrastructure/database/data-source.js
             - migration:run
           env:
             - name: DATABASE_URL
