@@ -1,6 +1,5 @@
-import { getRepository } from 'typeorm';
-import { User } from '../../domain/User';
+import DatabaseUserRepository from './repositories/UserRepository';
 
-const userRepository = getRepository<User>(User);
+const userRepository = new DatabaseUserRepository();
 
 export { userRepository };

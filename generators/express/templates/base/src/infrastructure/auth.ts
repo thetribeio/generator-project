@@ -11,11 +11,7 @@ const auth = new Authenticator();
 // User serializing
 auth.serializeUser(callbackify(async (user: User): Promise<string> => user.id));
 
-auth.deserializeUser(callbackify(async (id: string): Promise<User|null> => {
-    const user = await userRepository.findOne(id);
-
-    return user ?? null;
-}));
+auth.deserializeUser(callbackify(async (id: string): Promise<User|null> => userRepository.findById(id)));
 
 // Strategies
 auth.use(new LocalStrategy(async (username, password, done): Promise<void> => {

@@ -11,7 +11,7 @@ interface Context {
 }
 
 const loginUser = ({ username, password }: Arg) => async ({ userRepository }: Context): Promise<User> => {
-    const user = await userRepository.findOne({ email: username });
+    const user = await userRepository.findByEmail(username);
 
     if (!user) {
         throw new UserError('Incorrect username.');

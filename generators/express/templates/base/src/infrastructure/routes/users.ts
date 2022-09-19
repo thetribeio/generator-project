@@ -5,7 +5,7 @@ import { mapUser } from '../mappers';
 const router = Router();
 
 router.get('/', async (req: Request, res: Response) => {
-    res.json((await userRepository.find()).map(mapUser));
+    res.json((await userRepository.all()).map(mapUser));
 });
 
 export default router;
