@@ -1,7 +1,6 @@
 /// <reference types="./types" />
 import * as Sentry from '@sentry/node';
-import { createConnection } from 'typeorm';
-import connectionOptions from './infrastructure/database/config';
+import dataSource from './infrastructure/database/data-source';
 import version from './version';
 
 Sentry.init({
@@ -11,7 +10,7 @@ Sentry.init({
 });
 
 (async () => {
-    await createConnection(connectionOptions);
+    await dataSource.initialize();
 
     const { default: app } = await import('./infrastructure/app');
 

@@ -14,6 +14,6 @@
     job_name: <%= packageName %>-archive
     repository_name: <%= repositoryName %>
     before_finalize:
-      - ./node_modules/.bin/typeorm migration:run
+      - ./node_modules/.bin/typeorm --dataSource dist/infrastructure/database/data-source.js migration:run
     after_finalize:
       - systemctl restart <%= packageName %>

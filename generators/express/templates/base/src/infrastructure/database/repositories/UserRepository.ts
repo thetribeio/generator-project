@@ -1,17 +1,23 @@
-import { getRepository } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { User, UserRepository } from '../../../domain/User';
 
 class DatabaseUserRepository implements UserRepository {
+    #dataSource: DataSource;
+
+    constructor(dataSource: DataSource) {
+        this.#dataSource = dataSource;
+    }
+
     all(): Promise<User[]> {
-        return getRepository<User>(User).find();
+        return this.#dataSource.manager.find(User);
     }
 
-    async findById(id: string): Promise<User | null> {
-        return (await getRepository<User>(User).findOne(id)) ?? null;
+    findById(id: string): Promise<User | null> {
+        return this.#dataSource.manager.findOneBy(User, { id });
     }
 
-    async findByEmail(email: string): Promise<User | null> {
-        return (await getRepository<User>(User).findOne({ email })) ?? null;
+    findByEmail(email: string): Promise<User | null> {
+        return this.#dataSource.manager.findOneBy(User, { email });
     }
 }
 
