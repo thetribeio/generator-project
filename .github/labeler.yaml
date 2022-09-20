@@ -13,5 +13,11 @@ generator/flutter-mobile:
 generator/next-js:
   - generators/next-js/**/*
 
+generator/react-admin:
+  - generators/react-admin/**/*
+
+generator/react-native-mobile:
+  - generators/react-native-mobile/**/*
+
 generator/symfony:
   - generators/symfony/**/*
