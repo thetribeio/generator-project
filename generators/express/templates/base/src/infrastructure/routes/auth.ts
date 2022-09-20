@@ -1,3 +1,4 @@
+import { promisify } from 'util';
 import { Request, Response, Router } from 'express';
 import auth from '../auth';
 import { mapUser } from '../mappers';
@@ -8,8 +9,8 @@ router.post('/login', auth.authenticate('local'), (req: Request, res: Response) 
     res.json(mapUser(req.user!));
 });
 
-router.post('/logout', (req: Request, res: Response) => {
-    req.logout();
+router.post('/logout', async (req: Request, res: Response) => {
+    await promisify(req.logout)();
 
     res.sendStatus(200);
 });
