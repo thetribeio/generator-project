@@ -17,8 +17,9 @@
     "postcss": "^8.4.16",
     "postcss-loader": "^7.0.1",
     "sass": "^1.54.9",
-    "sass-lint": "^1.13.1",
     "sass-loader": "^13.0.2",
+    "stylelint": "^14.12.0",
+    "stylelint-config-recommended-scss": "^7.0.0",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.11.1",
@@ -27,7 +28,7 @@
   "scripts": {
     "build": "webpack",
     "lint:js": "eslint assets webpack.config.js",
-    "lint:scss": "sass-lint --verbose",
+    "lint:scss": "stylelint 'assets/**/*.scss'",
     "start": "webpack-dev-server --host 0.0.0.0"
   }
 }

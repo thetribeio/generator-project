@@ -16,10 +16,14 @@ const { cwd: path } = await helpers.run(resolve(root, 'dist', 'generators', 'roo
 
 await helpers.run(resolve(root, 'dist', 'generators', generator))
     .cd(path)
+    .withPrompts(generator === 'symfony' ? { twig: true } : {})
     .withArguments(['test']);
 
 await execa('yarn', ['install'], { cwd: join(path, 'test') });
 
-await cp(join(path, 'test', 'yarn.lock'), join(root, 'generators', generator, 'templates', 'base', 'yarn.lock'));
+await cp(
+    join(path, 'test', 'yarn.lock'),
+    join(root, 'generators', generator, 'templates',  generator === 'symfony' ? 'base-twig' : 'base', 'yarn.lock'),
+);
 
 await rm(path,  { force: true, recursive: true })
