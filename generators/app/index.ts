@@ -9,7 +9,7 @@ enum BackendChoice {
 }
 
 interface BackendPrompt {
-    backend: BackendChoice;
+    backend: BackendChoice|null;
 }
 
 const backendPrompt: Question<BackendPrompt>[] = [
@@ -29,6 +29,10 @@ const backendPrompt: Question<BackendPrompt>[] = [
             {
                 name: 'FastAPI',
                 value: BackendChoice.FastAPI,
+            },
+            {
+                name: 'None',
+                value: null,
             },
         ],
     },
@@ -71,19 +75,22 @@ class AppGenerator extends BaseGenerator {
 
         this.composeWith(require.resolve('../root'));
 
-        // We suppose that the backend will sit at the root if there is no frontend.
-        const httpPath = frontends.length ? '/api/' : '/';
+        if (backend) {
+            // We suppose that the backend will sit at the root if there is no frontend.
+            const httpPath = frontends.length ? '/api/' : '/';
+            const options = { arguments: ['backend', `--http-path=${httpPath}`] };
 
-        switch (backend) {
-            case BackendChoice.Express:
-                this.composeWith(require.resolve('../express'), { arguments: ['backend', `--http-path=${httpPath}`] });
-                break;
-            case BackendChoice.FastAPI:
-                this.composeWith(require.resolve('../fast-api'), { arguments: ['backend', `--http-path=${httpPath}`] });
-                break;
-            case BackendChoice.Symfony: {
-                this.composeWith(require.resolve('../symfony'), { arguments: ['backend', `--http-path=${httpPath}`] });
-                break;
+            switch (backend) {
+                case BackendChoice.Express:
+                    this.composeWith(require.resolve('../express'), options);
+                    break;
+                case BackendChoice.FastAPI:
+                    this.composeWith(require.resolve('../fast-api'), options);
+                    break;
+                case BackendChoice.Symfony: {
+                    this.composeWith(require.resolve('../symfony'), options);
+                    break;
+                }
             }
         }
 
