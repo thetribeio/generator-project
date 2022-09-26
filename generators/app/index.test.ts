@@ -184,3 +184,26 @@ describe('When running the generator with React-Native', () => {
         expect(config).toBeDefined();
     });
 });
+
+describe('When running the generator without a Backend', () => {
+    let root: string;
+
+    beforeAll(async () => {
+        const result = await helpers.run(__dirname)
+            .withPrompts({
+                backend: null,
+                contactEmail: 'test@example.com',
+                type: 'create-react-app',
+            });
+
+        root = result.cwd;
+    });
+
+    afterAll(async () => {
+        await fs.promises.rm(root, { recursive: true });
+    });
+
+    it('It doesn\'t create a backend directory', async () => {
+        expect(fs.existsSync(path.resolve(root, 'backend'))).toBe(false);
+    });
+});
