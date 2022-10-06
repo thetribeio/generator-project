@@ -44,6 +44,7 @@ enum FrontendType {
     ReactAdmin = 'react-admin',
     Flutter = 'flutter',
     ReactNative = 'react-native',
+    ViteReactApp = 'vite-react-app',
 }
 
 interface Frontend {
@@ -59,6 +60,7 @@ const defaultFrontendName = (type: FrontendType): string => {
     switch (type) {
         case FrontendType.CreateReactApp:
         case FrontendType.NextJS:
+        case FrontendType.ViteReactApp:
             return 'frontend';
         case FrontendType.ReactAdmin:
             return 'admin';
@@ -111,6 +113,9 @@ class AppGenerator extends BaseGenerator {
                 case FrontendType.ReactNative:
                     this.composeWith(require.resolve('../react-native-mobile'), [name]);
                     break;
+                case FrontendType.ViteReactApp:
+                    this.composeWith(require.resolve('../vite-react-app'), { arguments: [name, '--http-path=/'] });
+                    break;
             }
         }
     }
@@ -120,7 +125,7 @@ class AppGenerator extends BaseGenerator {
     }
 
     /**
-     * Custom prompting logic that allow chosing multiple frontends.
+     * Custom prompting logic that allow choosing multiple frontends.
      *
      * This will save and reload the chosen frontends from the config in the same way `promptConfig` does.
      */
@@ -165,6 +170,10 @@ class AppGenerator extends BaseGenerator {
                         {
                             name: 'React-native',
                             value: FrontendType.ReactNative,
+                        },
+                        {
+                            name: 'Vite React App',
+                            value: FrontendType.ViteReactApp,
                         },
                     ],
                     default: loadedFrontends[index]?.type,

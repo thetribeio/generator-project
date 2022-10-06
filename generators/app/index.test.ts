@@ -185,6 +185,47 @@ describe('When running the generator with React-Native', () => {
     });
 });
 
+describe('When running the generator with Vite React App', () => {
+    let root: string;
+
+    beforeAll(async () => {
+        const result = await helpers.run(__dirname)
+            .withPrompts({
+                backend: 'express',
+                contactEmail: 'test@example.com',
+                type: 'vite-react-app',
+            });
+
+        root = result.cwd;
+    });
+
+    afterAll(async () => {
+        await fs.promises.rm(root, { recursive: true });
+    });
+
+    test('It generates an Express backend', async () => {
+        const config = JSON.parse(await fs.promises.readFile(path.resolve(root, 'backend', 'package.json'), 'utf8'));
+
+        expect(config.dependencies.express).toBeDefined();
+    });
+
+    test('It generates a Vite React App frontend', async () => {
+        const config = JSON.parse(await fs.promises.readFile(path.resolve(root, 'frontend', 'package.json'), 'utf8'));
+
+        expect(config.devDependencies['vite']).toBeDefined();
+    });
+
+    test('It add the right dependencies to the deploy job', async () => {
+        const content = await fs.promises.readFile(path.resolve(root, '.circleci', 'config.yml'), 'utf8');
+        const config = CircleCI.Config.fromRaw(YAML.parse(content));
+
+        expect(config.workflows.build.jobs.deploy.requires).toEqual([
+            'backend-archive',
+            'frontend-archive',
+        ]);
+    });
+});
+
 describe('When running the generator without a Backend', () => {
     let root: string;
 
