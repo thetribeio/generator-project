@@ -1,0 +1,13 @@
+FROM node:16.17.0
+
+RUN userdel node
+
+ARG UID
+RUN useradd --non-unique --uid $UID --create-home user
+USER user
+
+WORKDIR /usr/src/project/<%= packagePath %>
+
+ENV PATH="/usr/src/project/<%= packagePath %>/node_modules/.bin:${PATH}"
+
+CMD ["yarn", "start"]

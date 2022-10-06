@@ -1,0 +1,13 @@
+location <%= httpPath %> {
+    alias /home/<%= packageName %>/current/build/;
+
+    try_files $uri <%= httpPath %>index.html;
+
+    add_header cache-control "no-store";
+
+    location <%= httpPath %>assets/ {
+        try_files $uri =404;
+
+        add_header cache-control "public, max-age=31536000, immutable";
+    }
+}
