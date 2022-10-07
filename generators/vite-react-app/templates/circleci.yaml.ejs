@@ -54,7 +54,7 @@ jobs:
       - persist_to_workspace:
           root: ~/project
           paths:
-              - <%= packagePath %>/build
+              - <%= packagePath %>/dist
 
   <%= packageName %>-archive:
     executor: node
@@ -68,7 +68,7 @@ jobs:
           name: Create archive
           command: |
             tar --create --gzip --file=archive.tar.gz --owner=0 --group=0 \
-              build/ \
+              dist/ \
       - store_artifacts:
           path: archive.tar.gz
           destination: <%= packageName %>.tar.gz
@@ -87,7 +87,7 @@ jobs:
       - attach_workspace:
           at: ~/project
       - run: sentry-cli releases new <%= projectName %>-<%= packageName %>@${CIRCLE_SHA1}
-      - run: sentry-cli releases files <%= projectName %>-<%= packageName %>@${CIRCLE_SHA1} upload-sourcemaps <%= packagePath %>/build
+      - run: sentry-cli releases files <%= projectName %>-<%= packageName %>@${CIRCLE_SHA1} upload-sourcemaps <%= packagePath %>/dist
       - run: sentry-cli releases finalize <%= projectName %>-<%= packageName %>@${CIRCLE_SHA1}
 <% } %>
 

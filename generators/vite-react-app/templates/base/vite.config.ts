@@ -12,11 +12,11 @@ export default defineConfig({
         environment: 'jsdom',
         setupFiles: './src/setupTests.ts',
     },
-    build: {
-        outDir: 'build',
-    },
     server: {
         host: '0.0.0.0',
         port: 3000,
+        hmr: {
+            path: 'sockjs-node',
+        },
     },
 });

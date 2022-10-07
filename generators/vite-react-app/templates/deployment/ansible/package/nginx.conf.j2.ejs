@@ -1,5 +1,5 @@
 location <%= httpPath %> {
-    alias /home/<%= packageName %>/current/build/;
+    alias /home/<%= packageName %>/current/dist/;
 
     try_files $uri <%= httpPath %>index.html;
 
