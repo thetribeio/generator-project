@@ -212,7 +212,7 @@ describe('When running the generator with Vite React App', () => {
     test('It generates a Vite React App frontend', async () => {
         const config = JSON.parse(await fs.promises.readFile(path.resolve(root, 'frontend', 'package.json'), 'utf8'));
 
-        expect(config.devDependencies['vite']).toBeDefined();
+        expect(config.devDependencies.vite).toBeDefined();
     });
 
     test('It add the right dependencies to the deploy job', async () => {
