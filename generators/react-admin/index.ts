@@ -17,7 +17,7 @@ class ReactAdminGenerator extends PackageGenerator {
         const { 'http-path': httpPath, packageName, packagePath } = this.options;
         const args = [packageName, `--path=${packagePath}`, `--http-path=${httpPath}`];
 
-        this.composeWith(require.resolve('../create-react-app'), args);
+        this.composeWith(require.resolve('../react'), args);
         this.composeWith({ Generator: ReactAdminSubGenerator, path: __dirname }, args);
     }
 }

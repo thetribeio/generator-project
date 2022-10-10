@@ -39,7 +39,7 @@ const backendPrompt: Question<BackendPrompt>[] = [
 ];
 
 enum FrontendType {
-    CreateReactApp = 'create-react-app',
+    React = 'react',
     NextJS = 'next-js',
     ReactAdmin = 'react-admin',
     Flutter = 'flutter',
@@ -57,7 +57,7 @@ interface FrontendPrompt extends Frontend {
 
 const defaultFrontendName = (type: FrontendType): string => {
     switch (type) {
-        case FrontendType.CreateReactApp:
+        case FrontendType.React:
         case FrontendType.NextJS:
             return 'frontend';
         case FrontendType.ReactAdmin:
@@ -96,8 +96,8 @@ class AppGenerator extends BaseGenerator {
 
         for (const { type, name } of frontends) {
             switch (type) {
-                case FrontendType.CreateReactApp:
-                    this.composeWith(require.resolve('../create-react-app'), { arguments: [name, '--http-path=/'] });
+                case FrontendType.React:
+                    this.composeWith(require.resolve('../react'), { arguments: [name, '--http-path=/'] });
                     break;
                 case FrontendType.NextJS:
                     this.composeWith(require.resolve('../next-js'), { arguments: [name, '--http-path=/'] });
@@ -147,8 +147,8 @@ class AppGenerator extends BaseGenerator {
                     message: 'What frontend do you want to use?',
                     choices: [
                         {
-                            name: 'Create React App',
-                            value: FrontendType.CreateReactApp,
+                            name: 'React',
+                            value: FrontendType.React,
                         },
                         {
                             name: 'Next.js',
