@@ -1,5 +1,5 @@
-generator/create-react-app:
-  - generators/create-react-app/**/*
+generator/react:
+  - generators/react/**/*
 
 generator/express:
   - generators/express/**/*

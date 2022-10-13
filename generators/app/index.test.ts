@@ -4,7 +4,7 @@ import YAML from 'yaml';
 import helpers from 'yeoman-test';
 import * as CircleCI from '../../utils/circleci';
 
-describe('When running the generator with Create React App', () => {
+describe('When running the generator with React', () => {
     let root: string;
 
     beforeAll(async () => {
@@ -12,7 +12,7 @@ describe('When running the generator with Create React App', () => {
             .withPrompts({
                 backend: 'express',
                 contactEmail: 'test@example.com',
-                type: 'create-react-app',
+                type: 'react',
             });
 
         root = result.cwd;
@@ -28,7 +28,7 @@ describe('When running the generator with Create React App', () => {
         expect(config.dependencies.express).toBeDefined();
     });
 
-    test('It generates a Create React App frontend', async () => {
+    test('It generates a React frontend', async () => {
         const config = JSON.parse(await fs.promises.readFile(path.resolve(root, 'frontend', 'package.json'), 'utf8'));
 
         expect(config.devDependencies['react-scripts']).toBeDefined();
