@@ -38,13 +38,13 @@ class HttpUtilGenerator extends BaseGenerator<HttpUtilGeneratorOptions> {
 
         this.renderTemplate(
             'deployment/kubernetes/chart/ingress.yaml.ejs',
-            `modules/deployment/chart/templates/${packageName}-ingress.yaml`,
+            `infra/common/deployment/chart/templates/${packageName}-ingress.yaml`,
             { httpPath, packageName },
         );
 
         this.renderTemplate(
             'deployment/kubernetes/chart/service.yaml.ejs',
-            `modules/deployment/chart/templates/${packageName}-service.yaml`,
+            `infra/common/deployment/chart/templates/${packageName}-service.yaml`,
             { packageName, port },
         );
     }
