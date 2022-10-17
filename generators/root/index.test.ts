@@ -58,14 +58,14 @@ describe('When running the generator with kubernetes deployment', () => {
     });
 
     test('It generates a valid terraform configuration', async () => {
-        const cwd = path.join(root, 'environments', 'staging');
+        const cwd = path.join(root, 'infra', 'environments', 'staging');
 
         await execa('terraform', ['init', '--backend=false'], { cwd });
         await execa('terraform', ['validate'], { cwd });
     });
 
     test('It generates a valid helm chart', async () => {
-        const cwd = path.join(root, 'modules', 'deployment', 'chart');
+        const cwd = path.join(root, 'infra', 'modules', 'deployment', 'chart');
 
         await execa('helm', ['lint'], { cwd });
     });

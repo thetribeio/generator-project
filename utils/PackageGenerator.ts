@@ -100,16 +100,14 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
     configureAnsible(templatePath: string, context: TemplateData = {}): void {
         const { packageName } = this.options;
 
-        for (const file of ['all.yaml', 'staging.yaml']) {
-            if (this.templateExists(`${templatePath}/group_vars/${file}.ejs`)) {
-                this.appendTemplate(`${templatePath}/group_vars/${file}.ejs`, `ansible/group_vars/${file}`, context);
-            }
+        if (this.templateExists(`${templatePath}/env/vars.yaml.ejs`)) {
+            this.appendTemplate(`${templatePath}/env/vars.yaml.ejs`, 'infra/envs/staging/vars.yaml', context);
         }
 
-        for (const file of ['deployment.yaml', 'deployment_ci.yaml', 'provision.yaml', 'nginx.conf.j2']) {
+        for (const file of ['deployment.yaml', 'deployment_ci.yaml', 'provision.yaml', 'nginx.conf.j2', 'vars.yaml']) {
             this.renderTemplate(
                 `${templatePath}/package/${file}.ejs`,
-                `ansible/packages/${packageName}/${file}`,
+                `infra/common/ansible/packages/${packageName}/${file}`,
                 context,
             );
         }
@@ -127,7 +125,7 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
 
             this.renderTemplate(
                 `${templatePath}/${file}`,
-                `modules/deployment/chart/templates/${destinationName}`,
+                `infra/common/deployment/chart/templates/${destinationName}`,
                 context,
             );
         }
