@@ -27,7 +27,7 @@
     "@types/yeoman-test": "^4.0.3",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@typescript-eslint/parser": "^5.42.0",
-    "eslint": "^8.26.0",
+    "eslint": "^8.27.0",
     "eslint-plugin-import": "^2.26.0",
     "execa": "^5.1.1",
     "fast-plist": "^0.1.2",
