@@ -77,13 +77,17 @@ class BaseGenerator<T extends GeneratorOptions = GeneratorOptions> extends Gener
     }
 
     appendTemplate(source: string, destination: string, context: TemplateData = {}): void {
-        this.fs.append(this.destinationPath(destination), this.renderTemplateToString(source, context));
+        this.appendDestination(destination, this.renderTemplateToString(source, context));
     }
 
     prependTemplate(source: string, destination: string, context: TemplateData = {}): void {
         const destinationPath = this.destinationPath(destination);
 
         this.fs.write(destinationPath, this.renderTemplateToString(source, context) + this.fs.read(destinationPath));
+    }
+
+    appendDestination(destination: string, content: string): void {
+        this.fs.append(this.destinationPath(destination), content);
     }
 
     replaceDestination(path: string, searchValue: RegExp, replaceValue: string): void {

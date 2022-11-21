@@ -1,3 +1,4 @@
+import indent from 'indent-tag';
 import PackageGenerator from '../../utils/PackageGenerator';
 import varName from '../../utils/varName';
 import { DeploymentChoice } from '../root';
@@ -31,41 +32,46 @@ class CreateReactAppGenerator extends PackageGenerator {
                     config.workflows.build.jobs.deploy.requires.push(`${packageName}-archive`);
                 });
                 break;
-            case DeploymentChoice.Kubernetes:
+            case DeploymentChoice.Kubernetes: {
+                const packageVar = varName(packageName);
+
                 // Add files required for docker build
                 this.renderTemplate('deployment/kubernetes/docker', packagePath);
 
                 // Update chart
                 this.configureChart('deployment/kubernetes/chart');
 
-                this.replaceDestination(
-                    'modules/deployment/chart/values.yaml',
-                    /$/s,
-                    `\n${varName(packageName)}:\n  image:\n    tag: latest\n    digest: ~\n  sentry:\n    dsn: ~\n`,
-                );
+                this.appendDestination('modules/deployment/chart/values.yaml', indent`
+
+                    ${packageVar}:
+                      image:
+                        tag: latest
+                        digest: ~
+                      sentry:
+                        dsn: ~
+                `);
 
                 this.writeTerraformVariable(
-                    `${varName(packageName)}_sentry_dsn`,
+                    `${packageVar}_sentry_dsn`,
                     'string',
                     '"" # TODO Add sentry DSN here',
                 );
-                this.writeTerraformVariable(`${varName(packageName)}_image_tag`, 'string', '"develop"');
+                this.writeTerraformVariable(`${packageVar}_image_tag`, 'string', '"develop"');
 
-                this.replaceDestination(
-                    'modules/deployment/release.tf',
-                    /$/s,
-                    `\ndata "docker_registry_image" "${varName(packageName)}" {\n    name = "\${var.registry}/${projectName}-${packageName}:\${var.${varName(packageName)}_image_tag}"\n}\n`,
-                );
+                this.appendDestination('modules/deployment/release.tf', indent`
+
+                    data "docker_registry_image" "${packageVar}" {
+                        name = "\${var.registry}/${projectName}-${packageName}:\${var.${packageVar}_image_tag}"
+                    }
+                `);
 
                 this.writeReleaseVariable(
-                    `${varName(packageName)}.image.digest`,
-                    `data.docker_registry_image.${varName(packageName)}.sha256_digest`,
+                    `${packageVar}.image.digest`,
+                    `data.docker_registry_image.${packageVar}.sha256_digest`,
                 );
-                this.writeReleaseVariable(
-                    `${varName(packageName)}.sentry.dsn`,
-                    `var.${varName(packageName)}_sentry_dsn`,
-                );
+                this.writeReleaseVariable(`${packageVar}.sentry.dsn`, `var.${packageVar}_sentry_dsn`);
                 break;
+            }
         }
 
         this.configureScripts('script');

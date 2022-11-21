@@ -1,4 +1,5 @@
 import cryptoRandomString from 'crypto-random-string';
+import indent from 'indent-tag';
 import { Question } from 'yeoman-generator';
 import { createEncrypt } from '../../utils/ansible';
 import PackageGenerator from '../../utils/PackageGenerator';
@@ -65,45 +66,65 @@ class SymfonyGenerator extends PackageGenerator {
                     config.workflows.build.jobs.deploy.requires.push(`${packageName}-build`);
                 });
                 break;
-            case DeploymentChoice.Kubernetes:
+            case DeploymentChoice.Kubernetes: {
+                const packageVar = varName(packageName);
+
                 // Add files required for docker build
                 this.renderTemplate('deployment/kubernetes/docker', packagePath, { twig });
 
                 // Update chart
                 this.configureChart('deployment/kubernetes/chart');
 
-                this.replaceDestination(
-                    'modules/deployment/chart/values.yaml',
-                    /$/s,
-                    `\n${varName(packageName)}:\n  image:\n    tag: latest\n    digests:\n      nginx: ~\n      php: ~\n  sentry:\n    dsn: ~\n  database:\n    host: ~\n    port: ~\n    user: ~\n    password: ~\n    name: ~\n  app:\n    secret: ~\n`,
-                );
+                this.appendDestination('modules/deployment/chart/values.yaml', indent`
 
-                this.writeTerraformVariable(`${varName(packageName)}_sentry_dsn`, 'string', '"" # TODO Add sentry DSN here');
-                this.writeTerraformVariable(`${varName(packageName)}_image_tag`, 'string', '"develop"');
+                    ${packageVar}:
+                      image:
+                        tag: latest
+                        digests:
+                          nginx: ~
+                          php: ~
+                      sentry:
+                        dsn: ~
+                      database:
+                        host: ~
+                        port: ~
+                        user: ~
+                        password: ~
+                        name: ~
+                      app:
+                        secret: ~
+                `);
 
-                this.replaceDestination(
-                    'modules/deployment/release.tf',
-                    /$/s,
-                    `\ndata "docker_registry_image" "${varName(packageName)}_nginx" {\n    name = "\${var.registry}/${projectName}-${packageName}-nginx:\${var.${varName(packageName)}_image_tag}"\n}\n`,
-                );
+                this.writeTerraformVariable(`${packageVar}_sentry_dsn`, 'string', '"" # TODO Add sentry DSN here');
+                this.writeTerraformVariable(`${packageVar}_image_tag`, 'string', '"develop"');
 
-                this.replaceDestination(
-                    'modules/deployment/release.tf',
-                    /$/s,
-                    `\ndata "docker_registry_image" "${varName(packageName)}_php" {\n    name = "\${var.registry}/${projectName}-${packageName}-php:\${var.${varName(packageName)}_image_tag}"\n}\n`,
-                );
+                this.appendDestination('modules/deployment/release.tf', indent`
 
-                this.writeReleaseVariable(`${varName(packageName)}.image.digests.nginx`, `data.docker_registry_image.${varName(packageName)}_nginx.sha256_digest`);
-                this.writeReleaseVariable(`${varName(packageName)}.image.digests.php`, `data.docker_registry_image.${varName(packageName)}_php.sha256_digest`);
-                this.writeReleaseVariable(`${varName(packageName)}.sentry.dsn`, `var.${varName(packageName)}_sentry_dsn`);
+                    data "docker_registry_image" "${packageVar}_nginx" {
+                        name = "\${var.registry}/${projectName}-${packageName}-nginx:\${var.${packageVar}_image_tag}"
+                    }
+                `);
 
-                this.replaceDestination(
-                    'modules/deployment/release.tf',
-                    /$/s,
-                    `\nresource "random_password" "${varName(packageName)}_app_secret" {\n    length = 32\n}\n`,
-                );
-                this.writeReleaseVariable(`${varName(packageName)}.app.secret`, `random_password.${varName(packageName)}_app_secret.result`);
+                this.appendDestination('modules/deployment/release.tf', indent`
+
+                    data "docker_registry_image" "${packageVar}_php" {
+                        name = "\${var.registry}/${projectName}-${packageName}-php:\${var.${packageVar}_image_tag}"
+                    }
+                `);
+
+                this.writeReleaseVariable(`${packageVar}.image.digests.nginx`, `data.docker_registry_image.${packageVar}_nginx.sha256_digest`);
+                this.writeReleaseVariable(`${packageVar}.image.digests.php`, `data.docker_registry_image.${packageVar}_php.sha256_digest`);
+                this.writeReleaseVariable(`${packageVar}.sentry.dsn`, `var.${packageVar}_sentry_dsn`);
+
+                this.appendDestination('modules/deployment/release.tf', indent`
+
+                    resource "random_password" "${packageVar}_app_secret" {
+                        length = 32
+                    }
+                `);
+                this.writeReleaseVariable(`${packageVar}.app.secret`, `random_password.${packageVar}_app_secret.result`);
                 break;
+            }
         }
 
         this.configureScripts('script', { twig });
