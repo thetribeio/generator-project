@@ -39,7 +39,7 @@
         "symfony/browser-kit": "^6.2.0",
         "symfony/css-selector": "^6.2.3",
         "symfony/debug-bundle": "^6.2.1",
-        "symfony/phpunit-bridge": "^6.2.0",
+        "symfony/phpunit-bridge": "^6.2.3",
         "symfony/stopwatch": "^6.2.0",
         "symfony/web-profiler-bundle": "^6.2.4",
         "thetribe/coding-standard": "^0.3.0"
