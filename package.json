@@ -29,7 +29,7 @@
     "@typescript-eslint/eslint-plugin": "^5.48.1",
     "@typescript-eslint/parser": "^5.48.1",
     "eslint": "^8.31.0",
-    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-import": "^2.27.4",
     "execa": "^5.1.1",
     "fast-plist": "^0.1.3",
     "glob": "^8.0.3",
