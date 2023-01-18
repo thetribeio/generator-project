@@ -56,9 +56,9 @@ let updated = false;
 
 // Update CircleCI config
 for (const file of [
-    'generators/create-react-app/templates/circleci.yaml.ejs',
     'generators/express/templates/circleci.yaml.ejs',
     'generators/next-js/templates/circleci.yaml.ejs',
+    'generators/react/templates/circleci.yaml.ejs',
     'generators/symfony/templates/circleci.yaml.ejs',
 ]) {
     updated = await replace(
@@ -70,12 +70,12 @@ for (const file of [
 
 // Update Dockerfiles
 for (const file of [
-    'generators/create-react-app/templates/base/docker/Dockerfile.ejs',
-    'generators/create-react-app/templates/deployment/kubernetes/docker/Dockerfile.ejs',
     'generators/express/templates/base/docker/Dockerfile.ejs',
     'generators/express/templates/deployment/kubernetes/docker/Dockerfile.ejs',
     'generators/next-js/templates/base/docker/Dockerfile.ejs',
     'generators/next-js/templates/deployment/kubernetes/docker/Dockerfile.ejs',
+    'generators/react/templates/base/docker/Dockerfile.ejs',
+    'generators/react/templates/deployment/kubernetes/docker/Dockerfile.ejs',
     'generators/symfony/templates/base-twig/docker/node/Dockerfile.ejs',
     'generators/symfony/templates/deployment/kubernetes/docker/Dockerfile.ejs',
 ]) {
@@ -114,9 +114,9 @@ if (updated) {
 // Update @types/node package
 if (updated) {
     for (const path of [
-        'generators/create-react-app/templates/base/',
         'generators/express/templates/base/',
         'generators/next-js/templates/base/',
+        'generators/react/templates/base/',
         'generators/react-admin/templates/base/',
     ]) {
         await replace(
