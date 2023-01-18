@@ -1,9 +1,12 @@
 import fs from 'fs';
-import path from 'path';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import execa from 'execa';
 import YAML from 'yaml';
 import helpers from 'yeoman-test';
 import { Config } from '../../utils/circleci';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 describe('When running the generator', () => {
     let root: string;

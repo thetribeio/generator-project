@@ -1,10 +1,13 @@
+import createResolve from '../../utils/createResolve';
 import PackageGenerator from '../../utils/PackageGenerator';
+
+const resolve = createResolve(import.meta);
 
 class FastApiGenerator extends PackageGenerator {
     initializing(): void {
         const { packageName } = this.options;
 
-        this.composeWith(require.resolve('../utils/database'), [packageName]);
+        this.composeWith(resolve('../utils/database'), [packageName]);
     }
 
     writing(): void {

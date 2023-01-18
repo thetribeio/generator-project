@@ -1,10 +1,13 @@
 import fs from 'fs';
-import path from 'path';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import * as PLIST from 'fast-plist';
 import * as XML from 'xml2js';
 import YAML from 'yaml';
 
 import helpers from 'yeoman-test';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 describe('When running the generator with valid options', () => {
     let root: string;
