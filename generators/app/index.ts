@@ -1,6 +1,9 @@
 import { Question } from 'yeoman-generator';
+import createResolve from '../../utils/createResolve';
 import BaseGenerator from '../../utils/BaseGenerator';
 import validateFrontendName from '../../utils/validation/validateFrontendName';
+
+const resolve = createResolve(import.meta);
 
 enum BackendChoice {
     Express = 'express',
@@ -73,7 +76,7 @@ class AppGenerator extends BaseGenerator {
         const { backend }: BackendPrompt = await this.promptConfig<BackendPrompt>(backendPrompt);
         const frontends = await this.#promptFrontends();
 
-        this.composeWith(require.resolve('../root'));
+        this.composeWith(resolve('../root'));
 
         if (backend) {
             // We suppose that the backend will sit at the root if there is no frontend.
@@ -82,13 +85,13 @@ class AppGenerator extends BaseGenerator {
 
             switch (backend) {
                 case BackendChoice.Express:
-                    this.composeWith(require.resolve('../express'), options);
+                    this.composeWith(resolve('../express'), options);
                     break;
                 case BackendChoice.FastAPI:
-                    this.composeWith(require.resolve('../fast-api'), options);
+                    this.composeWith(resolve('../fast-api'), options);
                     break;
                 case BackendChoice.Symfony: {
-                    this.composeWith(require.resolve('../symfony'), options);
+                    this.composeWith(resolve('../symfony'), options);
                     break;
                 }
             }
@@ -97,19 +100,19 @@ class AppGenerator extends BaseGenerator {
         for (const { type, name } of frontends) {
             switch (type) {
                 case FrontendType.React:
-                    this.composeWith(require.resolve('../react'), { arguments: [name, '--http-path=/'] });
+                    this.composeWith(resolve('../react'), { arguments: [name, '--http-path=/'] });
                     break;
                 case FrontendType.NextJS:
-                    this.composeWith(require.resolve('../next-js'), { arguments: [name, '--http-path=/'] });
+                    this.composeWith(resolve('../next-js'), { arguments: [name, '--http-path=/'] });
                     break;
                 case FrontendType.ReactAdmin:
-                    this.composeWith(require.resolve('../react-admin'), [name, '--http-path=/admin/']);
+                    this.composeWith(resolve('../react-admin'), [name, '--http-path=/admin/']);
                     break;
                 case FrontendType.Flutter:
-                    this.composeWith(require.resolve('../flutter-mobile'), [name]);
+                    this.composeWith(resolve('../flutter-mobile'), [name]);
                     break;
                 case FrontendType.ReactNative:
-                    this.composeWith(require.resolve('../react-native-mobile'), [name]);
+                    this.composeWith(resolve('../react-native-mobile'), [name]);
                     break;
             }
         }

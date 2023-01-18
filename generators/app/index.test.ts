@@ -1,41 +1,43 @@
-import fs from 'fs';
-import path from 'path';
+import { existsSync } from 'fs';
+import { readFile } from 'fs/promises';
 import YAML from 'yaml';
-import helpers from 'yeoman-test';
+import helpers, { RunResult } from 'yeoman-test';
 import * as CircleCI from '../../utils/circleci';
+import createResolve from '../../utils/createResolve';
+
+const resolve = createResolve(import.meta);
 
 describe('When running the generator with React', () => {
-    let root: string;
+    let result: RunResult;
 
     beforeAll(async () => {
-        const result = await helpers.run(__dirname)
-            .withPrompts({
+        result = await helpers.create(resolve('.'))
+            .withAnswers({
                 backend: 'express',
                 contactEmail: 'test@example.com',
                 type: 'react',
-            });
-
-        root = result.cwd;
+            })
+            .run();
     });
 
-    afterAll(async () => {
-        await fs.promises.rm(root, { recursive: true });
+    afterAll(() => {
+        result.cleanup();
     });
 
     test('It generates an Express backend', async () => {
-        const config = JSON.parse(await fs.promises.readFile(path.resolve(root, 'backend', 'package.json'), 'utf8'));
+        const config = JSON.parse(await readFile(resolve(result.cwd, 'backend', 'package.json'), 'utf8'));
 
         expect(config.dependencies.express).toBeDefined();
     });
 
     test('It generates a React frontend', async () => {
-        const config = JSON.parse(await fs.promises.readFile(path.resolve(root, 'frontend', 'package.json'), 'utf8'));
+        const config = JSON.parse(await readFile(resolve(result.cwd, 'frontend', 'package.json'), 'utf8'));
 
         expect(config.devDependencies.vite).toBeDefined();
     });
 
     test('It add the right dependencies to the deploy job', async () => {
-        const content = await fs.promises.readFile(path.resolve(root, '.circleci', 'config.yml'), 'utf8');
+        const content = await readFile(resolve(result.cwd, '.circleci', 'config.yml'), 'utf8');
         const config = CircleCI.Config.fromRaw(YAML.parse(content));
 
         expect(config.workflows.build?.jobs.deploy?.requires).toEqual([
@@ -46,37 +48,36 @@ describe('When running the generator with React', () => {
 });
 
 describe('When running the generator with Next.js', () => {
-    let root: string;
+    let result: RunResult;
 
     beforeAll(async () => {
-        const result = await helpers.run(__dirname)
-            .withPrompts({
+        result = await helpers.create(resolve('.'))
+            .withAnswers({
                 backend: 'express',
                 contactEmail: 'test@example.com',
                 type: 'next-js',
-            });
-
-        root = result.cwd;
+            })
+            .run();
     });
 
     afterAll(async () => {
-        await fs.promises.rm(root, { recursive: true });
+        result.cleanup();
     });
 
     test('It generates an Express backend', async () => {
-        const config = JSON.parse(await fs.promises.readFile(path.resolve(root, 'backend', 'package.json'), 'utf8'));
+        const config = JSON.parse(await readFile(resolve(result.cwd, 'backend', 'package.json'), 'utf8'));
 
         expect(config.dependencies.express).toBeDefined();
     });
 
     test('It generates an Next.js frontend', async () => {
-        const config = JSON.parse(await fs.promises.readFile(path.resolve(root, 'frontend', 'package.json'), 'utf8'));
+        const config = JSON.parse(await readFile(resolve(result.cwd, 'frontend', 'package.json'), 'utf8'));
 
         expect(config.dependencies.next).toBeDefined();
     });
 
     test('It add the right dependencies to the deploy job', async () => {
-        const content = await fs.promises.readFile(path.resolve(root, '.circleci', 'config.yml'), 'utf8');
+        const content = await readFile(resolve(result.cwd, '.circleci', 'config.yml'), 'utf8');
         const config = CircleCI.Config.fromRaw(YAML.parse(content));
 
         expect(config.workflows.build?.jobs.deploy?.requires).toEqual([
@@ -87,26 +88,25 @@ describe('When running the generator with Next.js', () => {
 });
 
 describe('When running the generator with Symfony', () => {
-    let root: string;
+    let result: RunResult;
 
     beforeAll(async () => {
-        const result = await helpers.run(__dirname)
-            .withPrompts({
+        result = await helpers.create(resolve('.'))
+            .withAnswers({
                 backend: 'symfony',
                 contactEmail: 'test@example.com',
                 add: false,
                 twig: true,
-            });
-
-        root = result.cwd;
+            })
+            .run();
     });
 
     afterAll(async () => {
-        await fs.promises.rm(root, { recursive: true });
+        result.cleanup()
     });
 
     test('It add the right dependencies to the deploy job', async () => {
-        const content = await fs.promises.readFile(path.resolve(root, '.circleci', 'config.yml'), 'utf8');
+        const content = await readFile(resolve(result.cwd, '.circleci', 'config.yml'), 'utf8');
         const config = CircleCI.Config.fromRaw(YAML.parse(content));
 
         expect(config.workflows.build?.jobs.deploy?.requires).toEqual([
@@ -116,94 +116,77 @@ describe('When running the generator with Symfony', () => {
 });
 
 describe('When running the generator with Flutter', () => {
-    let root: string;
+    let result: RunResult;
 
     beforeAll(async () => {
-        const result = await helpers.run(__dirname)
-            .withPrompts({
+        result = await helpers.create(resolve('.'))
+            .withAnswers({
                 projectName: 'my_project',
                 backend: 'express',
                 contactEmail: 'test@example.com',
                 type: 'flutter',
                 applicationPrefix: 'com.example',
                 applicationDisplayName: 'My Project',
-            });
-
-        root = result.cwd;
+            })
+            .run();
     });
 
     afterAll(async () => {
-        await fs.promises.rm(root, { recursive: true });
+        result.cleanup();
     });
 
     it('It generates a Flutter mobile app', async () => {
-        const config = YAML.parse(await fs.promises.readFile(
-            path.resolve(
-                root,
-                'mobile',
-                'pubspec.yaml',
-            ),
-            'utf8',
-        ));
+        const config = YAML.parse(await readFile(resolve(result.cwd, 'mobile', 'pubspec.yaml'), 'utf8'));
 
         expect(config).toBeDefined();
     });
 });
 
 describe('When running the generator with React-Native', () => {
-    let root: string;
+    let result: RunResult;
 
     beforeAll(async () => {
-        const result = await helpers.run(__dirname)
-            .withPrompts({
+        result = await helpers.create(resolve('.'))
+            .withAnswers({
                 projectName: 'my_project',
                 backend: 'express',
                 contactEmail: 'test@example.com',
                 type: 'react-native',
                 applicationPrefix: 'com.example',
                 applicationDisplayName: 'My Project',
-            });
-
-        root = result.cwd;
+            })
+            .run();
     });
 
     afterAll(async () => {
-        await fs.promises.rm(root, { recursive: true });
+        result.cleanup();
     });
 
     it('It generates a React-Native mobile app', async () => {
-        const config = YAML.parse(await fs.promises.readFile(
-            path.resolve(
-                root,
-                'mobile',
-                'package.json',
-            ),
-            'utf8',
-        ));
+        const config = YAML.parse(await readFile(resolve(result.cwd, 'mobile', 'package.json'), 'utf8'));
 
         expect(config).toBeDefined();
     });
 });
 
 describe('When running the generator without a Backend', () => {
-    let root: string;
+    let result: RunResult;
 
     beforeAll(async () => {
-        const result = await helpers.run(__dirname)
-            .withPrompts({
+        result = await helpers.create(resolve('.'))
+            .withAnswers({
                 backend: null,
                 contactEmail: 'test@example.com',
                 type: 'create-react-app',
-            });
-
-        root = result.cwd;
+            })
+            .run();
     });
 
     afterAll(async () => {
-        await fs.promises.rm(root, { recursive: true });
+        result.cleanup();
     });
 
     it('It doesn\'t create a backend directory', async () => {
-        expect(fs.existsSync(path.resolve(root, 'backend'))).toBe(false);
+        expect(existsSync(resolve(result.cwd, 'backend'))).toBe(false);
     });
 });

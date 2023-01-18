@@ -1,6 +1,7 @@
 {
     "extends": "@tsconfig/node18/tsconfig.json",
     "compilerOptions": {
+        "module": "es2022",
         "allowSyntheticDefaultImports": true,
         "importHelpers": true,
         "noImplicitAny": true,
