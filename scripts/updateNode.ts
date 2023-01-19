@@ -121,7 +121,7 @@ if (updated) {
     ]) {
         await replace(
             `${path}/package.json.ejs`,
-            /"@types\/node": "\^\d+\.\d+\.\d+"/,
+            /"@types\/node": "\^\d+\.\d+\.\d+"/g,
             `"@types/node": "^${nodeTypesVersion.version}"`,
         );
 
