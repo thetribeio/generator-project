@@ -14,7 +14,7 @@
     "ejs": "^3.1.8",
     "indent-tag": "^0.3.1",
     "ramda": "^0.28.0",
-    "tslib": "^2.4.1",
+    "tslib": "^2.5.0",
     "yaml": "^2.2.1",
     "yeoman-generator": "^5.6.1"
   },
