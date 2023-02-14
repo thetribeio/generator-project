@@ -63,7 +63,7 @@ class SymfonyGenerator extends PackageGenerator {
                 });
 
                 this.updateCircleCIConfig((config) => {
-                    config.workflows.build.jobs.deploy.requires.push(`${packageName}-build`);
+                    config.workflows.build!.jobs.deploy!.requires.push(`${packageName}-build`);
                 });
                 break;
             case DeploymentChoice.Kubernetes: {

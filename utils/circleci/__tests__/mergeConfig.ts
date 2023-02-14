@@ -89,8 +89,8 @@ test('It merges jobs of the same workflow from different configs', () => {
 
     const mergedConfig = mergeConfig(firstConfig, secondConfig);
 
-    expect(mergedConfig.workflows.build.jobs.firstJob).toBeDefined();
-    expect(mergedConfig.workflows.build.jobs.secondJob).toBeDefined();
+    expect(mergedConfig.workflows.build?.jobs.firstJob).toBeDefined();
+    expect(mergedConfig.workflows.build?.jobs.secondJob).toBeDefined();
 });
 
 test('It merges executors from different configs', () => {

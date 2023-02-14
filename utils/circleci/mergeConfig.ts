@@ -33,18 +33,13 @@ const mergeConfig = (first: Config, second: Config): Config => new Config({
     workflowsVersion: first.workflowsVersion,
     workflows: Object.fromEntries(allKeys(first.workflows, second.workflows)
         .map((workflowName: string): [string, Workflow] => {
-            if (!(workflowName in first.workflows)) {
-                return [workflowName, second.workflows[workflowName]];
-            }
-
-            if (!(workflowName in second.workflows)) {
-                return [workflowName, first.workflows[workflowName]];
-            }
+            const firstWorkflow = first.workflows[workflowName];
+            const secondWorkflow = second.workflows[workflowName];
 
             return [workflowName, new Workflow({
                 jobs: {
-                    ...first.workflows[workflowName].jobs,
-                    ...second.workflows[workflowName].jobs,
+                    ...firstWorkflow ? firstWorkflow.jobs : {},
+                    ...secondWorkflow ? secondWorkflow.jobs : {},
                 },
             })];
         })),

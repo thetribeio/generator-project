@@ -38,7 +38,7 @@ describe('When running the generator with React', () => {
         const content = await fs.promises.readFile(path.resolve(root, '.circleci', 'config.yml'), 'utf8');
         const config = CircleCI.Config.fromRaw(YAML.parse(content));
 
-        expect(config.workflows.build.jobs.deploy.requires).toEqual([
+        expect(config.workflows.build?.jobs.deploy?.requires).toEqual([
             'backend-archive',
             'frontend-archive',
         ]);
@@ -79,7 +79,7 @@ describe('When running the generator with Next.js', () => {
         const content = await fs.promises.readFile(path.resolve(root, '.circleci', 'config.yml'), 'utf8');
         const config = CircleCI.Config.fromRaw(YAML.parse(content));
 
-        expect(config.workflows.build.jobs.deploy.requires).toEqual([
+        expect(config.workflows.build?.jobs.deploy?.requires).toEqual([
             'backend-archive',
             'frontend-archive',
         ]);
@@ -109,7 +109,7 @@ describe('When running the generator with Symfony', () => {
         const content = await fs.promises.readFile(path.resolve(root, '.circleci', 'config.yml'), 'utf8');
         const config = CircleCI.Config.fromRaw(YAML.parse(content));
 
-        expect(config.workflows.build.jobs.deploy.requires).toEqual([
+        expect(config.workflows.build?.jobs.deploy?.requires).toEqual([
             'backend-build',
         ]);
     });

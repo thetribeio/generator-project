@@ -29,7 +29,7 @@ class NextJSGenerator extends PackageGenerator {
                 });
 
                 this.updateCircleCIConfig((config) => {
-                    config.workflows.build.jobs.deploy.requires.push(`${packageName}-archive`);
+                    config.workflows.build!.jobs.deploy!.requires.push(`${packageName}-archive`);
                 });
                 break;
             case DeploymentChoice.Kubernetes: {

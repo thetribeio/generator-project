@@ -4,6 +4,7 @@
         "allowSyntheticDefaultImports": true,
         "importHelpers": true,
         "noImplicitAny": true,
+        "noUncheckedIndexedAccess": true,
         "moduleResolution": "node",
         "sourceMap": true,
         "rootDir": ".",
