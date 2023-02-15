@@ -12,7 +12,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2.2",
         "doctrine/orm": "^2.14.1",
         "sensio/framework-extra-bundle": "^6.2.9",
-        "sentry/sentry-symfony": "^4.5.0",
+        "sentry/sentry-symfony": "^4.6.0",
         "symfony/asset": "^6.2.5",
         "symfony/console": "^6.2.5",
         "symfony/expression-language": "^6.2.5",
