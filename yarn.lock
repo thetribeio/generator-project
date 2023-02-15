@@ -3471,10 +3471,10 @@ indent-string@^4.0.0:
   resolved "https://registry.yarnpkg.com/indent-string/-/indent-string-4.0.0.tgz#624f8f4497d619b2d9768531d58f4122854d7251"
   integrity sha512-EdDDZu4A2OyIK7Lr/2zG+w5jmbuk1DVBnEwREQvBzspBJkCEbRa8GxU1lghYcaGJCnRWibjDXlq779X1/y5xwg==
 
-indent-tag@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/indent-tag/-/indent-tag-0.3.1.tgz#652455a0947262bb0b592ccec1aefc0f9d723094"
-  integrity sha512-v/IBkJZN9JcPo0zuu8w39uSMEoCz9yMovI18rlrlrEOdksbDo8+mPwFKvLQxkEQh+2ltdKLOuXNUyD+Q4LmaJg==
+indent-tag@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/indent-tag/-/indent-tag-0.4.0.tgz#9242eca2cb83316c1f00ee535566c6c6855e925b"
+  integrity sha512-n+CIuW0aIu8VSq+kPO19ny0pOQqxKwj+xLaZ7cx8RVZtr9PLXMsP06SkUHHqOA/KTajlnH+zAMV8n1jfi0oHKQ==
 
 infer-owner@^1.0.4:
   version "1.0.4"
