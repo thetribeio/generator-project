@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c13e2dea7511cb8ab62f1bb70624763f",
+    "content-hash": "70a060ca44d84cca553defdf1bc7a911",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -6922,16 +6922,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.0",
+            "version": "1.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "71b28a67f01ac231f9a8f1ce242270bf4ec1f99c"
+                "reference": "1cd5fc530a8b68702f3733ad64294b2a39564198"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/71b28a67f01ac231f9a8f1ce242270bf4ec1f99c",
-                "reference": "71b28a67f01ac231f9a8f1ce242270bf4ec1f99c",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/1cd5fc530a8b68702f3733ad64294b2a39564198",
+                "reference": "1cd5fc530a8b68702f3733ad64294b2a39564198",
                 "shasum": ""
             },
             "require": {
@@ -6961,7 +6961,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.10.0"
+                "source": "https://github.com/phpstan/phpstan/tree/1.10.1"
             },
             "funding": [
                 {
@@ -6977,7 +6977,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-02-21T13:50:49+00:00"
+            "time": "2023-02-21T21:57:23+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
