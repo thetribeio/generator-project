@@ -36,7 +36,7 @@
         "symfony/browser-kit": "^6.2.5",
         "symfony/css-selector": "^6.2.5",
         "symfony/debug-bundle": "^6.2.5",
-        "symfony/phpunit-bridge": "^6.2.5",
+        "symfony/phpunit-bridge": "^6.2.7",
         "symfony/stopwatch": "^6.2.5",
         "symfony/twig-bundle": "^6.2.5",
         "symfony/web-profiler-bundle": "^6.2.5",
