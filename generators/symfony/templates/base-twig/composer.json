@@ -102,8 +102,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
-            "require": "^5.3.0"
+            "allow-contrib": false
         }
     }
 }
