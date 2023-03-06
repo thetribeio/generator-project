@@ -17,6 +17,7 @@ services:
             APP_ENV: dev
             APP_SECRET: dev_secret
             DATABASE_URL: "postgresql://user:password@postgres/<%= varName(packageName) %>"
+            PHP_CS_FIXER_IGNORE_ENV: '1'
         depends_on:
             - postgres
         volumes:
