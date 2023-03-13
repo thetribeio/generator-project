@@ -67,8 +67,6 @@ jobs:
       - run:
           name: PHP-CS-Fixer
           command: vendor/bin/php-cs-fixer fix --dry-run --diff --using-cache no
-          environment:
-            PHP_CS_FIXER_IGNORE_ENV: '1'
       - run:
           name: PHPStan
           command: vendor/bin/phpstan analyse src tests
