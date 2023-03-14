@@ -7,9 +7,7 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/health")
- */
+#[Route('/health')]
 class HealthController
 {
     public function __invoke(): Response
