@@ -8,9 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 
-/**
- * @Route("/")
- */
+#[Route('/')]
 class HomeController
 {
     private Environment $twig;
