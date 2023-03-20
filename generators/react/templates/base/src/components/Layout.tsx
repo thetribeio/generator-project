@@ -3,9 +3,9 @@ import logo from '../logo.svg';
 import './Layout.css';
 
 const Layout = () => (
-    <div className="App">
-        <header className="App-header">
-            <img alt="logo" className="App-logo" src={logo} />
+    <div className="Layout">
+        <header className="Layout-header">
+            <img alt="logo" className="Layout-logo" src={logo} />
         </header>
         <main>
             <Outlet />
