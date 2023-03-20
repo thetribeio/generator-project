@@ -9,9 +9,15 @@
     },
     "overrides": [
         {
-            "files": ["**/*.test.{ts,tsx}"],
+            "files": ["**/*.test.{ts,tsx}", "src/setupTests.ts"],
             "env": {
                 "jest": true
+            },
+            "rules": {
+                "import/no-extraneous-dependencies": ["error", {
+                    "devDependencies": true,
+                    "optionalDependencies": false
+                }]
             }
         }
     ]
