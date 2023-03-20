@@ -151,26 +151,26 @@
   dependencies:
     tslib "^2.4.0"
 
-"@thetribe/eslint-config-react-typescript@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config-react-typescript/-/eslint-config-react-typescript-0.4.0.tgz#c8fc471a21047a6dd481515946ce0f4365df6952"
-  integrity sha512-a42pSg1OkJL7Ut6wWDxeb2sMUSrPcbDWS5OR8h2iEiDm94qdWemjTi8C+nGJzwpmx2RY1hyG3xTcEGd1zokUPA==
+"@thetribe/eslint-config-react-typescript@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config-react-typescript/-/eslint-config-react-typescript-0.4.2.tgz#e5908c8ac96991c2db58bf1340c7bee43101e670"
+  integrity sha512-nTvhtjIToDeMPXP/ldhTYFwXN34zuemeW3X2mzsHuPNdsVEfFqqRijIVYKLvXSKAJyA9+B/5WEftUletnnzeNw==
   dependencies:
-    "@thetribe/eslint-config-react" "^0.6.0"
-    "@thetribe/eslint-config-typescript" "^0.4.0"
+    "@thetribe/eslint-config-react" "^0.6.1"
+    "@thetribe/eslint-config-typescript" "^0.4.1"
 
-"@thetribe/eslint-config-react@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config-react/-/eslint-config-react-0.6.0.tgz#65d1944f07bc7de2a6b61b4a03a75dde7956d615"
-  integrity sha512-1hpID/KCNCq8UeuJX8njf/9y9MU9Z4ePnjqnwIG7ZaxTLtW9MGKtajH7YnRRrPEByK0JAnzqAFp4ndoMFmjOsw==
+"@thetribe/eslint-config-react@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config-react/-/eslint-config-react-0.6.1.tgz#b367fb4cfab8750725afd566c25f5ded42154baa"
+  integrity sha512-uqSeo5DsqUTqmw/FVJlu4EKSEQ0HPtaqnvJ1ZW59BY84BI9dtcpkUn8ocKKc+tvU2AeqHx/xRK64Gn86jA/HBg==
   dependencies:
     "@thetribe/eslint-config" "^0.5.0"
     eslint-config-airbnb "^19.0.0"
 
-"@thetribe/eslint-config-typescript@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config-typescript/-/eslint-config-typescript-0.4.0.tgz#b76f2406a34ab928ce7c533fb19fc5ce3e4a52e3"
-  integrity sha512-608ydnTdB4zk0cBKAl18hYYMJqhm5Ji7u3PXZJedcBvZvxw/+i3KE+GWODKwU0otocJiRHzJVegjM9F5A1X4pw==
+"@thetribe/eslint-config-typescript@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config-typescript/-/eslint-config-typescript-0.4.1.tgz#abe22bb54c7361959f2b437084e7fba30603d86f"
+  integrity sha512-Sp7hLFuN7tRmo5ch8/iEIenQvPer64gcotFqpp07M/3Cr9zTXmmuTlSXqjN4RTYva8nBrJAJ1a1PrWnJbsjUfA==
   dependencies:
     "@thetribe/eslint-config" "^0.5.0"
 
