@@ -49,7 +49,7 @@ describe('When running the generator', () => {
     });
 
     test('It extends the ansible configuration', async () => {
-        const all = YAML.parse(await fs.promises.readFile(path.resolve(root, 'ansible/group_vars/all.yaml'), 'utf8'));
+        const all = YAML.parse(await fs.promises.readFile(path.resolve(root, 'infra/ansible/group_vars/all.yaml'), 'utf8'));
 
         expect(all.test_data).toBeDefined();
     });
@@ -80,14 +80,14 @@ describe('When running the generator with kubernetes deployment', () => {
     });
 
     test('It generates a project with a valid terraform config', async () => {
-        const cwd = path.join(root, 'environments', 'staging');
+        const cwd = path.join(root, 'infra', 'environments', 'staging');
 
         await execa('terraform', ['init', '--backend=false'], { cwd });
         await execa('terraform', ['validate'], { cwd });
     });
 
     test('It generates a valid helm chart', async () => {
-        const cwd = path.join(root, 'modules', 'deployment', 'chart');
+        const cwd = path.join(root, 'infra', 'modules', 'deployment', 'chart');
 
         await execa('helm', ['lint'], { cwd });
     });

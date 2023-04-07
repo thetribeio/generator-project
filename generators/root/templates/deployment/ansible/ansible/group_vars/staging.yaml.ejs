@@ -1,9 +1,0 @@
----
-# Put the variables that only concern the staging target here
-branch: develop
-domain: <%= domain %>
-environment_name: staging
-basic_auth:
-  user: <%= projectName %>
-  password: !vault |
-<%= indent(encrypt(basicAuthPassword), 4) %>

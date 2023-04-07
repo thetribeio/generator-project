@@ -56,17 +56,17 @@ describe('When running the generator', () => {
     });
 
     test('The database is correctly added to production config', async () => {
-        const content = await fs.promises.readFile(path.resolve(root, 'terraform/common/database/main.tf'), 'utf8');
+        const content = await fs.promises.readFile(path.resolve(root, 'infra/common/database/main.tf'), 'utf8');
 
         expect(content).toContain('resource "scaleway_rdb_database" "test" {');
     });
 
     test('It generates a project with a valid terraform config', async () => {
-        const production = path.join(root, 'terraform', 'production');
+        const production = path.join(root, 'infra', 'envs', 'production');
         await execa('terraform', ['init', '--backend=false'], { cwd: production });
         await execa('terraform', ['validate'], { cwd: production });
 
-        const staging = path.join(root, 'terraform', 'staging');
+        const staging = path.join(root, 'infra', 'envs', 'staging');
         await execa('terraform', ['init', '--backend=false'], { cwd: staging });
         await execa('terraform', ['validate'], { cwd: staging });
     });
@@ -97,14 +97,14 @@ describe('When running the generator with kubernetes deployment', () => {
     });
 
     test('It generates a valid terraform config', async () => {
-        const cwd = path.join(root, 'environments', 'staging');
+        const cwd = path.join(root, 'infra', 'envs', 'staging');
 
         await execa('terraform', ['init', '--backend=false'], { cwd });
         await execa('terraform', ['validate'], { cwd });
     });
 
     test('It generates a valid helm chart', async () => {
-        const cwd = path.join(root, 'modules', 'deployment', 'chart');
+        const cwd = path.join(root, 'infra', 'common', 'deployment', 'chart');
 
         await execa('helm', ['lint'], { cwd });
     });

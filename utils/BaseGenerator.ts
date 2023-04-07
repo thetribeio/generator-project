@@ -99,13 +99,13 @@ class BaseGenerator<T extends GeneratorOptions = GeneratorOptions> extends Gener
      */
     writeTerraformVariable(name: string, type: string, value: string): void {
         this.replaceDestination(
-            'modules/deployment/variables.tf',
+            'infra/common/deployment/variables.tf',
             /$/s,
             `\nvariable "${name}" {\n    type = ${type}\n}\n`,
         );
 
         this.replaceDestination(
-            'environments/staging/main.tf',
+            'infra/environments/staging/main.tf',
             /module "deployment" {\n(.*?)\n}/s,
             `module "deployment" {\n$1\n    ${name} = ${value}\n}`,
         );
@@ -116,7 +116,7 @@ class BaseGenerator<T extends GeneratorOptions = GeneratorOptions> extends Gener
      */
     writeReleaseVariable(name: string, value: string): void {
         this.replaceDestination(
-            'modules/deployment/release.tf',
+            'infra/common/deployment/release.tf',
             /(resource "helm_release" "main" {\n.*?)(\n})/s,
             `$1\n\n    set {\n        name  = "${name}"\n        value = ${value}\n    }$2`,
         );

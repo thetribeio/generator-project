@@ -1,0 +1,4 @@
+all:
+  vars:
+    database_<%= varName(packageName) %>_password: !vault |
+    <%= indent(encrypt(databasePassword), 6) %>

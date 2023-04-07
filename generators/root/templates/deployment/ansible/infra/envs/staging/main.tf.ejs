@@ -25,7 +25,7 @@ provider "scaleway" {
 }
 
 module "server" {
-    source = "../common/server"
+    source = "../../modules/server"
 
     environment_name = "staging"
 }

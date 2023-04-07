@@ -19,7 +19,7 @@ jobs:
             echo "scw_secret_key = $SCW_SECRET_KEY" >> terraform.tfvars
 
             terraform init --backend-config="access_key=$SCW_ACCESS_KEY" --backend-config="secret_key=$SCW_SECRET_KEY"
-          working_directory: ~/project/terraform/staging
+          working_directory: ~/project/infra/envs/staging
       - run:
           name: Setup ansible
           command: |
@@ -32,11 +32,11 @@ jobs:
 
             git submodule update --init
 
-            ssh-keyscan -H $(cd ../terraform/staging/ && terraform output --json hosts | jq --raw-output .server) >> ~/.ssh/known_hosts
-          working_directory: ~/project/ansible
+            ssh-keyscan -H $(cd ../envs/staging/ && terraform output --json hosts | jq --raw-output .server) >> ~/.ssh/known_hosts
+          working_directory: ~/project/infra/ansible
       - run:
           command: ansible-playbook --inventory staging.py deployment_ci.yaml
-          working_directory: ~/project/ansible
+          working_directory: ~/project/infra/ansible
 
 workflows:
   version: '2'

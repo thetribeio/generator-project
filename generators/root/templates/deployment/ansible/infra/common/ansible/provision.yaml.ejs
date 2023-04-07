@@ -7,6 +7,11 @@
         file_type: directory
       delegate_to: localhost
       register: packages
+    - name: Include packages variables
+      include_vars: '{{ package.path }}/vars.yaml'
+      loop: '{{ packages.files }}'
+      loop_control:
+        loop_var: package
     - name: Include packages provisioning
       include_tasks: '{{ package.path }}/provision.yaml'
       loop: '{{ packages.files }}'

@@ -1,14 +1,8 @@
-# Terraform
+# Usage
 
-Terraform is a tool that allows to automate the creation of servers. The terraform configuration of this repository
-is split into 3 parts:
- - `common`: the configuration that is common to all environments
- - `production`: the configuration for the production environment
- - `staging`: the configuration fof the staging environment
+## Installation
 
 You can find the tutorial to install terraform [here](https://learn.hashicorp.com/tutorials/terraform/install-cli).
-
-# Usage
 
 ## Configuration
 
@@ -16,8 +10,8 @@ You need first to configure the Scaleway credentials for the environment you wan
 
 First you need to create a Scaleway API key and secret [here](https://console.scaleway.com/project/credentials).
 
-You must then copy the `scaleway project id` in  `terraform/{environment}/main.tf`, as well as a bucket id.
-You can create or use an already existing bucket here [here](https://console.scaleway.com/object-storage/buckets).
+You must then copy the `scaleway project id` in  `main.tf`, as well as a bucket id. You can create
+or use an already existing bucket here [here](https://console.scaleway.com/object-storage/buckets).
 
 Then you need to go to the folder corresponding to the environment you want to configure and run
 `terraform init -backend-config="access_key={your scw_access_key}" -backend-config="secret_key={your scw_secret_key}"`
