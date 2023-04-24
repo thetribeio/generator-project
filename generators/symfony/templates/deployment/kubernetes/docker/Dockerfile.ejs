@@ -25,7 +25,7 @@ RUN composer install --no-dev --no-scripts
 
 <% if (twig) { %>
 # Webpack
-FROM node:18.14.1 as webpack
+FROM node:18.16.0 as webpack
 
 WORKDIR /srv/<%= packageName %>
 
