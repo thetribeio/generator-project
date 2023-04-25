@@ -15,7 +15,7 @@
     "indent-tag": "^0.4.0",
     "ramda": "^0.29.0",
     "tslib": "^2.5.0",
-    "yaml": "^2.2.1",
+    "yaml": "^2.2.2",
     "yeoman-generator": "^5.6.1"
   },
   "devDependencies": {
