@@ -1,5 +1,7 @@
-import fs from 'fs';
-import path from 'path';
+import { strict as assert } from 'node:assert';
+import fs from 'node:fs';
+import path from 'node:path';
+import { after, before, describe, test } from 'node:test';
 import execa from 'execa';
 import YAML from 'yaml';
 import helpers from 'yeoman-test';
@@ -8,7 +10,7 @@ import { Config } from '../../utils/circleci';
 describe('When running the generator', () => {
     let root: string;
 
-    beforeAll(async () => {
+    before(async () => {
         const result = await helpers.run(path.resolve(__dirname, '../root'))
             .withPrompts({ contactEmail: 'test@example.com' });
 
@@ -22,7 +24,7 @@ describe('When running the generator', () => {
         await execa(path.resolve(root, 'script', 'bootstrap'));
     });
 
-    afterAll(async () => {
+    after(async () => {
         await execa('docker', ['compose', 'down', '--rmi', 'local', '--volumes'], { cwd: root });
         await fs.promises.rm(root, { recursive: true });
     });
@@ -48,19 +50,19 @@ describe('When running the generator', () => {
     test('It generates a docker-compose.yaml without a version fields', async () => {
         const all = YAML.parse(await fs.promises.readFile(path.resolve(root, 'docker-compose.yaml'), 'utf8'));
 
-        expect(all.version).toBeUndefined();
+        assert.ok(!('version' in all));
     });
 
     test('It extends the ansible configuration', async () => {
         const all = YAML.parse(await fs.promises.readFile(path.resolve(root, 'ansible/group_vars/all.yaml'), 'utf8'));
 
-        expect(all.test_env).toBeDefined();
+        assert.ok('test_env' in all);
     });
 
     test('The database is correctly added to production config', async () => {
         const content = await fs.promises.readFile(path.resolve(root, 'terraform/common/database/main.tf'), 'utf8');
 
-        expect(content).toContain('resource "scaleway_rdb_database" "test" {');
+        assert.ok(content.includes('resource "scaleway_rdb_database" "test" {'));
     });
 
     test('It generates a project with a valid terraform config', async () => {
@@ -77,7 +79,7 @@ describe('When running the generator', () => {
 describe('When running the generator with kubernetes deployment', () => {
     let root: string;
 
-    beforeAll(async () => {
+    before(async () => {
         const result = await helpers.run(path.resolve(__dirname, '../root'))
             .withPrompts({ deployment: 'kubernetes' });
 
@@ -88,7 +90,7 @@ describe('When running the generator with kubernetes deployment', () => {
             .withArguments(['test']);
     });
 
-    afterAll(async () => {
+    after(async () => {
         await fs.promises.rm(root, { recursive: true });
     });
 
@@ -119,7 +121,7 @@ describe('When running the generator with kubernetes deployment', () => {
 describe('When running the generator with twig frontend and kubernetes deployment', () => {
     let root: string;
 
-    beforeAll(async () => {
+    before(async () => {
         const result = await helpers.run(path.resolve(__dirname, '../root'))
             .withPrompts({ deployment: 'kubernetes' });
 
@@ -137,7 +139,7 @@ describe('When running the generator with twig frontend and kubernetes deploymen
         Config.fromRaw(YAML.parse(content));
     });
 
-    afterAll(async () => {
+    after(async () => {
         await fs.promises.rm(root, { recursive: true });
     });
 
@@ -149,7 +151,7 @@ describe('When running the generator with twig frontend and kubernetes deploymen
 describe('When running the generator with the path option', () => {
     let root: string;
 
-    beforeAll(async () => {
+    before(async () => {
         const result = await helpers.run(path.resolve(__dirname, '../root'))
             .withPrompts({ contactEmail: 'test@example.com' });
 
@@ -160,11 +162,11 @@ describe('When running the generator with the path option', () => {
             .withArguments(['test', '--path', 'packages/test']);
     });
 
-    afterAll(async () => {
+    after(async () => {
         await fs.promises.rm(root, { recursive: true });
     });
 
     test('It generates the project in the given directory', async () => {
-        expect(fs.existsSync(path.join(root, 'packages/test'))).toBe(true);
+        assert.ok(fs.existsSync(path.join(root, 'packages/test')));
     });
 });
