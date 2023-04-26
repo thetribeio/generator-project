@@ -1,5 +1,7 @@
-import Config from '../Config';
-import Workflow from '../Workflow';
+import { strict as assert } from 'node:assert';
+import { test } from 'node:test';
+import Config from './Config';
+import Workflow from './Workflow';
 
 test('fromRaw parse the workflows', () => {
     const config = Config.fromRaw({
@@ -14,8 +16,8 @@ test('fromRaw parse the workflows', () => {
         },
     });
 
-    expect(config.workflowsVersion).toEqual('2');
-    expect(config.workflows.build).toEqual(new Workflow({
+    assert.equal(config.workflowsVersion, '2');
+    assert.deepEqual(config.workflows.build, new Workflow({
         jobs: {
             install: {},
             lint: { requires: ['install'] },
@@ -33,17 +35,17 @@ test('fromRaw parse the executors', () => {
         },
     });
 
-    expect(config.executors.node).toBeDefined();
+    assert.ok(config.executors.node);
 });
 
 test('fromRaw errors on invalid workflow version', () => {
-    expect(() => {
+    assert.throws(() => {
         Config.fromRaw({
             workflows: {
                 version: '1',
             },
         });
-    }).toThrow('Invalid workflows version: 1');
+    }, new Error('Invalid workflows version: 1'));
 });
 
 test('toRaw returns the formated config', () => {
@@ -61,7 +63,7 @@ test('toRaw returns the formated config', () => {
         },
     });
 
-    expect(config.toRaw()).toEqual({
+    assert.deepEqual(config.toRaw(), {
         version: '2.1',
         jobs: {},
         workflows: {

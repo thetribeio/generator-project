@@ -1,29 +1,33 @@
+import { strict as assert } from 'node:assert';
+import { test } from 'node:test';
 import validateFrontendName from './validateFrontendName';
 
 test('Frontend can not be named "backend"', () => {
-    expect(validateFrontendName([])('backend'))
-        .toBe('A frontend can not be named backend');
+    assert.equal(validateFrontendName([])('backend'), 'A frontend can not be named backend');
 });
 
 test('Frontend can not be named the same as an already existing frontend', () => {
-    expect(validateFrontendName(['frontend'])('frontend'))
-        .toBe('There is already one frontend called "frontend"');
+    assert.equal(validateFrontendName(['frontend'])('frontend'), 'There is already one frontend called "frontend"');
 });
 
 test('Frontend name with a space is not valid', () => {
-    expect(validateFrontendName([])('test project'))
-        .toBe('Frontend name can only contains lowercase alphanumerical characters and dashes');
+    assert.equal(
+        validateFrontendName([])('test project'),
+        'Frontend name can only contains lowercase alphanumerical characters and dashes',
+    );
 });
 
 test('Frontend name with uppercase characters is not valid', () => {
-    expect(validateFrontendName([])('TEST'))
-        .toBe('Frontend name can only contains lowercase alphanumerical characters and dashes');
+    assert.equal(
+        validateFrontendName([])('TEST'),
+        'Frontend name can only contains lowercase alphanumerical characters and dashes',
+    );
 });
 
 test('Frontend name starting with a number is not valid', () => {
-    expect(validateFrontendName([])('123test')).toBe('Frontend name must start with an alphabetical character');
+    assert.equal(validateFrontendName([])('123test'), 'Frontend name must start with an alphabetical character');
 });
 
 test('Valid frontend name', () => {
-    expect(validateFrontendName([])('test-001-project')).toBe(true);
+    assert.equal(validateFrontendName([])('test-001-project'), true);
 });

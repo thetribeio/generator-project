@@ -1,6 +1,8 @@
-import Config from '../Config';
-import mergeConfig from '../mergeConfig';
-import Workflow from '../Workflow';
+import { strict as assert } from 'node:assert';
+import { test } from 'node:test';
+import Config from './Config';
+import mergeConfig from './mergeConfig';
+import Workflow from './Workflow';
 
 test('It keeps workflow from first config if second is not present', () => {
     const firstConfig = new Config({
@@ -27,7 +29,7 @@ test('It keeps workflow from first config if second is not present', () => {
 
     const mergedConfig = mergeConfig(firstConfig, secondConfig);
 
-    expect(mergedConfig.workflows.build).toEqual(firstConfig.workflows.build);
+    assert.deepEqual(mergedConfig.workflows.build, firstConfig.workflows.build);
 });
 
 test('It keeps workflow from second config if first is not present', () => {
@@ -55,7 +57,7 @@ test('It keeps workflow from second config if first is not present', () => {
 
     const mergedConfig = mergeConfig(firstConfig, secondConfig);
 
-    expect(mergedConfig.workflows.build).toEqual(secondConfig.workflows.build);
+    assert.deepEqual(mergedConfig.workflows.build, secondConfig.workflows.build);
 });
 
 test('It merges jobs of the same workflow from different configs', () => {
@@ -89,8 +91,8 @@ test('It merges jobs of the same workflow from different configs', () => {
 
     const mergedConfig = mergeConfig(firstConfig, secondConfig);
 
-    expect(mergedConfig.workflows.build?.jobs.firstJob).toBeDefined();
-    expect(mergedConfig.workflows.build?.jobs.secondJob).toBeDefined();
+    assert.ok(mergedConfig.workflows.build?.jobs.firstJob);
+    assert.ok(mergedConfig.workflows.build?.jobs.secondJob);
 });
 
 test('It merges executors from different configs', () => {
@@ -116,8 +118,8 @@ test('It merges executors from different configs', () => {
 
     const mergedConfig = mergeConfig(firstConfig, secondConfig);
 
-    expect(mergedConfig.executors.first).toBeDefined();
-    expect(mergedConfig.executors.second).toBeDefined();
+    assert.ok(mergedConfig.executors.first);
+    assert.ok(mergedConfig.executors.second);
 });
 
 test('It merges commands from different configs', () => {
@@ -143,8 +145,8 @@ test('It merges commands from different configs', () => {
 
     const mergedConfig = mergeConfig(firstConfig, secondConfig);
 
-    expect(mergedConfig.commands.first).toBeDefined();
-    expect(mergedConfig.commands.second).toBeDefined();
+    assert.ok(mergedConfig.commands.first);
+    assert.ok(mergedConfig.commands.second);
 });
 
 test('It merges orbs from different configs', () => {
@@ -170,6 +172,6 @@ test('It merges orbs from different configs', () => {
 
     const mergedConfig = mergeConfig(firstConfig, secondConfig);
 
-    expect(mergedConfig.orbs.first).toBe('first');
-    expect(mergedConfig.orbs.second).toBe('second');
+    assert.equal(mergedConfig.orbs.first, 'first');
+    assert.equal(mergedConfig.orbs.second, 'second');
 });

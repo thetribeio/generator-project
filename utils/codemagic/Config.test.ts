@@ -1,3 +1,5 @@
+import { strict as assert } from 'node:assert';
+import { test } from 'node:test';
 import Config from './Config';
 
 test('fromRaw parse the workflows', () => {
@@ -7,5 +9,5 @@ test('fromRaw parse the workflows', () => {
         },
     });
 
-    expect(config.workflows.my_workflow).toBeDefined();
+    assert.ok(config.workflows.my_workflow);
 });
