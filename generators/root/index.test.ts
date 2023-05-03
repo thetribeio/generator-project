@@ -1,8 +1,11 @@
 import fs from 'fs';
-import path from 'path';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import execa from 'execa';
 import YAML, { ScalarTag } from 'yaml';
 import helpers from 'yeoman-test';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Vault custom tag stub
 const vault: ScalarTag = {

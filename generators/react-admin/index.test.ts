@@ -1,7 +1,10 @@
 import fs from 'fs';
-import path from 'path';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import execa from 'execa';
 import helpers from 'yeoman-test';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 describe('When running the generator', () => {
     let root: string;

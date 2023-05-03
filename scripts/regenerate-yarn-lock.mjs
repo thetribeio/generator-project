@@ -11,14 +11,15 @@ const [, , ...generators] = process.argv;
 
 await import('./build.mjs');
 
-const { cwd: path } = await helpers.run(resolve(root, 'dist', 'generators', 'root'))
-    .withPrompts({ contactEmail: 'test@example.com' });
+const result = await helpers.create(resolve(root, 'dist', 'generators', 'root'))
+    .withAnswers({ contactEmail: 'test@example.com' })
+    .run();
 
 for (const generator of generators) {
-    await helpers.run(resolve(root, 'dist', 'generators', generator))
-        .cd(path)
-        .withPrompts(generator === 'symfony' ? { twig: true } : {})
-        .withArguments([generator]);
+    await result.create(resolve(root, 'dist', 'generators', generator))
+        .withAnswers(generator === 'symfony' ? { twig: true } : {})
+        .withArguments([generator])
+        .run();
 
     await execa('yarn', ['install'], { cwd: join(path, generator) });
 

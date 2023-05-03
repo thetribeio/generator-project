@@ -2,9 +2,12 @@ import cryptoRandomString from 'crypto-random-string';
 import indent from 'indent-tag';
 import { Question } from 'yeoman-generator';
 import { createEncrypt } from '../../utils/ansible';
+import createResolve from '../../utils/createResolve';
 import PackageGenerator from '../../utils/PackageGenerator';
 import varName from '../../utils/varName';
 import { DeploymentChoice } from '../root';
+
+const resolve = createResolve(import.meta);
 
 interface Prompt {
     twig: boolean,
@@ -23,8 +26,8 @@ class SymfonyGenerator extends PackageGenerator {
     initializing(): void {
         const { 'http-path': httpPath, packageName } = this.options;
 
-        this.composeWith(require.resolve('../utils/database'), [packageName]);
-        this.composeWith(require.resolve('../utils/http'), [packageName, httpPath, 80]);
+        this.composeWith(resolve('../utils/database'), [packageName]);
+        this.composeWith(resolve('../utils/http'), [packageName, httpPath, 80]);
     }
 
     async prompting(): Promise<void> {
