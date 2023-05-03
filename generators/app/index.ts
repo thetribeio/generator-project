@@ -120,7 +120,7 @@ class AppGenerator extends BaseGenerator {
     }
 
     /**
-     * Custom prompting logic that allow chosing multiple frontends.
+     * Custom prompting logic that allow choosing multiple frontends.
      *
      * This will save and reload the chosen frontends from the config in the same way `promptConfig` does.
      */
