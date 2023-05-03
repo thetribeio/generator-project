@@ -13,20 +13,20 @@
         "doctrine/orm": "^2.14.3",
         "sentry/sentry-symfony": "^4.7.0",
         "symfony/asset": "^6.2.7",
-        "symfony/console": "^6.2.8",
+        "symfony/console": "^6.2.10",
         "symfony/expression-language": "^6.2.7",
         "symfony/flex": "^2.2.5",
-        "symfony/form": "^6.2.8",
-        "symfony/framework-bundle": "^6.2.9",
-        "symfony/http-client": "^6.2.9",
-        "symfony/intl": "^6.2.9",
-        "symfony/process": "^6.2.8",
-        "symfony/security-bundle": "^6.2.8",
+        "symfony/form": "^6.2.10",
+        "symfony/framework-bundle": "^6.2.10",
+        "symfony/http-client": "^6.2.10",
+        "symfony/intl": "^6.2.10",
+        "symfony/process": "^6.2.10",
+        "symfony/security-bundle": "^6.2.10",
         "symfony/translation": "^6.2.8",
         "symfony/twig-bundle": "^6.2.7",
-        "symfony/validator": "^6.2.8",
+        "symfony/validator": "^6.2.10",
         "symfony/web-link": "^6.2.7",
-        "symfony/yaml": "^6.2.7"
+        "symfony/yaml": "^6.2.10"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.16.0",
@@ -40,7 +40,7 @@
         "symfony/debug-bundle": "^6.2.7",
         "symfony/phpunit-bridge": "^6.2.7",
         "symfony/stopwatch": "^6.2.7",
-        "symfony/web-profiler-bundle": "^6.2.7",
+        "symfony/web-profiler-bundle": "^6.2.10",
         "thetribe/coding-standard": "^0.3.0"
     },
     "config": {
