@@ -2,10 +2,8 @@
 import { copyFile, mkdir, rm } from 'node:fs/promises'
 import { basename, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { promisify } from 'node:util';
+import { glob } from 'glob';
 import execa from 'execa';
-
-const glob = promisify((await import('glob')).default);
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const dist = join(root, 'dist');
