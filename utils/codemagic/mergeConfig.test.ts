@@ -1,3 +1,5 @@
+import { strict as assert } from 'node:assert';
+import { test } from 'node:test';
 import Config from './Config';
 import mergeConfig from './mergeConfig';
 
@@ -14,7 +16,7 @@ test('It keeps workflow from first config if second is not present', () => {
 
     const mergedConfig = mergeConfig(firstConfig, secondConfig);
 
-    expect(mergedConfig.workflows).toEqual(firstConfig.workflows);
+    assert.deepEqual(mergedConfig.workflows, firstConfig.workflows);
 });
 
 test('It keeps workflow from second config if first is not present', () => {
@@ -30,7 +32,7 @@ test('It keeps workflow from second config if first is not present', () => {
 
     const mergedConfig = mergeConfig(firstConfig, secondConfig);
 
-    expect(mergedConfig.workflows).toEqual(secondConfig.workflows);
+    assert.deepEqual(mergedConfig.workflows, secondConfig.workflows);
 });
 
 test('It merges jobs of the same workflow from different configs', () => {
@@ -48,6 +50,6 @@ test('It merges jobs of the same workflow from different configs', () => {
 
     const mergedConfig = mergeConfig(firstConfig, secondConfig);
 
-    expect(mergedConfig.workflows.firstWorkflow).toBeDefined();
-    expect(mergedConfig.workflows.secondWorkflow).toBeDefined();
+    assert.ok(mergedConfig.workflows.firstWorkflow);
+    assert.ok(mergedConfig.workflows.secondWorkflow);
 });

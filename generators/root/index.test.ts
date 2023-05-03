@@ -1,5 +1,7 @@
-import fs from 'fs';
-import path from 'path';
+import { strict as assert } from 'node:assert';
+import fs from 'node:fs';
+import path from 'node:path';
+import { after, before, describe, test } from 'node:test';
 import execa from 'execa';
 import YAML, { ScalarTag } from 'yaml';
 import helpers from 'yeoman-test';
@@ -15,14 +17,14 @@ const vault: ScalarTag = {
 describe('When running the generator', () => {
     let root: string;
 
-    beforeAll(async () => {
+    before(async () => {
         const result = await helpers.run(__dirname)
             .withPrompts({ contactEmail: 'test@example.com' });
 
         root = result.cwd;
     });
 
-    afterAll(async () => {
+    after(async () => {
         await fs.promises.rm(root, { recursive: true });
     });
 
@@ -39,21 +41,21 @@ describe('When running the generator', () => {
         const content = await fs.promises.readFile(path.join(root, 'ansible', 'group_vars', 'staging.yaml'), 'utf8');
         const vars = YAML.parse(content, { customTags: [vault] });
 
-        expect(vars.basic_auth).toBeDefined();
+        assert.ok('basic_auth' in vars);
     });
 });
 
 describe('When running the generator with kubernetes deployment', () => {
     let root: string;
 
-    beforeAll(async () => {
+    before(async () => {
         const result = await helpers.run(__dirname)
             .withPrompts({ contactEmail: 'test@example.com', deployment: 'kubernetes' });
 
         root = result.cwd;
     });
 
-    afterAll(async () => {
+    after(async () => {
         await fs.promises.rm(root, { recursive: true });
     });
 

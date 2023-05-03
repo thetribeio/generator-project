@@ -1,5 +1,7 @@
-import fs from 'fs';
-import path from 'path';
+import { strict as assert } from 'node:assert';
+import fs from 'node:fs';
+import path from 'node:path';
+import { after, before, describe, test } from 'node:test';
 import * as PLIST from 'fast-plist';
 import * as XML from 'xml2js';
 import YAML from 'yaml';
@@ -9,7 +11,7 @@ import helpers from 'yeoman-test';
 describe('When running the generator with valid options', () => {
     let root: string;
 
-    beforeAll(async () => {
+    before(async () => {
         const result = await helpers.run(path.resolve(__dirname, '../root'))
             .withPrompts({
                 contactEmail: 'test@example.com',
@@ -27,18 +29,18 @@ describe('When running the generator with valid options', () => {
             });
     });
 
-    afterAll(async () => {
+    after(async () => {
         await fs.promises.rm(root, { recursive: true });
     });
 
     test('It generates a readable react-native package file', async () => {
         const pubspec = YAML.parse(await fs.promises.readFile(path.resolve(root, 'mobile', 'package.json'), 'utf8'));
-        expect(pubspec).toBeDefined();
+        assert.ok(pubspec);
     });
 
     test('It generates a react-native project with package name', async () => {
         const pubspec = YAML.parse(await fs.promises.readFile(path.resolve(root, 'mobile', 'package.json'), 'utf8'));
-        expect(pubspec.name).toEqual('mygreatproject');
+        assert.equal(pubspec.name, 'mygreatproject');
     });
 
     test('It generates an AndroidManifest with expected package name', async () => {
@@ -52,7 +54,7 @@ describe('When running the generator with valid options', () => {
             'AndroidManifest.xml',
         )));
 
-        expect(androidManifestData.manifest.$.package).toEqual('com.greatcorp.mygreatproject');
+        assert.ok(androidManifestData.manifest.$.package, 'com.greatcorp.mygreatproject');
     });
 
     test('It generates an Android MainActivity with expected package name', async () => {
@@ -122,7 +124,7 @@ describe('When running the generator with valid options', () => {
             ),
         )).toString('utf8'));
 
-        expect(infoPlistData.CFBundleDisplayName).toEqual('mygreatproject');
+        assert.equal(infoPlistData.CFBundleDisplayName, 'mygreatproject');
     });
 
     test('It generates an iOS tests file with the project name', async () => {
@@ -173,11 +175,9 @@ describe('When running the generator with valid options', () => {
             'codemagic.yaml',
         ), 'utf8'));
 
-        expect(codemagic.workflows['react-native-android']).toBeDefined();
-        expect(codemagic.workflows['react-native-android'].publishing.email.recipients)
-            .toContainEqual('test@example.com');
-        expect(codemagic.workflows['react-native-android'].environment.vars.package)
-            .toEqual('com.greatcorp.mygreatproject');
+        assert.ok('react-native-android' in codemagic.workflows);
+        assert.ok(codemagic.workflows['react-native-android'].publishing.email.recipients.includes('test@example.com'));
+        assert.equal(codemagic.workflows['react-native-android'].environment.vars.package, 'com.greatcorp.mygreatproject');
     });
 
     test('It adds react-native-ios workflow to Codemagic setup with right recipient email', async () => {
@@ -187,9 +187,8 @@ describe('When running the generator with valid options', () => {
             'codemagic.yaml',
         ), 'utf8'));
 
-        expect(codemagic.workflows['react-native-ios']).toBeDefined();
-        expect(codemagic.workflows['react-native-ios'].publishing.email.recipients).toContainEqual('test@example.com');
-        expect(codemagic.workflows['react-native-ios'].environment.vars.XCODE_WORKSPACE)
-            .toEqual('mygreatproject.xcworkspace');
+        assert.ok('react-native-ios' in codemagic.workflows);
+        assert.ok(codemagic.workflows['react-native-ios'].publishing.email.recipients.includes('test@example.com'));
+        assert.equal(codemagic.workflows['react-native-ios'].environment.vars.XCODE_WORKSPACE, 'mygreatproject.xcworkspace');
     });
 });
