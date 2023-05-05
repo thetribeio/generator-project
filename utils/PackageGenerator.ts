@@ -3,7 +3,6 @@ import { Data as TemplateData } from 'ejs';
 import YAML from 'yaml';
 import { GeneratorOptions } from 'yeoman-generator';
 import BaseGenerator from './BaseGenerator';
-import * as CircleCI from './circleci';
 import * as Codemagic from './codemagic';
 import validateProjectPath from './validation/validatePackagePath';
 
@@ -76,27 +75,6 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
         );
     }
 
-    configureCircleCI(templatePath: string, context: TemplateData = {}): void {
-        this.#extendYAML(
-            templatePath,
-            '.circleci/config.yml',
-            context,
-            (oldConfig, config) => CircleCI.mergeConfig(
-                CircleCI.Config.fromRaw(oldConfig),
-                CircleCI.Config.fromRaw(config),
-            ).toRaw(),
-            { indent: 2 },
-        );
-    }
-
-    updateCircleCIConfig(updater: (config: CircleCI.Config) => void): void {
-        const config = CircleCI.Config.fromRaw(YAML.parse(this.readDestination('.circleci/config.yml')));
-
-        updater(config);
-
-        this.writeDestination('.circleci/config.yml', YAML.stringify(config.toRaw()));
-    }
-
     configureAnsible(templatePath: string, context: TemplateData = {}): void {
         const { packageName } = this.options;
 
@@ -106,7 +84,7 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
             }
         }
 
-        for (const file of ['deployment.yaml', 'deployment_ci.yaml', 'provision.yaml', 'nginx.conf.j2']) {
+        for (const file of ['deployment.yaml', 'provision.yaml', 'nginx.conf.j2']) {
             this.renderTemplate(
                 `${templatePath}/package/${file}.ejs`,
                 `ansible/packages/${packageName}/${file}`,

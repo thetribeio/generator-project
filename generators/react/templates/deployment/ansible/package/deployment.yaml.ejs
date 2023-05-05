@@ -1,19 +1,17 @@
 ---
 - import_role:
-    name: build
-  delegate_to: localhost
+    name: find_github_artifact
   vars:
-    job_name: <%= packageName %>-archive
     repository_name: <%= repositoryName %>
+    workflow_name: <%= packageName %>
+  delegate_to: localhost
+  when: artifact_url is not defined
 - import_role:
-    name: deploy
+    name: deploy_artifact
   vars:
     path: /home/<%= packageName %>
-    artifact_path: <%= packageName %>.tar.gz
     before_finalize:
       - >
         sed --in-place --expression='s#<div id="root"[^>]*>#<div id="root"
         {%- for key, value in <%= varName(packageName) %>_data|dictsort %} data-{{ key }}="{{ value }}"{% endfor -%}
         >#g' dist/index.html
-    job_name: <%= packageName %>-archive
-    repository_name: <%= repositoryName %>

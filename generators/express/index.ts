@@ -23,7 +23,7 @@ class ExpressGenerator extends PackageGenerator {
 
         this.configureDockerCompose('docker-compose.yaml.ejs');
 
-        this.configureCircleCI('circleci.yaml.ejs');
+        this.renderTemplate('workflow.yaml.ejs', `.github/workflows/${packageName}.yaml`);
 
         switch (this.config.get('deployment')) {
             case DeploymentChoice.Ansible:
@@ -31,10 +31,6 @@ class ExpressGenerator extends PackageGenerator {
                     repositoryName: this.config.get('repositoryName'),
                     encrypt: createEncrypt(this.readDestination('ansible/vault_pass.txt').trim()),
                     cookieSecret: cryptoRandomString({ length: 64, type: 'alphanumeric' }),
-                });
-
-                this.updateCircleCIConfig((config) => {
-                    config.workflows.build!.jobs.deploy!.requires.push(`${packageName}-archive`);
                 });
                 break;
             case DeploymentChoice.Kubernetes: {

@@ -1,0 +1,19 @@
+name: composer install
+inputs:
+  working_directory:
+    default: '.'
+runs:
+  using: composite
+  steps:
+    - id: composer-cache
+      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      shell: bash
+      working-directory: ${{ inputs.working_directory }}
+    - uses: actions/cache@v3
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
+    - run: composer install --no-scripts --prefer-dist
+      shell: bash
+      working-directory: ${{ inputs.working_directory }}

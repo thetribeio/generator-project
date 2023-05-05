@@ -56,15 +56,15 @@ let updated = false;
 
 // Update CircleCI config
 for (const file of [
-    'generators/express/templates/circleci.yaml.ejs',
-    'generators/next-js/templates/circleci.yaml.ejs',
-    'generators/react/templates/circleci.yaml.ejs',
-    'generators/symfony/templates/circleci.yaml.ejs',
+    'generators/express/templates/workflow.yaml.ejs',
+    'generators/next-js/templates/workflow.yaml.ejs',
+    'generators/react/templates/workflow.yaml.ejs',
+    'generators/symfony/templates/workflow.yaml.ejs',
 ]) {
     updated = await replace(
         file,
-        /image: node:\d+\.\d+\.\d+/,
-        `image: node:${lastVersion}`,
+        /node-version: \d+\.\d+\.\d+/,
+        `node-version: ${lastVersion}`,
     ) || updated;
 }
 

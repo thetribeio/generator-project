@@ -13,5 +13,4 @@
       loop_control:
         loop_var: package
   vars_files:
-    - vars/circleci.yaml
     - vars/github.yaml
