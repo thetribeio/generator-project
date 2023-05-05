@@ -1,2 +1,2 @@
-[config.yml]
+[*.yaml]
 indent_size = 2

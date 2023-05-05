@@ -50,13 +50,11 @@ You can use these files' contents as playbook variables like this:
     - vars/variables.yaml
 ```
 
-Some `folder-roles` (`build`, `deploy`) require the presence of `circleci.yaml`
-and `github.yaml`. Use the `.dist` files in the `vars/` folder to create them, and
-follow their instructions to fill them.
+Some `folder-roles` (`build`, `deploy`) require the presence of  `github.yaml`. Use the `.dist`
+files in the `vars/` folder to create them, and follow their instructions to fill them.
 
 These two files should be in your `.gitignore`:
 - `vars/github.yaml`
-- `vars/circleci.yaml`
 
 ## Group vars
 

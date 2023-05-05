@@ -45,7 +45,8 @@ class SymfonyGenerator extends PackageGenerator {
 
         this.configureDockerCompose('docker-compose.yaml.ejs');
 
-        this.configureCircleCI('circleci.yaml.ejs', { twig });
+        this.renderTemplate('actions', '.github/actions');
+        this.renderTemplate('workflow.yaml.ejs', `.github/workflows/${packageName}.yaml`, { twig });
 
         if (twig) {
             this.renderTemplate('base-twig', packagePath);
@@ -60,10 +61,6 @@ class SymfonyGenerator extends PackageGenerator {
                     repositoryName: this.config.get('repositoryName'),
                     secret: cryptoRandomString({ length: 64, type: 'alphanumeric' }),
                     twig,
-                });
-
-                this.updateCircleCIConfig((config) => {
-                    config.workflows.build!.jobs.deploy!.requires.push(`${packageName}-build`);
                 });
                 break;
             case DeploymentChoice.Kubernetes: {

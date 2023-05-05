@@ -1,0 +1,48 @@
+on:
+  workflow_call:
+    inputs:
+      package:
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+      - name: Setup terraform
+        run: |
+            echo 'scw_access_key = ${{ secrets.SCW_ACCESS_KEY }}' >> terraform.tfvars
+            echo 'scw_secret_key = ${{ secrets.SCW_SECRET_KEY }}' >> terraform.tfvars
+
+            terraform init --backend-config="access_key=${{ secrets.SCW_ACCESS_KEY }}" --backend-config="secret_key=${{ secrets.SCW_SECRET_KEY }}"
+        shell: bash
+        working-directory: terraform/staging
+      - name: Setup ansible
+        run: |
+          pipx inject ansible-core jmespath
+
+          echo '${{ secrets.SSH_PRIVATE_KEY }}' > ./id_rsa && chmod 600 ./id_rsa
+          echo '${{ secrets.VAULT_PASS }}' > ./vault_pass.txt
+
+          mkdir -p ~/.ssh/ && ssh-keyscan -H $(cd ../terraform/staging/ && terraform output --json hosts | jq --raw-output .server) >> ~/.ssh/known_hosts
+        shell: bash
+        working-directory: ansible
+      - name: Download artifact
+        id: download
+        uses: actions/download-artifact@v3.0.2
+        with:
+          name: ${{ inputs.package }}
+      - name: Deploy
+        run: |
+          ansible \
+            --inventory staging.py \
+            --private-key ./id_rsa \
+            --module-name include_tasks \
+            --args file=packages/${{ inputs.package }}/deployment.yaml \
+            --extra-vars artifact_url=file://${{ steps.download.outputs.download-path }}/archive.tar \
+            server \
+        shell: bash
+        working-directory: ansible

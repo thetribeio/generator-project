@@ -1,0 +1,243 @@
+name: <%= packageName %>
+
+on:
+  pull_request:
+    paths: <%= packagePath %>/**
+  push:
+    branches:
+      - main
+      - develop
+
+defaults:
+  run:
+    working-directory: <%= packagePath %>
+
+jobs:
+<%_ if (twig) { _%>
+  lint-twig:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+      - uses: ./.github/actions/composer-install
+        with:
+          working_directory: <%= packagePath %>
+      - run: bin/console lint:twig
+
+  code-style-js:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20.12.0
+          cache: yarn
+          cache-dependency-path: <%= packagePath %>/yarn.lock
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint:js --quiet
+
+<%_ } _%>
+  code-style-php:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+      - uses: ./.github/actions/composer-install
+        with:
+          working_directory: <%= packagePath %>
+      - run: vendor/bin/php-cs-fixer fix --dry-run --diff --using-cache no
+
+<%_ if (twig) { _%>
+  code-style-scss:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.16.0
+          cache: yarn
+          cache-dependency-path: <%= packagePath %>/yarn.lock
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint:scss
+
+<%_ } _%>
+  static-analysis:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+      - uses: ./.github/actions/composer-install
+        with:
+          working_directory: <%= packagePath %>
+      - run: vendor/bin/phpstan analyse src tests
+      - run: bin/console lint:container
+
+  test-migrations:
+    runs-on: ubuntu-22.04
+    env:
+      DATABASE_URL: postgresql://thetribe:424242@localhost:5432/thetribe
+    services:
+      postgres:
+        image: postgres:12.5
+        env:
+          POSTGRES_USER: thetribe
+          POSTGRES_PASSWORD: 424242
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    steps:
+      - uses: actions/checkout@v3
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: intl,pdo_pgsql
+      - uses: ./.github/actions/composer-install
+        with:
+          working_directory: <%= packagePath %>
+      - run: bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+      - run: bin/console doctrine:schema:validate
+
+<%_ if (deployment === 'ansible') { _%>
+  build:
+    runs-on: ubuntu-22.04
+    env:
+      APP_ENV: prod
+    steps:
+      - uses: actions/checkout@v3
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: intl
+<%_ if (twig) { _%>
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.16.0
+          cache: yarn
+          cache-dependency-path: <%= packagePath %>/yarn.lock
+<%_ } _%>
+      - uses: ./.github/actions/composer-install
+        with:
+          working_directory: <%= packagePath %>
+      - run: composer install --no-dev --no-scripts --prefer-dist
+<%_ if (twig) { _%>
+      - run: yarn install --frozen-lockfile
+<%_ } _%>
+      - run: bin/console cache:warmup
+      - run: bin/console assets:install
+<%_ if (twig) { _%>
+      - run: yarn build
+<%_ } _%>
+      - run: |
+          tar --create \
+            --file=archive.tar \
+            --owner=0 \
+            --group=0 \
+            --exclude '*.map' \
+            bin/console \
+            config/bootstrap.php \
+            config/bundles.php \
+            migrations/ \
+            public/ \
+            src/ \
+            <%_ if (twig) { _%>
+            templates/ \
+            <%_ } _%>
+            var/cache/prod/ \
+            <%_ if (twig) { _%>
+            var/manifest.json \
+            <%_ } _%>
+            vendor/ \
+      - uses: actions/upload-artifact@v3
+        with:
+          name: <%= packageName %>
+          path: <%= packagePath %>/archive.tar
+          if-no-files-found: error
+        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
+<%_ if (twig) { _%>
+      - uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: <%= projectName %>-<%= packageName %>
+        with:
+          ignore_missing: true
+          sourcemaps: public/assets
+          version_prefix: <%= projectName %>-<%= packageName %>@
+          working_directory: <%= packagePath %>
+        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
+<%_ } _%>
+  deploy-staging:
+    if: github.ref == 'refs/heads/develop'
+    needs: [build]
+    uses: ./.github/workflows/deploy.yaml
+    with:
+      package: <%= packageName %>
+    secrets: inherit
+<%_ } _%>
+<%_ if (deployment === 'kubernetes') { _%>
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: docker/setup-buildx-action@v2.5.0
+      - uses: docker/login-action@v2.1.0
+        with:
+          registry: ${{ secrets.STAGING_REGISTRY }}
+          username: ${{ secrets.STAGING_REGISTRY_LOGIN }}
+          password: ${{ secrets.STAGING_REGISTRY_PASSWORD }}
+        if: github.ref == 'refs/heads/develop'
+      - uses: docker/build-push-action@v4.0.0
+        with:
+          context: '{{ defaultContext }}:<%= packagePath %>'
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: ${{ secrets.STAGING_REGISTRY }}/<%= projectName %>/<%= packageName %>/nginx
+          target: nginx
+          push: ${{ github.ref == 'refs/heads/develop' }}
+          build-args: |
+            VERSION=${{ github.sha }}
+      - uses: docker/build-push-action@v4.0.0
+        with:
+          context: '{{ defaultContext }}:<%= packagePath %>'
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: ${{ secrets.STAGING_REGISTRY }}/<%= projectName %>/<%= packageName %>/php
+          target: php
+          push: ${{ github.ref == 'refs/heads/develop' }}
+          build-args: |
+            VERSION=${{ github.sha }}
+<%_ if (twig) { _%>
+      - uses: docker/build-push-action@v4.0.0
+        with:
+          context: '{{ defaultContext }}:<%= packagePath %>'
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: ${{ secrets.STAGING_REGISTRY }}/<%= projectName %>/<%= packageName %>/sentry
+          target: sentry
+          load: true
+          build-args: |
+            VERSION=${{ github.sha }}
+      - run: |
+          ENV="--env SENTRY_AUTH_TOKEN --env SENTRY_ORG --env SENTRY_PROJECT"
+          docker run --rm $ENV $IMAGE releases new $VERSION
+          docker run --rm $ENV $IMAGE releases files $VERSION upload-sourcemaps assets
+          docker run --rm $ENV $IMAGE releases finalize $VERSION
+        working-directory: .
+        env:
+          IMAGE: ${{ secrets.STAGING_REGISTRY }}/<%= projectName %>/<%= packageName %>/sentry
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_PROJECT: <%= projectName %>-<%= packageName %>
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          VERSION: <%= projectName %>-<%= packageName %>@${{ github.sha }}
+        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
+<%_ } _%>
+<%_ } _%>
