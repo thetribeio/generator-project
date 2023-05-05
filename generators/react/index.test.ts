@@ -39,7 +39,7 @@ describe('When running the generator', () => {
     });
 
     test('It generates a project with passing tests', async () => {
-        await run('test', 'yarn', ['test', '--watchAll=false']);
+        await run('test', 'yarn', ['test', '--run']);
     });
 
     test('It generates a docker-compose.yaml with a version fields', async () => {

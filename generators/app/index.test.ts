@@ -31,7 +31,7 @@ describe('When running the generator with React', () => {
     test('It generates a React frontend', async () => {
         const config = JSON.parse(await fs.promises.readFile(path.resolve(root, 'frontend', 'package.json'), 'utf8'));
 
-        expect(config.devDependencies['react-scripts']).toBeDefined();
+        expect(config.devDependencies.vite).toBeDefined();
     });
 
     test('It add the right dependencies to the deploy job', async () => {
