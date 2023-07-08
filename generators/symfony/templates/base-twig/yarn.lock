@@ -5403,9 +5403,7 @@ stylelint-scss@^4.6.0:
     postcss-value-parser "^4.2.0"
 
 stylelint@^15.6.1:
-  version "15.6.1"
-  resolved "https://registry.yarnpkg.com/stylelint/-/stylelint-15.6.1.tgz#e4cd33a3af88587b99a5d1328aedd8c298b6dc81"
-  integrity sha512-d8icFBlVl93Elf3Z5ABQNOCe4nx69is3D/NZhDLAie1eyYnpxfeKe7pCfqzT5W4F8vxHCLSDfV8nKNJzogvV2Q==
+  version "15.10.1"
   dependencies:
     "@csstools/css-parser-algorithms" "^2.1.1"
     "@csstools/css-tokenizer" "^2.1.1"
