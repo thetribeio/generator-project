@@ -4,19 +4,19 @@ FROM node:18.16.0-slim as base
 WORKDIR /srv/<%= packageName %>/
 
 # Dev dependencies
-FROM base as devDependencies
+FROM base as dev-dependencies
 
 COPY package.json yarn.lock ./
 
 RUN yarn install --frozen-lockfile
 
 # Prod dependencies
-FROM devDependencies as dependencies
+FROM dev-dependencies as dependencies
 
 RUN yarn install --frozen-lockfile --production
 
 # Build
-FROM devDependencies as build
+FROM dev-dependencies as build
 
 COPY tsconfig.json next.config.js ./
 COPY pages ./pages
