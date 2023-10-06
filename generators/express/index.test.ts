@@ -45,7 +45,7 @@ describe('When running the generator', () => {
 
     test('It generates a docker-compose.yaml with the right fields', async () => {
         const all = YAML.parse(await fs.promises.readFile(path.resolve(root, 'docker-compose.yaml'), 'utf8'));
-        expect(all.version).toBeDefined();
+        expect(all.version).toBeUndefined();
         expect(all.services[packageName]).toBeDefined();
     });
 
