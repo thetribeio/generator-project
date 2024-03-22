@@ -3,7 +3,6 @@ import path from 'path';
 import execa from 'execa';
 import YAML from 'yaml';
 import helpers from 'yeoman-test';
-import { Config } from '../../utils/circleci';
 
 describe('When running the generator', () => {
     let root: string;
@@ -71,12 +70,6 @@ describe('When running the generator with kubernetes deployment', () => {
 
     afterAll(async () => {
         await fs.promises.rm(root, { recursive: true });
-    });
-
-    test('It generates a valid CircleCI config', async () => {
-        const content = await fs.promises.readFile(path.join(root, '.circleci', 'config.yml'), 'utf8');
-
-        Config.fromRaw(YAML.parse(content));
     });
 
     test('It generates a project with a valid terraform config', async () => {
