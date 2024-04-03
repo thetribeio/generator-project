@@ -9,4 +9,4 @@ script/update
 
 . script/lib/docker
 
-docker-compose up
+docker compose up

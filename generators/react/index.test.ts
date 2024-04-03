@@ -22,12 +22,12 @@ describe('When running the generator', () => {
     });
 
     afterAll(async () => {
-        await execa('docker-compose', ['down', '--rmi', 'local', '--volumes'], { cwd: root });
+        await execa('docker', ['compose', 'down', '--rmi', 'local', '--volumes'], { cwd: root });
         await fs.promises.rm(root, { recursive: true });
     });
 
     const run = async (container: string, command: string, args: string[]): Promise<void> => {
-        await execa('docker-compose', ['run', '--rm', '--no-deps', container, command, ...args], { cwd: root });
+        await execa('docker', ['compose', 'run', '--rm', '--no-deps', container, command, ...args], { cwd: root });
     };
 
     test('It generates a project which correctly builds', async () => {

@@ -1,5 +1,5 @@
 
-docker-compose run --rm --no-deps <%= packageName %>-php composer install
+docker compose run --rm --no-deps <%= packageName %>-php composer install
 <% if (twig) { %>
-docker-compose run --rm --no-deps <%= packageName %>-node yarn install --frozen-lockfile
+docker compose run --rm --no-deps <%= packageName %>-node yarn install --frozen-lockfile
 <% } %>
