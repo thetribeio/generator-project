@@ -6,7 +6,7 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "dependencies": {
     "binascii": "^0.0.2",
@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@thetribe/eslint-config-typescript": "^0.4.1",
-    "@tsconfig/node14": "^1.0.3",
+    "@tsconfig/node18": "^18.2.4",
     "@types/jest": "^29.5.1",
     "@types/ramda": "^0.29.0",
     "@types/xml2js": "^0.4.11",
