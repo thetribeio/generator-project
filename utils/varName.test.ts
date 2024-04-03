@@ -1,9 +1,11 @@
+import { strict as assert } from 'node:assert';
+import { test } from 'node:test';
 import varName from './varName';
 
 test('It replaces dashes with underscores', () => {
-    expect(varName('some-name')).toBe('some_name');
+    assert.equal(varName('some-name'), 'some_name');
 });
 
 test('It replaces multiple dashes with underscores', () => {
-    expect(varName('some-other-name')).toBe('some_other_name');
+    assert.equal(varName('some-other-name'), 'some_other_name');
 });

@@ -1,12 +1,14 @@
-import fs from 'fs';
-import path from 'path';
+import { strict as assert } from 'node:assert';
+import fs from 'node:fs';
+import path from 'node:path';
+import { after, before, describe, test } from 'node:test';
 import execa from 'execa';
 import helpers from 'yeoman-test';
 
 describe('When running the generator', () => {
     let root: string;
 
-    beforeAll(async () => {
+    before(async () => {
         const result = await helpers.run(path.resolve(__dirname, '../root'))
             .withPrompts({ contactEmail: 'test@example.com' });
 
@@ -19,7 +21,7 @@ describe('When running the generator', () => {
         await execa(path.resolve(root, 'script', 'bootstrap'));
     });
 
-    afterAll(async () => {
+    after(async () => {
         await execa('docker', ['compose', 'down', '--rmi', 'local', '--volumes'], { cwd: root });
         await fs.promises.rm(root, { recursive: true });
     });
@@ -39,6 +41,6 @@ describe('When running the generator', () => {
     test('It generates a project with react-admin', async () => {
         const packageJson = JSON.parse(await fs.promises.readFile(path.resolve(root, 'test', 'package.json'), 'utf8'));
 
-        expect(packageJson.dependencies['react-admin']).toBeDefined();
+        assert.ok('react-admin' in packageJson.dependencies);
     });
 });

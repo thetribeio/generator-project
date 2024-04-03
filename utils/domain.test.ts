@@ -1,17 +1,19 @@
+import { strict as assert } from 'node:assert';
+import { test } from 'node:test';
 import { rootDomain, subdomain } from './domain';
 
 test('rootDomain return the root domain of a domain', () => {
-    expect(rootDomain('test.example.com')).toBe('example.com');
+    assert.equal(rootDomain('test.example.com'), 'example.com');
 });
 
 test('subdomain return the subdomain of a domain', () => {
-    expect(subdomain('test.example.com')).toBe('test');
+    assert.equal(subdomain('test.example.com'), 'test');
 });
 
 test('subdomain return the correct subdomain when depth is more than 3', () => {
-    expect(subdomain('another.test.example.com')).toBe('another.test');
+    assert.equal(subdomain('another.test.example.com'), 'another.test');
 });
 
 test('subdomain return an empty string for a root domain', () => {
-    expect(subdomain('example.com')).toBe('');
+    assert.equal(subdomain('example.com'), '');
 });
