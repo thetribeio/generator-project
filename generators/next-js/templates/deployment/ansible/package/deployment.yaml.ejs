@@ -1,17 +1,15 @@
 ---
 - import_role:
-    name: build
+    name: find_github_artifact
   vars:
-    job_name: <%= packageName %>-archive
     repository_name: <%= repositoryName %>
+    workflow_name: <%= packageName %>
   delegate_to: localhost
+  when: artifact_url is not defined
 - import_role:
-    name: deploy
+    name: deploy_artifact
   environment: '{{ <%= varName(packageName) %>_env }}'
   vars:
     path: /home/<%= packageName %>
-    artifact_path: <%= packageName %>.tar.gz
-    job_name: <%= packageName %>-archive
-    repository_name: <%= repositoryName %>
     after_finalize:
       - systemctl restart <%= packageName %>

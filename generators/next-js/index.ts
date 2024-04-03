@@ -20,16 +20,12 @@ class NextJSGenerator extends PackageGenerator {
 
         this.configureDockerCompose('docker-compose.yaml.ejs');
 
-        this.configureCircleCI('circleci.yaml.ejs');
+        this.renderTemplate('workflow.yaml.ejs', `.github/workflows/${packageName}.yaml`);
 
         switch (this.config.get('deployment')) {
             case DeploymentChoice.Ansible:
                 this.configureAnsible('deployment/ansible', {
                     repositoryName: this.config.get('repositoryName'),
-                });
-
-                this.updateCircleCIConfig((config) => {
-                    config.workflows.build!.jobs.deploy!.requires.push(`${packageName}-archive`);
                 });
                 break;
             case DeploymentChoice.Kubernetes: {
