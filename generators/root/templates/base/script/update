@@ -9,4 +9,4 @@ script/bootstrap
 
 . script/lib/docker
 
-docker-compose build
+docker compose build
