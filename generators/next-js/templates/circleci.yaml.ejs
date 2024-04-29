@@ -45,7 +45,7 @@ jobs:
           path: ~/project
       - attach_workspace:
           at: ~/project
-      - run: echo "export default '${CIRCLE_SHA1}';" > version.ts
+      - run: echo "export default '${CIRCLE_SHA1}';" > src/version.ts
       - run:
           command: yarn build
           environment:
@@ -64,15 +64,13 @@ jobs:
       - attach_workspace:
           at: ~/project
       - run:
-          command: yarn install --prod --frozen-lockfile
-      - run:
           name: Create archive
           command: |
-            tar --create --gzip --file=archive.tar.gz --owner=0 --group=0 \
-              build/ \
-              next.config.js \
-              node_modules/ \
-              public/ \
+            cp --recursive ./.next/standalone ./dist
+            cp --recursive ./.next/static ./dist/.next/static
+            cp --recursive ./public ./dist/
+
+            (cd ./dist/ && tar --create --gzip --file=../archive.tar.gz --owner=0 --group=0 .next *)
       - store_artifacts:
           path: archive.tar.gz
           destination: <%= packageName %>.tar.gz

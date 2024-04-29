@@ -24,7 +24,7 @@
     name: service
   vars:
     working_directory: /home/<%= packageName %>/current
-    command: /home/<%= packageName %>/current/node_modules/.bin/next start --port {{ <%= varName(packageName) %>_port }}
+    command: node /home/<%= packageName %>/current/server.js start --port {{ <%= varName(packageName) %>_port }}
     description: <%= packageName %>
     service: <%= packageName %>
     user: <%= packageName %>
