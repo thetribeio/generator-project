@@ -1,6 +1,9 @@
 {
     "root": true,
-    "extends": "@thetribe/eslint-config-react-typescript",
+    "extends": [
+        "next/core-web-vitals",
+        "@thetribe/eslint-config-react-typescript"
+    ],
     "parserOptions": {
         "project": "./tsconfig.json"
     },

@@ -18,20 +18,20 @@ RUN yarn install --frozen-lockfile --production
 # Build
 FROM dev-dependencies as build
 
-COPY tsconfig.json next.config.js ./
-COPY pages ./pages
+COPY --from=dev-dependencies /srv/<%= packageName %>/node_modules ./node_modules
+COPY . .
 
 ARG VERSION
-RUN echo "export default '$VERSION';" > version.ts
+RUN echo "export default '$VERSION';" > src/version.ts
 
 RUN yarn build
 
 # Final image
 FROM base
 
-COPY next.config.js ./
-COPY --from=dependencies /srv/<%= packageName %>/node_modules /srv/<%= packageName %>/node_modules
-COPY --from=build /srv/<%= packageName %>/build /srv/<%= packageName %>/build
+COPY --from=build /srv/<%= packageName %>/public ./public
+COPY --from=build /srv/<%= packageName %>/.next/standalone .
+COPY --from=build /srv/<%= packageName %>/.next/static ./.next/static
 
 USER node
 
@@ -40,4 +40,4 @@ ENV PATH="/srv/<%= packageName %>/node_modules/.bin:${PATH}"
 
 EXPOSE 3000
 
-CMD ["next", "start"]
+CMD ["node", "server.js"]
