@@ -6,8 +6,8 @@ workflows:
     environment:
       groups:
         - certificate_credentials
-      flutter: 2.5.3
-      xcode: '13.1'
+      flutter: 3.19.6
+      xcode: '13.3'
       cocoapods: 1.11.2
     scripts:
       - |
@@ -72,8 +72,8 @@ workflows:
     working_directory: <%= packagePath %>
     max_build_duration: 60
     environment:
-      flutter: 2.5.3
-      xcode: '13.1'
+      flutter: 3.19.6
+      xcode: '13.3'
       cocoapods: 1.11.2
     triggering:
       events:
