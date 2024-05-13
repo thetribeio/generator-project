@@ -61,7 +61,7 @@ class CreateReactAppGenerator extends PackageGenerator {
                 this.appendDestination('modules/deployment/release.tf', indent`
 
                     data "docker_registry_image" "${packageVar}" {
-                        name = "\${var.registry}/${projectName}-${packageName}:\${var.${packageVar}_image_tag}"
+                        name = "\${var.registry}/${projectName}/${packageName}:\${var.${packageVar}_image_tag}"
                     }
                 `);
 

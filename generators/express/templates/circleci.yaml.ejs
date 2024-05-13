@@ -111,7 +111,7 @@ jobs:
           version: 20.10.11
       - checkout
       - docker/build:
-          image: <%= projectName %>-<%= packageName %>
+          image: <%= projectName %>/<%= packageName %>
           path: <%= packagePath %>
           docker-context: <%= packagePath %>
           extra_build_args: '--build-arg VERSION=$(git log --max-count 1 --pretty=format:%H "<%= packagePath %>")'
@@ -123,7 +123,7 @@ jobs:
       - checkout
       - docker/build:
           registry: $DOCKER_REGISTRY
-          image: <%= projectName %>-<%= packageName %>
+          image: <%= projectName %>/<%= packageName %>
           tag: << pipeline.git.branch >>
           path: <%= packagePath %>
           docker-context: <%= packagePath %>
@@ -132,7 +132,7 @@ jobs:
           registry: $DOCKER_REGISTRY
       - docker/push:
           registry: $DOCKER_REGISTRY
-          image: <%= projectName %>-<%= packageName %>
+          image: <%= projectName %>/<%= packageName %>
           tag: << pipeline.git.branch >>
 <% } %>
 

@@ -1,5 +1,5 @@
 {{- define "<%= projectName %>.<%= packageName %>.image" }}
-{{- .Values.registry }}/<%= projectName %>-<%= packageName %>
+{{- .Values.registry }}/<%= projectName %>/<%= packageName %>
 {{- if .Values.<%= varName(packageName) %>.image.digest -}}
 @{{ .Values.<%= varName(packageName) %>.image.digest }}
 {{- else -}}

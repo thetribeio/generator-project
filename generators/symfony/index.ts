@@ -101,14 +101,14 @@ class SymfonyGenerator extends PackageGenerator {
                 this.appendDestination('modules/deployment/release.tf', indent`
 
                     data "docker_registry_image" "${packageVar}_nginx" {
-                        name = "\${var.registry}/${projectName}-${packageName}-nginx:\${var.${packageVar}_image_tag}"
+                        name = "\${var.registry}/${projectName}/${packageName}/nginx:\${var.${packageVar}_image_tag}"
                     }
                 `);
 
                 this.appendDestination('modules/deployment/release.tf', indent`
 
                     data "docker_registry_image" "${packageVar}_php" {
-                        name = "\${var.registry}/${projectName}-${packageName}-php:\${var.${packageVar}_image_tag}"
+                        name = "\${var.registry}/${projectName}/${packageName}/php:\${var.${packageVar}_image_tag}"
                     }
                 `);
 

@@ -214,12 +214,12 @@ jobs:
           version: 20.10.11
       - checkout
       - docker/build:
-          image: <%= projectName %>-<%= packageName %>-php
+          image: <%= projectName %>/<%= packageName %>/php
           path: <%= packagePath %>
           docker-context: <%= packagePath %>
           extra_build_args: '--target=php --build-arg VERSION=$(git log --max-count 1 --pretty=format:%H "<%= packagePath %>")'
       - docker/build:
-          image: <%= projectName %>-<%= packageName %>-nginx
+          image: <%= projectName %>/<%= packageName %>/nginx
           path: <%= packagePath %>
           docker-context: <%= packagePath %>
           extra_build_args: '--target=nginx --build-arg VERSION=$(git log --max-count 1 --pretty=format:%H "<%= packagePath %>")'
@@ -231,14 +231,14 @@ jobs:
       - checkout
       - docker/build:
           registry: $DOCKER_REGISTRY
-          image: <%= projectName %>-<%= packageName %>-php
+          image: <%= projectName %>/<%= packageName %>/php
           tag: << pipeline.git.branch >>
           path: <%= packagePath %>
           docker-context: <%= packagePath %>
           extra_build_args: '--target=php --build-arg VERSION=$(git log --max-count 1 --pretty=format:%H "<%= packagePath %>")'
       - docker/build:
           registry: $DOCKER_REGISTRY
-          image: <%= projectName %>-<%= packageName %>-nginx
+          image: <%= projectName %>/<%= packageName %>/nginx
           tag: << pipeline.git.branch >>
           path: <%= packagePath %>
           docker-context: <%= packagePath %>
@@ -246,7 +246,7 @@ jobs:
       <% if (twig) { %>
       - docker/build:
           registry: $DOCKER_REGISTRY
-          image: <%= projectName %>-<%= packageName %>-sentry
+          image: <%= projectName %>/<%= packageName %>/sentry
           tag: << pipeline.git.branch >>
           path: <%= packagePath %>
           docker-context: <%= packagePath %>
@@ -256,17 +256,17 @@ jobs:
           registry: $DOCKER_REGISTRY
       - docker/push:
           registry: $DOCKER_REGISTRY
-          image: <%= projectName %>-<%= packageName %>-php
+          image: <%= projectName %>/<%= packageName %>/php
           tag: << pipeline.git.branch >>
       - docker/push:
           registry: $DOCKER_REGISTRY
-          image: <%= projectName %>-<%= packageName %>-nginx
+          image: <%= projectName %>/<%= packageName %>/nginx
           tag: << pipeline.git.branch >>
       <% if (twig) { %>
       - run:
           name: Publish source maps to sentry
           command: |
-            IMAGE="$DOCKER_REGISTRY/<%= projectName %>-<%= packageName %>-sentry:<< pipeline.git.branch >>"
+            IMAGE="$DOCKER_REGISTRY/<%= projectName %>/<%= packageName %>/sentry:<< pipeline.git.branch >>"
             ENV="--env SENTRY_AUTH_TOKEN --env SENTRY_ORG --env SENTRY_PROJECT=<%= projectName %>-<%= packageName %>"
             VERSION=<%= projectName %>-<%= packageName %>@$(git log --max-count 1 --pretty=format:%H "<%= packagePath %>")
 
