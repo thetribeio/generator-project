@@ -68,8 +68,8 @@ class DatabaseUtilGenerator extends BaseGenerator<DatabaseUtilGeneratorOptions> 
         const { packageName } = this.options;
 
         this.appendTemplate('deployment/kubernetes/database.tf.ejs', 'modules/deployment/database.tf', { packageName });
-        this.writeReleaseVariable(`${varName(packageName)}.database.host`, 'data.scaleway_rdb_instance.main.endpoint_ip');
-        this.writeReleaseVariable(`${varName(packageName)}.database.port`, 'data.scaleway_rdb_instance.main.endpoint_port');
+        this.writeReleaseVariable(`${varName(packageName)}.database.host`, 'data.scaleway_rdb_instance.main.private_network[0].ip');
+        this.writeReleaseVariable(`${varName(packageName)}.database.port`, 'data.scaleway_rdb_instance.main.private_network[0].port');
         this.writeReleaseVariable(`${varName(packageName)}.database.user`, `scaleway_rdb_user.${varName(packageName)}.name`);
         this.writeReleaseVariable(`${varName(packageName)}.database.password`, `random_password.${varName(packageName)}.result`);
         this.writeReleaseVariable(`${varName(packageName)}.database.name`, `scaleway_rdb_database.${varName(packageName)}.name`);
