@@ -1,5 +1,5 @@
 {{- define "<%= projectName %>.<%= packageName %>.image.php" }}
-{{- .Values.registry }}/<%= projectName %>-<%= packageName %>-php
+{{- .Values.registry }}/<%= projectName %>/<%= packageName %>/php
 {{- if .Values.<%= varName(packageName) %>.image.digests.php -}}
 @{{ .Values.<%= varName(packageName) %>.image.digests.php }}
 {{- else -}}
@@ -8,7 +8,7 @@
 {{- end }}
 
 {{- define "<%= projectName %>.<%= packageName %>.image.nginx" }}
-{{- .Values.registry }}/<%= projectName %>-<%= packageName %>-nginx
+{{- .Values.registry }}/<%= projectName %>/<%= packageName %>/nginx
 {{- if .Values.<%= varName(packageName) %>.image.digests.nginx -}}
 @{{ .Values.<%= varName(packageName) %>.image.digests.nginx }}
 {{- else -}}
