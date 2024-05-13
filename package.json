@@ -48,5 +48,5 @@
     "test:utils": "jest --testTimeout 10000 utils",
     "test:utils:coverage": "yarn test:utils --coverage --collectCoverageFrom 'utils/**/*'"
   },
-  "packageManager": "yarn@3.5.1"
+  "packageManager": "yarn@4.2.2"
 }
