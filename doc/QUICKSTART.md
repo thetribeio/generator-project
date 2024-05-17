@@ -1,6 +1,6 @@
 ## QuickStart
 
-- Install yeoman and the generator: `yarn global add yo @thetribe/generator-project`
+- Install yeoman and the generator: `npm install --global yo@5.6.1 @thetribe/generator-project`
 - Create a new directory for your project and go to it
 - Run `yo @thetribe/project` and follow the prompts to generate your project
 
