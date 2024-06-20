@@ -34,25 +34,25 @@ class DatabaseUtilGenerator extends BaseGenerator<DatabaseUtilGeneratorOptions> 
     #writeAnsibleDeployment(): void {
         const { packageName } = this.options;
 
-        this.appendTemplate('deployment/ansible/staging.yaml.ejs', 'ansible/group_vars/staging.yaml', {
+        this.appendTemplate('deployment/ansible/inventory.yaml.ejs', 'infra/envs/staging/inventory/static.yaml', {
             // We use only alphanumeric characters in database password because special
             // characters often causes problems in configuration files
             databasePassword: cryptoRandomString({ length: 64, type: 'alphanumeric' }),
-            encrypt: createEncrypt(this.readDestination('ansible/vault_pass.txt').trim()),
+            encrypt: createEncrypt(this.readDestination('infra/envs/staging/vault_pass.txt').trim()),
             packageName,
         });
 
-        this.prependTemplate('deployment/ansible/provision.yaml.ejs', `ansible/packages/${packageName}/provision.yaml`, { packageName });
+        this.prependTemplate('deployment/ansible/provision.yaml.ejs', `infra/common/ansible/packages/${packageName}/provision.yaml`, { packageName });
 
         if ([
-            'terraform/common/database/main.tf',
-            'terraform/common/database/outputs.tf',
-            'terraform/production/outputs.tf',
+            'infra/common/database/main.tf',
+            'infra/common/database/outputs.tf',
+            'infra/envs/production/outputs.tf',
         ].every(this.existsDestination.bind(this))) {
-            this.appendTemplate('deployment/ansible/database.tf.ejs', 'terraform/common/database/main.tf', { packageName });
-            this.appendTemplate('deployment/ansible/outputs.tf.ejs', 'terraform/common/database/outputs.tf', { packageName });
+            this.appendTemplate('deployment/ansible/database.tf.ejs', 'infra/common/database/main.tf', { packageName });
+            this.appendTemplate('deployment/ansible/outputs.tf.ejs', 'infra/common/database/outputs.tf', { packageName });
             this.replaceDestination(
-                'terraform/production/outputs.tf',
+                'infra/envs/production/outputs.tf',
                 /(output "vars" {\n {4}value = {.*?)(\n {4}})/s,
                 `$1\n        database_${varName(packageName)}_password = module.database.${varName(packageName)}_password$2`,
             );
@@ -67,7 +67,7 @@ class DatabaseUtilGenerator extends BaseGenerator<DatabaseUtilGeneratorOptions> 
     #writeKubernetesDeployment(): void {
         const { packageName } = this.options;
 
-        this.appendTemplate('deployment/kubernetes/database.tf.ejs', 'modules/deployment/database.tf', { packageName });
+        this.appendTemplate('deployment/kubernetes/database.tf.ejs', 'infra/common/deployment/database.tf', { packageName });
         this.writeReleaseVariable(`${varName(packageName)}.database.host`, 'data.scaleway_rdb_instance.main.private_network[0].ip');
         this.writeReleaseVariable(`${varName(packageName)}.database.port`, 'data.scaleway_rdb_instance.main.private_network[0].port');
         this.writeReleaseVariable(`${varName(packageName)}.database.user`, `scaleway_rdb_user.${varName(packageName)}.name`);

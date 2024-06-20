@@ -65,7 +65,7 @@ provider "docker" {
 }
 
 module "deployment" {
-    source = "../../modules/deployment"
+    source = "../../common/deployment"
 
     environment_name = "staging"
 <% if (rootDomain(domain) === 'thestaging.io') { %>

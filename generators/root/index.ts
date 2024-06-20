@@ -74,17 +74,17 @@ class RootGenerator extends BaseGenerator {
 
         switch (this.config.get('deployment')) {
             case DeploymentChoice.Ansible:
-                if (!this.existsDestination('ansible/vault_pass.txt')) {
+                if (!this.existsDestination('infra/envs/staging/vault_pass.txt')) {
                     const vaultPass = cryptoRandomString({ length: 64, type: 'ascii-printable' });
 
-                    this.writeDestination('ansible/vault_pass.txt', `${vaultPass}\n`);
+                    this.writeDestination('infra/envs/staging/vault_pass.txt', `${vaultPass}\n`);
                 }
 
                 this.renderTemplate('deployment/ansible', '.', {
                     basicAuthPassword: cryptoRandomString({ length: 16, type: 'ascii-printable' }),
                     contactEmail: this.config.get('contactEmail'),
                     domain: this.config.get('domain'),
-                    encrypt: createEncrypt(this.readDestination('ansible/vault_pass.txt').trim()),
+                    encrypt: createEncrypt(this.readDestination('infra/envs/staging/vault_pass.txt').trim()),
                 });
                 break;
             case DeploymentChoice.Kubernetes:
@@ -122,7 +122,7 @@ class RootGenerator extends BaseGenerator {
                     '--cacheinfo',
                     '160000',
                     '0b0cd5d04c94e80cdb6fdaaad771d17feaec66d8',
-                    'ansible/roles-lib',
+                    'infra/common/ansible/roles-lib',
                 ],
             );
         }

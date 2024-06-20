@@ -2,12 +2,13 @@ terraform {
     required_providers {
         scaleway = {
             source  = "scaleway/scaleway"
+            version = ">= 2.2.0"
         }
     }
 
     backend "s3" {
         bucket                      = "" # TODO: add bucket
-        key                         = "<%= projectName %>-production.tfstate"
+        key                         = "<%= projectName %>-staging.tfstate"
         region                      = "fr-par"
         endpoint                    = "https://s3.fr-par.scw.cloud"
         skip_credentials_validation = true
@@ -25,16 +26,14 @@ provider "scaleway" {
 }
 
 module "server" {
-    source = "../common/server"
+    source = "../../common/server"
 
-    environment_name = "production"
+    environment_name = "staging"
 }
 
-module "database" {
-    source = "../common/database"
-
-    environment_name = "production"
-    allowed_ips = {
-        server = module.server.ip
-    }
+resource "scaleway_domain_record" "server_domain" {
+    dns_zone = "<%= rootDomain(domain) %>"
+    name     = "<%= subdomain(domain) %>"
+    type     = "A"
+    data     = module.server.ip
 }
