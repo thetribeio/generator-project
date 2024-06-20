@@ -33,7 +33,7 @@ resource "scaleway_instance_ip" "server_public_ip" {
 
 resource "scaleway_instance_server" "server_compute" {
     type              = "DEV1-S"
-    image             = "ubuntu-focal"
+    image             = "ubuntu_noble"
     name              = "<%= projectName %>-${var.environment_name}"
     security_group_id = scaleway_instance_security_group.server_security_group.id
     ip_id             = scaleway_instance_ip.server_public_ip.id
