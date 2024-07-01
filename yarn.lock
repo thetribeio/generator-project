@@ -1688,7 +1688,7 @@ __metadata:
     "@types/ramda": "npm:^0.29.0"
     "@types/xml2js": "npm:^0.4.11"
     "@types/yeoman-generator": "npm:^5.2.10"
-    "@types/yeoman-test": "npm:^4.0.3"
+    "@types/yeoman-test": "npm:^4.0.6"
     "@typescript-eslint/eslint-plugin": "npm:^5.59.1"
     "@typescript-eslint/parser": "npm:^5.59.1"
     binascii: "npm:^0.0.2"
@@ -2057,15 +2057,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/yeoman-test@npm:^4.0.3":
-  version: 4.0.3
-  resolution: "@types/yeoman-test@npm:4.0.3"
+"@types/yeoman-test@npm:^4.0.6":
+  version: 4.0.6
+  resolution: "@types/yeoman-test@npm:4.0.6"
   dependencies:
     "@types/mem-fs": "npm:*"
     "@types/mem-fs-editor": "npm:*"
     "@types/yeoman-environment": "npm:*"
     "@types/yeoman-generator": "npm:*"
-  checksum: 10/9d9cd53609c091c11b87407503d038a335e77ac29bffb7c2ef57d4b385d82946a9982ad72e7a8ccfa6e264d5770c99aee8cdfc87d6ac404c0cf03d040ea3fc63
+  checksum: 10/7fe245722a8af734b6646bc79cf70db0c20f9a0dc74599cf45a9828f458bade08615cbf8b749e070ec3f11ec5bbcdadad17391151bff2a7b8f1fdc721974865e
   languageName: node
   linkType: hard
 
