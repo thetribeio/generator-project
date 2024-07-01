@@ -21,7 +21,7 @@
   "devDependencies": {
     "@thetribe/eslint-config-typescript": "^0.4.1",
     "@tsconfig/node18": "^18.2.4",
-    "@types/jest": "^29.5.1",
+    "@types/jest": "^29.5.12",
     "@types/ramda": "^0.29.0",
     "@types/xml2js": "^0.4.11",
     "@types/yeoman-generator": "^5.2.10",
