@@ -1,0 +1,51 @@
+{
+  "version": "3",
+  "remote": {
+    "https://deno.land/std@0.98.0/_util/assert.ts": "2f868145a042a11d5ad0a3c748dcf580add8a0dbc0e876eaa0026303a5488f58",
+    "https://deno.land/std@0.98.0/_util/os.ts": "e282950a0eaa96760c0cf11e7463e66babd15ec9157d4c9ed49cc0925686f6a7",
+    "https://deno.land/std@0.98.0/path/_constants.ts": "1247fee4a79b70c89f23499691ef169b41b6ccf01887a0abd131009c5581b853",
+    "https://deno.land/std@0.98.0/path/_interface.ts": "1fa73b02aaa24867e481a48492b44f2598cd9dfa513c7b34001437007d3642e4",
+    "https://deno.land/std@0.98.0/path/_util.ts": "2e06a3b9e79beaf62687196bd4b60a4c391d862cfa007a20fc3a39f778ba073b",
+    "https://deno.land/std@0.98.0/path/common.ts": "eaf03d08b569e8a87e674e4e265e099f237472b6fd135b3cbeae5827035ea14a",
+    "https://deno.land/std@0.98.0/path/glob.ts": "314ad9ff263b895795208cdd4d5e35a44618ca3c6dd155e226fb15d065008652",
+    "https://deno.land/std@0.98.0/path/mod.ts": "4465dc494f271b02569edbb4a18d727063b5dbd6ed84283ff906260970a15d12",
+    "https://deno.land/std@0.98.0/path/posix.ts": "f56c3c99feb47f30a40ce9d252ef6f00296fa7c0fcb6dd81211bdb3b8b99ca3b",
+    "https://deno.land/std@0.98.0/path/separator.ts": "8fdcf289b1b76fd726a508f57d3370ca029ae6976fcde5044007f062e643ff1c",
+    "https://deno.land/std@0.98.0/path/win32.ts": "77f7b3604e0de40f3a7c698e8a79e7f601dc187035a1c21cb1e596666ce112f8",
+    "https://deno.land/x/semver@v1.4.0/mod.ts": "c3e08f7f0a3e625015ecc9a46cf79a9dc3f081f3c5b3037d3c49c0773e58d265"
+  },
+  "workspace": {
+    "packageJson": {
+      "dependencies": [
+        "npm:@thetribe/eslint-config-typescript@^0.4.1",
+        "npm:@tsconfig/node18@^18.2.4",
+        "npm:@types/jest@^29.5.1",
+        "npm:@types/ramda@^0.29.0",
+        "npm:@types/xml2js@^0.4.11",
+        "npm:@types/yeoman-generator@^5.2.10",
+        "npm:@types/yeoman-test@^4.0.3",
+        "npm:@typescript-eslint/eslint-plugin@^5.59.1",
+        "npm:@typescript-eslint/parser@^5.59.1",
+        "npm:binascii@^0.0.2",
+        "npm:crypto-random-string@^3.3.1",
+        "npm:ejs@^3.1.9",
+        "npm:eslint-plugin-import@^2.27.5",
+        "npm:eslint@^8.37.0",
+        "npm:execa@^5.1.1",
+        "npm:fast-plist@^0.1.3",
+        "npm:glob@^10.2.3",
+        "npm:indent-tag@^0.4.0",
+        "npm:jest@^29.5.0",
+        "npm:ramda@^0.29.0",
+        "npm:ts-jest@^29.1.0",
+        "npm:tslib@^2.5.0",
+        "npm:typescript@^5.0.4",
+        "npm:xml2js@^0.5.0",
+        "npm:yaml@^2.2.2",
+        "npm:yeoman-environment@^3.2.0",
+        "npm:yeoman-generator@^5.6.1",
+        "npm:yeoman-test@^5.1.0"
+      ]
+    }
+  }
+}
