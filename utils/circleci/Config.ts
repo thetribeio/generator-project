@@ -85,7 +85,7 @@ class Config {
             commands,
             jobs,
             workflowsVersion,
-            workflows: map<Record<string, any>, Record<string, Workflow>>(Workflow.fromRaw, workflows),
+            workflows: map(Workflow.fromRaw, workflows as Record<string, any>),
         });
     }
 

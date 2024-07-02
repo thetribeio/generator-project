@@ -1685,7 +1685,7 @@ __metadata:
     "@thetribe/eslint-config-typescript": "npm:^0.4.1"
     "@tsconfig/node18": "npm:^18.2.4"
     "@types/jest": "npm:^29.5.12"
-    "@types/ramda": "npm:^0.29.0"
+    "@types/ramda": "npm:^0.30.0"
     "@types/xml2js": "npm:^0.4.11"
     "@types/yeoman-generator": "npm:^5.2.10"
     "@types/yeoman-test": "npm:^4.0.6"
@@ -1701,7 +1701,7 @@ __metadata:
     glob: "npm:^10.2.3"
     indent-tag: "npm:^0.4.0"
     jest: "npm:^29.5.0"
-    ramda: "npm:^0.29.0"
+    ramda: "npm:^0.30.1"
     ts-jest: "npm:^29.1.0"
     tslib: "npm:^2.5.0"
     typescript: "npm:^5.0.4"
@@ -1940,12 +1940,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ramda@npm:^0.29.0":
-  version: 0.29.0
-  resolution: "@types/ramda@npm:0.29.0"
+"@types/ramda@npm:^0.30.0":
+  version: 0.30.0
+  resolution: "@types/ramda@npm:0.30.0"
   dependencies:
-    types-ramda: "npm:^0.29.1"
-  checksum: 10/b5cf071c36fd53b0891551579492010b5b6d915ea26a6046df2bb2c567be8a767954df4dcc7d5546e4998804600530ddfe6fc8b891d11b4b75b8a876c9ba3ff4
+    types-ramda: "npm:^0.30.0"
+  checksum: 10/abe9d9c872778d2598298a0c4805fa715618fe79a4d7e203c71076bc72e28c97f04ffb108274cbfc33b0407a5aa3c2c37f609705a175d4102418e292e4e55a22
   languageName: node
   linkType: hard
 
@@ -7410,10 +7410,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ramda@npm:^0.29.0":
-  version: 0.29.0
-  resolution: "ramda@npm:0.29.0"
-  checksum: 10/b156660f2c58b4a13bcc4f1a0eabc1145d8db11d33d26a2fb03cd6adf3983a1c1f2bbaaf708c421029e9b09684262d056752623f7e62b79a503fb9217dec69d4
+"ramda@npm:^0.30.1":
+  version: 0.30.1
+  resolution: "ramda@npm:0.30.1"
+  checksum: 10/f3e1a7bc11f3a113edb3bb4764c2c22088c5896594934c01cf1980184d00f1d5a7af82761a3389419e2d51542ad2121ff44e718f40792d167e2846bba79a4c6d
   languageName: node
   linkType: hard
 
@@ -8677,12 +8677,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"types-ramda@npm:^0.29.1":
-  version: 0.29.1
-  resolution: "types-ramda@npm:0.29.1"
+"types-ramda@npm:^0.30.0":
+  version: 0.30.1
+  resolution: "types-ramda@npm:0.30.1"
   dependencies:
     ts-toolbelt: "npm:^9.6.0"
-  checksum: 10/b74b16ee9b3d9a82d5dc025c87492fbb16808d17322581639583bfee36d62a2d40716c9a4fb59618501946745e043cb01dfe9e96cb49bb18e1a901f9997a1f4e
+  checksum: 10/b865c8f97df911b82b51b3cb4afa9b52b971d344dd79d203cd118e424a03761aebfea538c643f6283f700a3b4000d07d2168e353691b5caff076542bad78e420
   languageName: node
   linkType: hard
 
