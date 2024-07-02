@@ -19,7 +19,7 @@
     "yeoman-generator": "^5.6.1"
   },
   "devDependencies": {
-    "@thetribe/eslint-config-typescript": "^0.4.1",
+    "@thetribe/eslint-config-typescript": "^0.5.1",
     "@tsconfig/node18": "^18.2.4",
     "@types/jest": "^29.5.12",
     "@types/ramda": "^0.30.0",
