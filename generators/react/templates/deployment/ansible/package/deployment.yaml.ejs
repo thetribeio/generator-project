@@ -1,19 +1,21 @@
 ---
-- import_role:
-    name: build
-  delegate_to: localhost
+- ansible.builtin.set_fact:
+    artifact_url: file://{{ playbook_dir }}/../<%= packagePath %>/archive.tar.gz
+  when: artifact_source == 'local'
+- ansible.builtin.import_role:
+    name: find_circle_ci_artifact
   vars:
+    artifact_path: <%= packageName %>.tar.gz
     job_name: <%= packageName %>-archive
     repository_name: <%= repositoryName %>
-- import_role:
-    name: deploy
+  delegate_to: localhost
+  when: artifact_source == 'remote'
+- ansible.builtin.import_role:
+    name: deploy_artifact
   vars:
     path: /home/<%= packageName %>
-    artifact_path: <%= packageName %>.tar.gz
     before_finalize:
       - >
         sed --in-place --expression='s#<div id="root"[^>]*>#<div id="root"
         {%- for key, value in <%= varName(packageName) %>_data|dictsort %} data-{{ key }}="{{ value }}"{% endfor -%}
         >#g' dist/index.html
-    job_name: <%= packageName %>-archive
-    repository_name: <%= repositoryName %>

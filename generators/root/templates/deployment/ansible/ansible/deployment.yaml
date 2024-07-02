@@ -12,6 +12,8 @@
       loop: '{{ packages.files }}'
       loop_control:
         loop_var: package
+  vars:
+    artifact_source: remote
   vars_files:
     - vars/circleci.yaml
     - vars/github.yaml
