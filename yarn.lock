@@ -1657,15 +1657,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@thetribe/eslint-config-typescript@npm:^0.4.1":
-  version: 0.4.1
-  resolution: "@thetribe/eslint-config-typescript@npm:0.4.1"
+"@thetribe/eslint-config-typescript@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "@thetribe/eslint-config-typescript@npm:0.5.1"
   dependencies:
     "@thetribe/eslint-config": "npm:^0.5.0"
   peerDependencies:
     "@typescript-eslint/eslint-plugin": ^5.0.0
     "@typescript-eslint/parser": ^5.0.0
-  checksum: 10/c4e36b3905154eac7de3fce2dac10ef44014575405ed7cc93e68aa39dbf1e66bd4305ad80724e749f291d8c5c3dcbdc300bacd60c41cee18717b705c3508355f
+  checksum: 10/77cfcf30fbec7f443fe8d158a5ce692422f16a598b03c879f71c6604970cb0a92b3be73419db0b543d05966cf7318cc0d1efe2d0fecb0966fda285ee376d45d9
   languageName: node
   linkType: hard
 
@@ -1682,7 +1682,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@thetribe/generator-project@workspace:."
   dependencies:
-    "@thetribe/eslint-config-typescript": "npm:^0.4.1"
+    "@thetribe/eslint-config-typescript": "npm:^0.5.1"
     "@tsconfig/node18": "npm:^18.2.4"
     "@types/jest": "npm:^29.5.12"
     "@types/ramda": "npm:^0.30.0"
