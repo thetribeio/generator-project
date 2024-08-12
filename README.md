@@ -16,7 +16,7 @@ The generator is here to make us more efficient when starting a new project by g
 The current MVP covers the most used technologies which are:
 * DevOps: Ansible, docker-compose, CircleCI, Codemagic
 * Backend: Node + Express + TypeORM, Symfony, FastAPI
-* Web: Create React App, NextJS
+* Web: React, NextJS
 * Mobile: Flutter, React Native
 * Miscellaneous: Cypress, Jest
 
@@ -36,11 +36,11 @@ Run `yo @thetribe/project:root` to generate a bare root project and then
 ### Add more components
 
 You can add more components to an existing project with the following commands:
-- `yo @thetribe/project:create-react-app [name]`
 - `yo @thetribe/project:express [name]`
 - `yo @thetribe/project:fast-api [name]`
 - `yo @thetribe/project:flutter-mobile [name]`
 - `yo @thetribe/project:next-js [name]`
+- `yo @thetribe/project:react [name]`
 - `yo @thetribe/project:react-admin [name]`
 - `yo @thetribe/project:react-native-mobile [name]`
 - `yo @thetribe/project:symfony [name]`
