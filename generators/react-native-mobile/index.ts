@@ -16,7 +16,7 @@ class ReactNativeMobileGenerator extends PackageGenerator<PackageGeneratorOption
     }
 
     writing(): void {
-        const { packagePath } = this.options;
+        const { packagePath, packageName } = this.options;
         const applicationDisplayName = this.config.get('applicationDisplayName');
         const applicationPrefix = this.config.get('applicationPrefix');
         const applicationName = this.config.get('projectName').replace(/-/g, '');
@@ -76,6 +76,8 @@ class ReactNativeMobileGenerator extends PackageGenerator<PackageGeneratorOption
                 { applicationName, applicationPrefix, applicationDisplayName, contactEmail },
             );
         });
+
+        this.destination[`${packagePath}/package.json`].name = packageName;
     }
 }
 export default ReactNativeMobileGenerator;

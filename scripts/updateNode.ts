@@ -93,7 +93,7 @@ for (const file of [
 // Update tsconfig package
 if (updated) {
     await replace(
-        'generators/express/templates/base/package.json.ejs',
+        'generators/express/templates/base/package.json',
         /"@tsconfig\/node\d+": "\^\d+\.\d+\.\d+"/,
         `"@tsconfig/node${lastMajor}": "^${tsConfigVersion.version}"`,
     );
@@ -120,7 +120,7 @@ if (updated) {
         'generators/react-admin/templates/base/',
     ]) {
         await replace(
-            `${path}/package.json.ejs`,
+            `${path}/package.json`,
             /"@types\/node": "\^\d+\.\d+\.\d+"/g,
             `"@types/node": "^${nodeTypesVersion.version}"`,
         );

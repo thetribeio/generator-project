@@ -32,13 +32,13 @@ describe('When running the generator with valid options', () => {
     });
 
     test('It generates a readable react-native package file', async () => {
-        const pubspec = YAML.parse(await fs.promises.readFile(path.resolve(root, 'mobile', 'package.json'), 'utf8'));
-        expect(pubspec).toBeDefined();
+        const data = JSON.parse(await fs.promises.readFile(path.resolve(root, 'mobile', 'package.json'), 'utf8'));
+        expect(data).toBeDefined();
     });
 
     test('It generates a react-native project with package name', async () => {
-        const pubspec = YAML.parse(await fs.promises.readFile(path.resolve(root, 'mobile', 'package.json'), 'utf8'));
-        expect(pubspec.name).toEqual('mygreatproject');
+        const data = JSON.parse(await fs.promises.readFile(path.resolve(root, 'mobile', 'package.json'), 'utf8'));
+        expect(data.name).toEqual('mobile');
     });
 
     test('It generates an AndroidManifest with expected package name', async () => {
