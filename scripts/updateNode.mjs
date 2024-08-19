@@ -1,13 +1,15 @@
-#!/usr/bin/env -S deno run --allow-net --allow-read --allow-write
-import { dirname, fromFileUrl, join } from "https://deno.land/std@0.98.0/path/mod.ts";
-import { compare, major } from "https://deno.land/x/semver@v1.4.0/mod.ts";
+#!/usr/bin/env node
+import { readFile, writeFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { compare, major } from 'semver';
 
-const root = dirname(dirname(fromFileUrl(import.meta.url)));
+const root = dirname(dirname(fileURLToPath(import.meta.url)));
 
-const replace = async (file: string, regexp: RegExp, replacer: string): Promise<boolean> => {
+const replace = async (file, regexp, replacer) => {
     const path = join(root, file);
 
-    const content = await Deno.readTextFile(path);
+    const content = await readFile(path, 'utf8');
 
     const newContent = content.replace(regexp, replacer);
 
@@ -15,17 +17,12 @@ const replace = async (file: string, regexp: RegExp, replacer: string): Promise<
         return false;
     }
 
-    await Deno.writeTextFile(path, newContent);
+    await writeFile(path, newContent, 'utf8');
 
     return true;
 };
 
-interface Version {
-    version: string;
-    lts: string|false;
-}
-
-const versions: Version[] = await (await fetch('https://nodejs.org/dist/index.json')).json();
+const versions = await (await fetch('https://nodejs.org/dist/index.json')).json();
 
 const lastLts = versions
     .filter((version) => version.lts !== false)
@@ -38,7 +35,7 @@ if (!lastLts) {
 
 const lastVersion = lastLts.version.replace(/^v/, '');
 
-const lastMajor = parseInt(lastVersion.split('.').shift()!, 10);
+const lastMajor = parseInt(lastVersion.split('.').shift(), 10);
 
 // Fetch TS config package data
 const tsConfigPackage = await (await fetch(`https://registry.npmjs.com/@tsconfig/node${lastMajor}`)).json();
@@ -47,9 +44,9 @@ const tsConfigVersion = tsConfigPackage.versions[tsConfigPackage['dist-tags'].la
 
 // Fetch @types/node package data
 const nodeTypesPackage = await (await fetch(`https://registry.npmjs.com/@types/node`)).json();
-const nodeTypesVersion: any = Object.values(nodeTypesPackage.versions)
-    .filter((version: any) => major(version.version) === lastMajor)
-    .sort((a: any, b: any) => compare(a.version, b.version))
+const nodeTypesVersion = Object.values(nodeTypesPackage.versions)
+    .filter((version) => major(version.version) === lastMajor)
+    .sort((a, b) => compare(a.version, b.version))
     .pop();
 
 let updated = false;
