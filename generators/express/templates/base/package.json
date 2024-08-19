@@ -1,5 +1,6 @@
 {
   "name": "name",
+  "packageManager": "yarn@1.22.22",
   "dependencies": {
     "@sentry/node": "^7.13.0",
     "bcrypt": "^5.0.1",

@@ -8,6 +8,7 @@
   "engines": {
     "node": ">=18"
   },
+  "packageManager": "yarn@4.3.1",
   "dependencies": {
     "binascii": "^0.0.2",
     "crypto-random-string": "^3.3.1",
@@ -48,6 +49,5 @@
     "test:generators": "jest --runInBand --testTimeout 300000 generators",
     "test:utils": "jest --testTimeout 10000 utils",
     "test:utils:coverage": "yarn test:utils --coverage --collectCoverageFrom 'utils/**/*'"
-  },
-  "packageManager": "yarn@4.3.1"
+  }
 }

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "packageManager": "yarn@1.22.22",
   "dependencies": {
     "@sentry/browser": "^7.13.0",
     "ra-data-simple-rest": "^4.3.3",
