@@ -57,6 +57,9 @@ This is not an exhaustive list, rather common sense test approach :)
 
 ## Install the project
 
+The project uses [Corepack](https://nodejs.org/api/corepack.html) to ensure the correct version of Yarn is used, ensure
+Corepack is enabled by running `corepack enable`.
+
 Install the dependencies with `yarn install`
 
 ## Build

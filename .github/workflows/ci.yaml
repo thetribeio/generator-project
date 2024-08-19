@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
+      - run: corepack enable
       - uses: actions/setup-node@v3
         with:
           node-version: 18.20.0
@@ -22,6 +23,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
+      - run: corepack enable
       - uses: actions/setup-node@v3
         with:
           node-version: 18.20.0
@@ -37,6 +39,7 @@ jobs:
     steps:
       - run: sudo apt update && sudo apt install ansible
       - uses: actions/checkout@v3
+      - run: corepack enable
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
@@ -58,6 +61,7 @@ jobs:
           terraform_version: 1.1.2
       - run: git config --global init.defaultBranch main
       - uses: actions/checkout@v3
+      - run: corepack enable
       - uses: actions/setup-node@v3
         with:
           node-version: 18.20.0
@@ -69,6 +73,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
+      - run: corepack enable
       - uses: actions/setup-node@v4.0.3
         with:
           node-version: 20.12.0
