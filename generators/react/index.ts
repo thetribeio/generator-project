@@ -15,6 +15,7 @@ class CreateReactAppGenerator extends PackageGenerator {
         const { packageName, packagePath } = this.options;
 
         this.renderTemplate('base', packagePath);
+        this.destination[`${packagePath}/package.json`].name = packageName;
 
         this.renderTemplate('nginx.conf.ejs', `nginx/docker/packages/${packageName}.conf`);
 

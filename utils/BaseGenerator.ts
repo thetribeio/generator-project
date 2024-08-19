@@ -5,6 +5,7 @@ import { CopyOptions } from 'mem-fs-editor';
 import Generator, { GeneratorOptions } from 'yeoman-generator';
 import { rootDomain, subdomain } from './domain';
 import indent from './indent';
+import createFilesystemManipulator, { Filesystem } from './manipulator/filesystem';
 import varName from './varName';
 
 const processDestinationPath = (path: string): string => path
@@ -120,6 +121,10 @@ class BaseGenerator<T extends GeneratorOptions = GeneratorOptions> extends Gener
             /(resource "helm_release" "main" {\n.*?)(\n})/s,
             `$1\n\n    set {\n        name  = "${name}"\n        value = ${value}\n    }$2`,
         );
+    }
+
+    get destination(): Filesystem {
+        return createFilesystemManipulator(this.fs, this.destinationPath.bind(this));
     }
 }
 

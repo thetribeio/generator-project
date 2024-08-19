@@ -49,6 +49,7 @@ class SymfonyGenerator extends PackageGenerator {
 
         if (twig) {
             this.renderTemplate('base-twig', packagePath);
+            this.destination[`${packagePath}/package.json`].name = packageName;
 
             this.configureDockerCompose('docker-compose-twig.yaml.ejs');
         }

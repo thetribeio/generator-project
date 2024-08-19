@@ -2,9 +2,10 @@ import PackageGenerator from '../../utils/PackageGenerator';
 
 class ReactAdminSubGenerator extends PackageGenerator {
     writing(): void {
-        const { packagePath } = this.options;
+        const { packageName, packagePath } = this.options;
 
         this.renderTemplate('base', packagePath, undefined, undefined, { globOptions: { dot: true } });
+        this.destination[`${packagePath}/package.json`].name = packageName;
 
         this.fs.delete(`${packagePath}/src/App.test.tsx`);
         this.fs.delete(`${packagePath}/src/components/`);

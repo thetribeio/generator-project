@@ -15,6 +15,7 @@ class NextJSGenerator extends PackageGenerator {
         const projectName = this.config.get('projectName');
 
         this.renderTemplate('base', packagePath);
+        this.destination[`${packagePath}/package.json`].name = packageName;
 
         this.renderTemplate('nginx.conf.ejs', `nginx/docker/packages/${packageName}.conf`);
 
