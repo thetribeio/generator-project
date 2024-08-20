@@ -5,7 +5,7 @@ import { GeneratorOptions } from 'yeoman-generator';
 import BaseGenerator from './BaseGenerator';
 import * as CircleCI from './circleci';
 import * as Codemagic from './codemagic';
-import validateProjectPath from './validation/validatePackagePath';
+import validatePackagePath from './validation/validatePackagePath';
 
 interface PackageGeneratorOptions extends GeneratorOptions {
     'http-path': string;
@@ -22,12 +22,12 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
         this.option('http-path', { type: String });
         this.option('path', { type: String });
 
-        if (!/^[a-z0-9-]+$/.test(this.options.name)) {
+        if (!/^[a-z0-9-]+$/.test(this.options.packageName)) {
             throw new Error('Package name can only contains lowercase numbers, numbers and dashes');
         }
 
         if (this.options.path) {
-            const validated = validateProjectPath(this.options.path);
+            const validated = validatePackagePath(this.options.path);
             if (validated === true) {
                 this.options.packagePath = this.options.path;
             } else {
