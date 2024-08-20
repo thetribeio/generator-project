@@ -11,7 +11,7 @@
   "packageManager": "yarn@4.4.0+sha512.91d93b445d9284e7ed52931369bc89a663414e5582d00eea45c67ddc459a2582919eece27c412d6ffd1bd0793ff35399381cb229326b961798ce4f4cc60ddfdb",
   "dependencies": {
     "binascii": "^0.0.2",
-    "crypto-random-string": "^3.3.1",
+    "crypto-random-string": "^5.0.0",
     "ejs": "^3.1.10",
     "indent-tag": "^0.4.0",
     "ramda": "^0.30.1",
@@ -39,15 +39,18 @@
     "ts-jest": "^29.2.4",
     "typescript": "^5.0.4",
     "xml2js": "^0.5.0",
-    "yeoman-environment": "^3.2.0",
-    "yeoman-test": "^5.1.0"
+    "yeoman-environment": "3.4.0",
+    "yeoman-test": "^7.3.0"
+  },
+  "peerDependencies": {
+    "yeoman-environment": "^3.4.0"
   },
   "scripts": {
     "build": "./scripts/build.mjs",
     "lint": "eslint --ext ts generators utils",
     "test": "yarn test:utils && yarn test:generators",
-    "test:generators": "jest --runInBand --testTimeout 300000 generators",
-    "test:utils": "jest --testTimeout 10000 utils",
+    "test:generators": "NODE_OPTIONS=--experimental-vm-modules jest --runInBand --testTimeout 300000 generators",
+    "test:utils": "NODE_OPTIONS=--experimental-vm-modules jest --testTimeout 10000 utils",
     "test:utils:coverage": "yarn test:utils --coverage --collectCoverageFrom 'utils/**/*'"
   }
 }

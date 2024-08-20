@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { hexlify } from 'binascii';
+import binascii from 'binascii';
 
 const HEADER = '$ANSIBLE_VAULT';
 const AES256 = 'AES256';
@@ -51,7 +51,7 @@ const createEncrypt = (password: string): (secret: string) => string => {
             ciphertext,
         ].map((buffer) => buffer.toString('hex')).join('\n');
 
-        return `${HEADER};1.1;${AES256}\n${hexlify(hex).match(/.{1,80}/g).join('\n')}`;
+        return `${HEADER};1.1;${AES256}\n${binascii.hexlify(hex).match(/.{1,80}/g).join('\n')}`;
     };
 
     return encrypt;
