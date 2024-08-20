@@ -1,17 +1,17 @@
 import fs from 'fs';
+import type { GeneratorOptions } from '@yeoman/types';
 import { Data as TemplateData } from 'ejs';
 import YAML from 'yaml';
-import { GeneratorOptions } from 'yeoman-generator';
 import BaseGenerator from './BaseGenerator';
 import * as CircleCI from './circleci';
 import * as Codemagic from './codemagic';
 import validatePackagePath from './validation/validatePackagePath';
 
-interface PackageGeneratorOptions extends GeneratorOptions {
+type PackageGeneratorOptions = GeneratorOptions & {
     'http-path': string;
     packageName: string;
     packagePath: string;
-}
+};
 
 class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptions> extends BaseGenerator<T> {
     constructor(args: string | string[], opts: T) {
@@ -26,10 +26,11 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
             throw new Error('Package name can only contains lowercase numbers, numbers and dashes');
         }
 
-        if (this.options.path) {
-            const validated = validatePackagePath(this.options.path);
+        if ((this.options as any).path) {
+            const validated = validatePackagePath((this.options as any).path);
             if (validated === true) {
-                this.options.packagePath = this.options.path;
+                this.options.packagePath = (this.options as any).path;
+                delete (this.options as any).path;
             } else {
                 throw new Error(validated);
             }
@@ -90,7 +91,7 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
     }
 
     updateCircleCIConfig(updater: (config: CircleCI.Config) => void): void {
-        const config = CircleCI.Config.fromRaw(YAML.parse(this.readDestination('.circleci/config.yml')));
+        const config = CircleCI.Config.fromRaw(YAML.parse(this.readDestination('.circleci/config.yml') as string));
 
         updater(config);
 
@@ -157,7 +158,7 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
 
         const config = YAML.parse(this.renderTemplateToString(template, this.getContext(context)));
 
-        const oldConfig = YAML.parse(this.readDestination(destination));
+        const oldConfig = YAML.parse(this.readDestination(destination) as string);
 
         const newConfig = merger(oldConfig, config);
 

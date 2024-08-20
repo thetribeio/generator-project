@@ -4,10 +4,10 @@ import varName from '../../utils/varName';
 import { DeploymentChoice } from '../root';
 
 class NextJSGenerator extends PackageGenerator {
-    initializing(): void {
+    async initializing(): Promise<void> {
         const { 'http-path': httpPath, packageName } = this.options;
 
-        this.composeWith(require.resolve('../utils/http'), [packageName, httpPath, 3000]);
+        await this.composeWith(require.resolve('../utils/http'), [packageName, httpPath, '3000']);
     }
 
     writing(): void {
@@ -23,7 +23,7 @@ class NextJSGenerator extends PackageGenerator {
 
         this.configureCircleCI('circleci.yaml.ejs');
 
-        switch (this.config.get('deployment')) {
+        switch (this.config.get<DeploymentChoice>('deployment')) {
             case DeploymentChoice.Ansible:
                 this.configureAnsible('deployment/ansible', {
                     repositoryName: this.config.get('repositoryName'),

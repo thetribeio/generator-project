@@ -1,10 +1,10 @@
 import PackageGenerator from '../../utils/PackageGenerator';
 
 class FastApiGenerator extends PackageGenerator {
-    initializing(): void {
+    async initializing(): Promise<void> {
         const { packageName } = this.options;
 
-        this.composeWith(require.resolve('../utils/database'), [packageName]);
+        await this.composeWith(require.resolve('../utils/database'), [packageName]);
     }
 
     writing(): void {

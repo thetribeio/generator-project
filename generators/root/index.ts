@@ -72,7 +72,7 @@ class RootGenerator extends BaseGenerator {
     writing(): void {
         this.renderTemplate('base', '.');
 
-        switch (this.config.get('deployment')) {
+        switch (this.config.get<DeploymentChoice>('deployment')) {
             case DeploymentChoice.Ansible:
                 if (!this.existsDestination('ansible/vault_pass.txt')) {
                     const vaultPass = cryptoRandomString({ length: 64, type: 'ascii-printable' });
@@ -84,7 +84,7 @@ class RootGenerator extends BaseGenerator {
                     basicAuthPassword: cryptoRandomString({ length: 16, type: 'ascii-printable' }),
                     contactEmail: this.config.get('contactEmail'),
                     domain: this.config.get('domain'),
-                    encrypt: createEncrypt(this.readDestination('ansible/vault_pass.txt').trim()),
+                    encrypt: createEncrypt((this.readDestination('ansible/vault_pass.txt') as string).trim()),
                 });
                 break;
             case DeploymentChoice.Kubernetes:
@@ -97,12 +97,12 @@ class RootGenerator extends BaseGenerator {
 
     async install(): Promise<void> {
         // Yeoman is loosing file permisions when writing
-        await this.spawnCommand('chmod', ['a+x', 'script/bootstrap', 'script/server', 'script/update']);
+        await this.spawn('chmod', ['a+x', 'script/bootstrap', 'script/server', 'script/update']);
 
-        await this.spawnCommand('git', ['init']);
+        await this.spawn('git', ['init']);
 
         if (!(await this.#spawnTest('git', ['remote', 'get-url', 'origin']))) {
-            await this.spawnCommand(
+            await this.spawn(
                 'git',
                 [
                     'remote',
@@ -114,7 +114,7 @@ class RootGenerator extends BaseGenerator {
         }
 
         if (this.config.get('deployment') === DeploymentChoice.Ansible) {
-            await this.spawnCommand(
+            await this.spawn(
                 'git',
                 [
                     'update-index',
@@ -133,7 +133,7 @@ class RootGenerator extends BaseGenerator {
      */
     async #spawnTest(command: string, args: string[]): Promise<boolean> {
         // @ts-ignore: the @types/yeoman-generator package doesn't have the right types for the spawnCommand function
-        return (await this.spawnCommand(command, args, { reject: false, stdio: 'ignore' })).exitCode === 0;
+        return (await this.spawn(command, args, { reject: false, stdio: 'ignore' })).exitCode === 0;
     }
 }
 

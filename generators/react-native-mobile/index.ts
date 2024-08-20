@@ -18,8 +18,8 @@ class ReactNativeMobileGenerator extends PackageGenerator<PackageGeneratorOption
     writing(): void {
         const { packagePath, packageName } = this.options;
         const applicationDisplayName = this.config.get('applicationDisplayName');
-        const applicationPrefix = this.config.get('applicationPrefix');
-        const applicationName = this.config.get('projectName').replace(/-/g, '');
+        const applicationPrefix = this.config.get('applicationPrefix') as string;
+        const applicationName = (this.config.get('projectName') as string).replace(/-/g, '');
         const contactEmail = this.config.get('contactEmail');
 
         const templates = [{ source: 'base', destination: packagePath },
