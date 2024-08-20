@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 import { readFile, writeFile } from 'node:fs/promises';
-import { dirname, join } from 'node:path';
+import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import execa from 'execa';
 import { compare, major } from 'semver';
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 
 const replace = async (file, regexp, replacer) => {
-    const path = join(root, file);
+    const path = resolve(root, file);
 
     const content = await readFile(path, 'utf8');
 
@@ -20,6 +21,10 @@ const replace = async (file, regexp, replacer) => {
     await writeFile(path, newContent, 'utf8');
 
     return true;
+};
+
+const updateYarnLock = async (path) => {
+    await execa('yarn', ['install', '--ignore-platform'], { cwd: resolve(root, path) });
 };
 
 const versions = await (await fetch('https://nodejs.org/dist/index.json')).json();
@@ -95,11 +100,7 @@ if (updated) {
         `"@tsconfig/node${lastMajor}": "^${tsConfigVersion.version}"`,
     );
 
-    await replace(
-        'generators/express/templates/base/yarn.lock',
-        /"@tsconfig\/node\d+@\^\d+\.\d+\.\d+":\n  version "\d+\.\d+\.\d+"\n  resolved "https:\/\/registry\.yarnpkg\.com\/@tsconfig\/node\d+\/-\/node\d+-\d+\.\d+\.\d+\.tgz#[0-9a-f]+"\n  integrity sha512-[A-Za-z0-9+\/=]+/,
-        `"@tsconfig/node${lastMajor}@^${tsConfigVersion.version}":\n  version "${tsConfigVersion.version}"\n  resolved "https://registry.yarnpkg.com/@tsconfig/node${lastMajor}/-/node${lastMajor}-${tsConfigVersion.version}.tgz#${tsConfigVersion.dist.shasum}"\n  integrity ${tsConfigVersion.dist.integrity}`,
-    );
+    await updateYarnLock('generators/express/templates/base');
 
     await replace(
         'generators/express/templates/base/tsconfig.json',
@@ -122,11 +123,7 @@ if (updated) {
             `"@types/node": "^${nodeTypesVersion.version}"`,
         );
 
-        await replace(
-            `${path}/yarn.lock`,
-            /"@types\/node@\^\d+\.\d+\.\d+":\n  version "\d+\.\d+\.\d+"\n  resolved "https:\/\/registry\.yarnpkg\.com\/@types\/node\/-\/node-\d+\.\d+\.\d+\.tgz#[0-9a-f]+"\n  integrity sha512-[A-Za-z0-9+\/=]+/,
-            `"@types/node@^${nodeTypesVersion.version}":\n  version "${nodeTypesVersion.version}"\n  resolved "https://registry.yarnpkg.com/@types/node/-/node-${nodeTypesVersion.version}.tgz#${nodeTypesVersion.dist.shasum}"\n  integrity ${nodeTypesVersion.dist.integrity}`,
-        );
+        await updateYarnLock('generators/express/templates/base');
     }
 }
 
