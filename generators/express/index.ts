@@ -6,11 +6,11 @@ import varName from '../../utils/varName';
 import { DeploymentChoice } from '../root';
 
 class ExpressGenerator extends PackageGenerator {
-    initializing(): void {
+    async initializing(): Promise<void> {
         const { 'http-path': httpPath, packageName } = this.options;
 
-        this.composeWith(require.resolve('../utils/database'), [packageName]);
-        this.composeWith(require.resolve('../utils/http'), [packageName, httpPath, 3000]);
+        await this.composeWith(require.resolve('../utils/database'), [packageName]);
+        await this.composeWith(require.resolve('../utils/http'), [packageName, httpPath, '3000']);
     }
 
     writing(): void {
@@ -26,11 +26,11 @@ class ExpressGenerator extends PackageGenerator {
 
         this.configureCircleCI('circleci.yaml.ejs');
 
-        switch (this.config.get('deployment')) {
+        switch (this.config.get<DeploymentChoice>('deployment')) {
             case DeploymentChoice.Ansible:
                 this.configureAnsible('deployment/ansible', {
                     repositoryName: this.config.get('repositoryName'),
-                    encrypt: createEncrypt(this.readDestination('ansible/vault_pass.txt').trim()),
+                    encrypt: createEncrypt((this.readDestination('ansible/vault_pass.txt') as string).trim()),
                     cookieSecret: cryptoRandomString({ length: 64, type: 'alphanumeric' }),
                 });
 

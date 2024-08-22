@@ -1,8 +1,9 @@
 import fs from 'fs';
+import type { GeneratorOptions, PromptAnswers, PromptQuestion } from '@yeoman/types';
 import ejs, { Data as TemplateData, Options as TemplateOptions } from 'ejs';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { CopyOptions } from 'mem-fs-editor';
-import Generator, { GeneratorOptions } from 'yeoman-generator';
+import Generator from 'yeoman-generator';
 import { rootDomain, subdomain } from './domain';
 import indent from './indent';
 import createFilesystemManipulator, { Filesystem } from './manipulator/filesystem';
@@ -20,13 +21,13 @@ class BaseGenerator<T extends GeneratorOptions = GeneratorOptions> extends Gener
      *  - It only store the data in the local config and not the global config
      *  - It doesn't nest the value under a `promptValues` key in the config
      */
-    async promptConfig<Q extends Record<string, any>>(questions: Generator.Question<Q>[]): Promise<Q> {
+    async promptConfig<A extends PromptAnswers>(questions: PromptQuestion<A>[]): Promise<A> {
         const loaded = questions.map((question) => ({
             ...question,
             default: this.config.get(question.name!) ?? question.default,
         }));
 
-        const anwsers = await this.prompt(loaded);
+        const anwsers = await this.prompt<A>(loaded as any);
 
         for (const [name, value] of Object.entries(anwsers)) {
             this.config.set(name, value);
@@ -59,14 +60,19 @@ class BaseGenerator<T extends GeneratorOptions = GeneratorOptions> extends Gener
         return fs.existsSync(this.templatePath(path));
     }
 
-    renderTemplate(
-        source: string,
-        destination: string,
-        context: TemplateData = {},
-        templateOptions: TemplateOptions = {},
-        copyOptions: CopyOptions = {},
+    renderTemplate<D extends TemplateData = TemplateData>(
+        source?: string | string[],
+        destination?: string | string[],
+        templateData?: string | D,
+        templateOptions?: TemplateOptions,
+        copyOptions?: CopyOptions,
     ): void {
-        super.renderTemplate(source, destination, this.getContext(context), templateOptions, {
+        if (templateData === undefined || typeof templateData === 'string') {
+            // eslint-disable-next-line no-param-reassign,no-underscore-dangle
+            templateData = this._templateData<D>(templateData);
+        }
+
+        super.renderTemplate(source, destination, this.getContext(templateData), templateOptions, {
             globOptions: { dot: true },
             processDestinationPath,
             ...copyOptions,
@@ -74,7 +80,7 @@ class BaseGenerator<T extends GeneratorOptions = GeneratorOptions> extends Gener
     }
 
     renderTemplateToString(source: string, context: TemplateData = {}): string {
-        return ejs.render(this.fs.read(this.templatePath(source)), this.getContext(context));
+        return ejs.render(this.fs.read(this.templatePath(source))!, this.getContext(context));
     }
 
     appendTemplate(source: string, destination: string, context: TemplateData = {}): void {
@@ -92,7 +98,7 @@ class BaseGenerator<T extends GeneratorOptions = GeneratorOptions> extends Gener
     }
 
     replaceDestination(path: string, searchValue: RegExp, replaceValue: string): void {
-        this.writeDestination(path, this.readDestination(path).replace(searchValue, replaceValue));
+        this.writeDestination(path, (this.readDestination(path) as string).replace(searchValue, replaceValue));
     }
 
     /**

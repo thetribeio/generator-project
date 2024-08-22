@@ -1,11 +1,11 @@
+import type { GeneratorOptions } from '@yeoman/types';
 import cryptoRandomString from 'crypto-random-string';
-import { GeneratorOptions } from 'yeoman-generator';
 import { createEncrypt } from '../../../utils/ansible';
 import BaseGenerator from '../../../utils/BaseGenerator';
 import varName from '../../../utils/varName';
 import { DeploymentChoice } from '../../root';
 
-interface DatabaseUtilGeneratorOptions extends GeneratorOptions {
+type DatabaseUtilGeneratorOptions = GeneratorOptions & {
     packageName: string;
 }
 
@@ -21,7 +21,7 @@ class DatabaseUtilGenerator extends BaseGenerator<DatabaseUtilGeneratorOptions> 
 
         this.renderTemplate('database.sql.ejs', `postgres/docker/initdb.d/${packageName}.sql`, { packageName });
 
-        switch (this.config.get('deployment')) {
+        switch (this.config.get<DeploymentChoice>('deployment')) {
             case DeploymentChoice.Ansible:
                 this.#writeAnsibleDeployment();
                 break;
@@ -38,7 +38,7 @@ class DatabaseUtilGenerator extends BaseGenerator<DatabaseUtilGeneratorOptions> 
             // We use only alphanumeric characters in database password because special
             // characters often causes problems in configuration files
             databasePassword: cryptoRandomString({ length: 64, type: 'alphanumeric' }),
-            encrypt: createEncrypt(this.readDestination('ansible/vault_pass.txt').trim()),
+            encrypt: createEncrypt((this.readDestination('ansible/vault_pass.txt') as string).trim()),
             packageName,
         });
 

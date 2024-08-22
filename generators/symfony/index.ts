@@ -1,6 +1,6 @@
+import type { PromptQuestion } from '@yeoman/types';
 import cryptoRandomString from 'crypto-random-string';
 import indent from 'indent-tag';
-import { Question } from 'yeoman-generator';
 import { createEncrypt } from '../../utils/ansible';
 import PackageGenerator from '../../utils/PackageGenerator';
 import varName from '../../utils/varName';
@@ -10,7 +10,7 @@ interface Prompt {
     twig: boolean,
 }
 
-const prompt: Question<Prompt>[] = [
+const prompt: PromptQuestion<Prompt>[] = [
     {
         type: 'confirm',
         name: 'twig',
@@ -20,11 +20,11 @@ const prompt: Question<Prompt>[] = [
 ];
 
 class SymfonyGenerator extends PackageGenerator {
-    initializing(): void {
+    async initializing(): Promise<void> {
         const { 'http-path': httpPath, packageName } = this.options;
 
-        this.composeWith(require.resolve('../utils/database'), [packageName]);
-        this.composeWith(require.resolve('../utils/http'), [packageName, httpPath, 80]);
+        await this.composeWith(require.resolve('../utils/database'), [packageName]);
+        await this.composeWith(require.resolve('../utils/http'), [packageName, httpPath, '80']);
     }
 
     async prompting(): Promise<void> {
@@ -54,10 +54,10 @@ class SymfonyGenerator extends PackageGenerator {
             this.configureDockerCompose('docker-compose-twig.yaml.ejs');
         }
 
-        switch (this.config.get('deployment')) {
+        switch (this.config.get<DeploymentChoice>('deployment')) {
             case DeploymentChoice.Ansible:
                 this.configureAnsible('deployment/ansible', {
-                    encrypt: createEncrypt(this.readDestination('ansible/vault_pass.txt').trim()),
+                    encrypt: createEncrypt((this.readDestination('ansible/vault_pass.txt') as string).trim()),
                     repositoryName: this.config.get('repositoryName'),
                     secret: cryptoRandomString({ length: 64, type: 'alphanumeric' }),
                     twig,

@@ -1,11 +1,12 @@
-import { GeneratorOptions } from 'yeoman-generator';
+import type { GeneratorOptions } from '@yeoman/types';
 import BaseGenerator from '../../../utils/BaseGenerator';
 import { DeploymentChoice } from '../../root';
 
-interface HttpUtilGeneratorOptions extends GeneratorOptions {
+type HttpUtilGeneratorOptions = GeneratorOptions & {
     httpPath: string;
     packageName: string;
-}
+    port: number
+};
 
 /**
  * Utility generator to factorize logic for generators that are exposed via HTTP.
@@ -20,7 +21,7 @@ class HttpUtilGenerator extends BaseGenerator<HttpUtilGeneratorOptions> {
     }
 
     writing(): void {
-        switch (this.config.get('deployment')) {
+        switch (this.config.get<DeploymentChoice>('deployment')) {
             case DeploymentChoice.Ansible:
                 this.#writeAnsibleDeployment();
                 break;

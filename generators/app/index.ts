@@ -1,4 +1,4 @@
-import { Question } from 'yeoman-generator';
+import type { PromptQuestion } from '@yeoman/types';
 import BaseGenerator from '../../utils/BaseGenerator';
 import validateFrontendName from '../../utils/validation/validateFrontendName';
 
@@ -8,11 +8,11 @@ enum BackendChoice {
     FastAPI = 'fast-api',
 }
 
-interface BackendPrompt {
+type BackendPrompt = {
     backend: BackendChoice|null;
-}
+};
 
-const backendPrompt: Question<BackendPrompt>[] = [
+const backendPrompt: PromptQuestion<BackendPrompt>[] = [
     {
         type: 'list',
         name: 'backend',
@@ -46,14 +46,14 @@ enum FrontendType {
     ReactNative = 'react-native',
 }
 
-interface Frontend {
+type Frontend = {
     type: FrontendType,
     name: string,
-}
+};
 
-interface FrontendPrompt extends Frontend {
+type FrontendPrompt = Frontend & {
     add: boolean;
-}
+};
 
 const defaultFrontendName = (type: FrontendType): string => {
     switch (type) {
@@ -70,25 +70,25 @@ const defaultFrontendName = (type: FrontendType): string => {
 
 class AppGenerator extends BaseGenerator {
     async prompting(): Promise<void> {
-        const { backend }: BackendPrompt = await this.promptConfig<BackendPrompt>(backendPrompt);
+        const { backend } = await this.promptConfig<BackendPrompt>(backendPrompt);
         const frontends = await this.#promptFrontends();
 
-        this.composeWith(require.resolve('../root'));
+        await this.composeWith(require.resolve('../root'));
 
         if (backend) {
             // We suppose that the backend will sit at the root if there is no frontend.
             const httpPath = frontends.length ? '/api/' : '/';
-            const options = { arguments: ['backend', `--http-path=${httpPath}`] };
+            const args = ['backend', `--http-path=${httpPath}`];
 
             switch (backend) {
                 case BackendChoice.Express:
-                    this.composeWith(require.resolve('../express'), options);
+                    await this.composeWith(require.resolve('../express'), args);
                     break;
                 case BackendChoice.FastAPI:
-                    this.composeWith(require.resolve('../fast-api'), options);
+                    await this.composeWith(require.resolve('../fast-api'), args);
                     break;
                 case BackendChoice.Symfony: {
-                    this.composeWith(require.resolve('../symfony'), options);
+                    await this.composeWith(require.resolve('../symfony'), args);
                     break;
                 }
             }
@@ -97,19 +97,19 @@ class AppGenerator extends BaseGenerator {
         for (const { type, name } of frontends) {
             switch (type) {
                 case FrontendType.React:
-                    this.composeWith(require.resolve('../react'), { arguments: [name, '--http-path=/'] });
+                    await this.composeWith(require.resolve('../react'), [name, '--http-path=/']);
                     break;
                 case FrontendType.NextJS:
-                    this.composeWith(require.resolve('../next-js'), { arguments: [name, '--http-path=/'] });
+                    await this.composeWith(require.resolve('../next-js'), [name, '--http-path=/']);
                     break;
                 case FrontendType.ReactAdmin:
-                    this.composeWith(require.resolve('../react-admin'), [name, '--http-path=/admin/']);
+                    await this.composeWith(require.resolve('../react-admin'), [name, '--http-path=/admin/']);
                     break;
                 case FrontendType.Flutter:
-                    this.composeWith(require.resolve('../flutter-mobile'), [name]);
+                    await this.composeWith(require.resolve('../flutter-mobile'), [name]);
                     break;
                 case FrontendType.ReactNative:
-                    this.composeWith(require.resolve('../react-native-mobile'), [name]);
+                    await this.composeWith(require.resolve('../react-native-mobile'), [name]);
                     break;
             }
         }
@@ -127,9 +127,9 @@ class AppGenerator extends BaseGenerator {
     async #promptFrontends(): Promise<Frontend[]> {
         let frontends: Frontend[] = [];
 
-        const loadedFrontends = this.config.get('frontends') || [undefined];
+        const loadedFrontends = this.config.get<Frontend[]>('frontends') || [undefined];
 
-        while (true) {
+        for (;;) {
             const index = frontends.length;
 
             const frontend = await this.prompt<FrontendPrompt>([

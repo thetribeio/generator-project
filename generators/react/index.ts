@@ -4,10 +4,10 @@ import varName from '../../utils/varName';
 import { DeploymentChoice } from '../root';
 
 class CreateReactAppGenerator extends PackageGenerator {
-    initializing(): void {
+    async initializing(): Promise<void> {
         const { 'http-path': httpPath, packageName } = this.options;
 
-        this.composeWith(require.resolve('../utils/http'), [packageName, httpPath, 80]);
+        await this.composeWith(require.resolve('../utils/http'), [packageName, httpPath, '80']);
     }
 
     writing(): void {
@@ -23,7 +23,7 @@ class CreateReactAppGenerator extends PackageGenerator {
 
         this.configureCircleCI('circleci.yaml.ejs');
 
-        switch (this.config.get('deployment')) {
+        switch (this.config.get<DeploymentChoice>('deployment')) {
             case DeploymentChoice.Ansible:
                 this.configureAnsible('deployment/ansible', {
                     repositoryName: this.config.get('repositoryName'),
@@ -83,7 +83,7 @@ class CreateReactAppGenerator extends PackageGenerator {
 
         if (this.config.get('deployment') === DeploymentChoice.Kubernetes) {
             // Yeoman is loosing file permisions when writing
-            await this.spawnCommand('chmod', ['a+x', `${packagePath}/start.sh`]);
+            await this.spawn('chmod', ['a+x', `${packagePath}/start.sh`]);
         }
     }
 }
