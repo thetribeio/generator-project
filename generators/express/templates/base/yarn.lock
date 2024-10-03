@@ -687,10 +687,10 @@
   resolved "https://registry.yarnpkg.com/@sqltools/formatter/-/formatter-1.2.5.tgz#3abc203c79b8c3e90fd6c156a0c62d5403520e12"
   integrity sha512-Uy0+khmZqUrUGm5dmMqVlnvufZRSK0FbYzVgp0UMstm+F5+W2/jnEEQyc9vo1ZR/E5ZI/B1WjjoTqBqwJL6Krw==
 
-"@thetribe/eslint-config-typescript@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config-typescript/-/eslint-config-typescript-0.4.1.tgz#abe22bb54c7361959f2b437084e7fba30603d86f"
-  integrity sha512-Sp7hLFuN7tRmo5ch8/iEIenQvPer64gcotFqpp07M/3Cr9zTXmmuTlSXqjN4RTYva8nBrJAJ1a1PrWnJbsjUfA==
+"@thetribe/eslint-config-typescript@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config-typescript/-/eslint-config-typescript-0.5.1.tgz#855cc0827149b685ce8796e19256294b08fb3f73"
+  integrity sha512-Xk7BOMfI6K6VcIO3f7r9BBIg4OCtJ7JzS3olK0+BqXk7laP+CA/3WZZBLNVu15WNuW0Nxx5+/OQ7b+iHurMIrA==
   dependencies:
     "@thetribe/eslint-config" "^0.5.0"
 
