@@ -497,13 +497,13 @@
   resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-14.4.3.tgz#af975e367743fa91989cd666666aec31a8f50591"
   integrity sha512-kCUc5MEwaEMakkO5x7aoD+DLi02ehmEM2QCGWvNqAS1dV/fAvORWEjnjsEIvml59M7Y5kCkWN6fCCyPOe8OL6Q==
 
-"@thetribe/eslint-config-react-typescript@^0.4.2":
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config-react-typescript/-/eslint-config-react-typescript-0.4.2.tgz#e5908c8ac96991c2db58bf1340c7bee43101e670"
-  integrity sha512-nTvhtjIToDeMPXP/ldhTYFwXN34zuemeW3X2mzsHuPNdsVEfFqqRijIVYKLvXSKAJyA9+B/5WEftUletnnzeNw==
+"@thetribe/eslint-config-react-typescript@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config-react-typescript/-/eslint-config-react-typescript-0.5.1.tgz#efe1d81180068bb4a10ff786de2b3f02fa80714c"
+  integrity sha512-4Gz5yeaiFsU8ZZC/Jn05RKNeThIhdH+E1zsES32DJUPhsJ0WeHAQ1FBiNRb+ihA338aYzHrtgYp5b9to99zhzQ==
   dependencies:
     "@thetribe/eslint-config-react" "^0.6.1"
-    "@thetribe/eslint-config-typescript" "^0.4.1"
+    "@thetribe/eslint-config-typescript" "^0.5.1"
 
 "@thetribe/eslint-config-react@^0.6.1":
   version "0.6.1"
@@ -513,10 +513,10 @@
     "@thetribe/eslint-config" "^0.5.0"
     eslint-config-airbnb "^19.0.0"
 
-"@thetribe/eslint-config-typescript@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config-typescript/-/eslint-config-typescript-0.4.1.tgz#abe22bb54c7361959f2b437084e7fba30603d86f"
-  integrity sha512-Sp7hLFuN7tRmo5ch8/iEIenQvPer64gcotFqpp07M/3Cr9zTXmmuTlSXqjN4RTYva8nBrJAJ1a1PrWnJbsjUfA==
+"@thetribe/eslint-config-typescript@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@thetribe/eslint-config-typescript/-/eslint-config-typescript-0.5.1.tgz#855cc0827149b685ce8796e19256294b08fb3f73"
+  integrity sha512-Xk7BOMfI6K6VcIO3f7r9BBIg4OCtJ7JzS3olK0+BqXk7laP+CA/3WZZBLNVu15WNuW0Nxx5+/OQ7b+iHurMIrA==
   dependencies:
     "@thetribe/eslint-config" "^0.5.0"
 
