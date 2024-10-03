@@ -121,7 +121,7 @@ class RootGenerator extends BaseGenerator {
                     '--add',
                     '--cacheinfo',
                     '160000',
-                    '0b0cd5d04c94e80cdb6fdaaad771d17feaec66d8',
+                    'e32e3354ef2fe533303f09f30d1f1867899950e5',
                     'ansible/roles-lib',
                 ],
             );
