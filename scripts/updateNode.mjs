@@ -123,7 +123,7 @@ if (updated) {
             `"@types/node": "^${nodeTypesVersion.version}"`,
         );
 
-        await updateYarnLock('generators/express/templates/base');
+        await updateYarnLock(path);
     }
 }
 
