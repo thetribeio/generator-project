@@ -19,7 +19,7 @@
     "postcss": "^8.4.47",
     "postcss-loader": "^7.3.4",
     "sass": "^1.79.4",
-    "sass-loader": "^13.2.2",
+    "sass-loader": "^13.3.3",
     "stylelint": "^15.6.1",
     "stylelint-config-recommended-scss": "^11.0.0",
     "webpack": "^5.93.0",
