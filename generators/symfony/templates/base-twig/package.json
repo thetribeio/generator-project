@@ -18,7 +18,7 @@
     "mini-css-extract-plugin": "^2.9.1",
     "postcss": "^8.4.47",
     "postcss-loader": "^7.3.4",
-    "sass": "^1.77.8",
+    "sass": "^1.79.4",
     "sass-loader": "^13.2.2",
     "stylelint": "^15.6.1",
     "stylelint-config-recommended-scss": "^11.0.0",
