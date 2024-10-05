@@ -29,7 +29,7 @@
     "jsdom": "^20.0.3",
     "typescript": "^5.0.4",
     "vite": "^3.2.10",
-    "vitest": "^0.23.4"
+    "vitest": "^0.34.6"
   },
   "scripts": {
     "build": "tsc && vite build",
