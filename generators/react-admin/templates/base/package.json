@@ -12,9 +12,9 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^14.0.0",
-    "@testing-library/user-event": "^14.4.3",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^14.3.1",
+    "@testing-library/user-event": "^14.5.2",
     "@thetribe/eslint-config-react-typescript": "^0.5.1",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.0",
