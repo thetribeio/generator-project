@@ -3472,10 +3472,10 @@ ra-core@^4.16.20:
     react-is "^17.0.2"
     react-query "^3.32.1"
 
-ra-data-simple-rest@^4.3.3:
-  version "4.3.3"
-  resolved "https://registry.yarnpkg.com/ra-data-simple-rest/-/ra-data-simple-rest-4.3.3.tgz#5c2ff2e5cf6dedbaf915a4b20808bb13374f34a0"
-  integrity sha512-Up5OlS2G0CPpoAS+TTOfxoPg0wLIRoT1JAMa3ef8D4F09fLRZYUJqPMPKwMsyoIRZ2iGjDRsGkWE10hCSrSF6A==
+ra-data-simple-rest@^4.16.20:
+  version "4.16.20"
+  resolved "https://registry.yarnpkg.com/ra-data-simple-rest/-/ra-data-simple-rest-4.16.20.tgz#33896001f23ecf1d0ef127a40bfb4c4308b1b155"
+  integrity sha512-x2Z8ZHP81WIu6jLHEKM0+1VnTrx8HLscoafS501JL2VwPqap9klupQ1AqLJF6lEDQ9lI4uuCh8zofuWrc5BLjw==
   dependencies:
     query-string "^7.1.1"
 
@@ -3514,7 +3514,7 @@ ra-ui-materialui@^4.16.20:
     react-query "^3.32.1"
     react-transition-group "^4.4.1"
 
-react-admin@^4.3.3:
+react-admin@^4.16.20:
   version "4.16.20"
   resolved "https://registry.yarnpkg.com/react-admin/-/react-admin-4.16.20.tgz#50cfc98ac1c135d4bfb546ba0ad350f99c566c24"
   integrity sha512-9QLc5uTI669dGceC+VT08LG2vytMMSpvwg2lJJS4wqJJykQKlZXJelpOLAGWlggEuAXtyC2nMG8S6sgl7+hBDQ==
