@@ -19,7 +19,7 @@ RUN yarn install --frozen-lockfile --production
 # Build
 FROM dev-dependencies as build
 
-COPY index.html tsconfig.json tsconfig.node.json vite.config.ts vite.config.ts ./
+COPY index.html tsconfig.json tsconfig.app.json tsconfig.node.json vite.config.ts ./
 COPY public ./public
 COPY src ./src
 
