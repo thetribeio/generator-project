@@ -20,7 +20,7 @@
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
-    "@vitejs/plugin-react": "^2.2.0",
+    "@vitejs/plugin-react": "^4.3.2",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.0",
@@ -28,14 +28,14 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "jsdom": "^20.0.3",
     "typescript": "^5.0.4",
-    "vite": "^3.2.10",
-    "vitest": "^0.23.4"
+    "vite": "^5.4.8",
+    "vitest": "^2.1.2"
   },
   "scripts": {
-    "build": "tsc && vite build",
+    "build": "tsc -b && vite build",
+    "dev": "vite",
     "lint": "eslint src --ext ts,tsx",
     "preview": "vite preview",
-    "start": "vite",
     "test": "vitest"
   },
   "browserslist": {
