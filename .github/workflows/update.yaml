@@ -25,3 +25,24 @@ jobs:
           author: github-actions <41898282+github-actions[bot]@users.noreply.github.com>
           branch: update/node
           title: Update Node to v${{ steps.update.outputs.version }}
+  update-php:
+    name: Update PHP
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v2
+      - run: corepack enable
+      - uses: actions/setup-node@v4.0.3
+        with:
+          node-version: 20.12.0
+          cache: yarn
+      - run: yarn install --immutable
+      - name: Update version
+        id: update
+        run: ./scripts/updatePHP.mjs
+      - uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: Update PHP to v${{ steps.update.outputs.version }}
+          body: Update PHP to last version
+          author: github-actions <41898282+github-actions[bot]@users.noreply.github.com>
+          branch: update/php
+          title: Update PHP to v${{ steps.update.outputs.version }}

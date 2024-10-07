@@ -69,7 +69,7 @@ jobs:
       - run: yarn install --immutable
       - run: yarn test:generators --shard=${{ matrix.shard }}
 
-  test-update-script:
+  test-update-scripts:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
@@ -79,5 +79,7 @@ jobs:
           node-version: 20.12.0
           cache: yarn
       - run: yarn install --immutable
-      - name: Update version
+      - name: Update Node version
         run: ./scripts/updateNode.mjs
+      - name: Update PHP version
+        run: ./scripts/updatePHP.mjs
