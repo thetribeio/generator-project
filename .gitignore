@@ -1,5 +1,7 @@
 /coverage/
 /dist/
+/generators/*/templates/*/node_modules/
+/generators/*/templates/*/vendor/
 /node_modules/
 
 # Yarn
