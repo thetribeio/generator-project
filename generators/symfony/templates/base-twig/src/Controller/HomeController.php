@@ -21,7 +21,7 @@ class HomeController
     public function __invoke(): Response
     {
         return new Response($this->twig->render('home.html.twig', [
-           'name' => 'Toto',
-       ]));
+            'name' => 'Toto',
+        ]));
     }
 }
