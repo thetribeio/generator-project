@@ -20,7 +20,7 @@
     "@types/express": "^5.0.0",
     "@types/express-session": "^1.18.0",
     "@types/jest": "^29.5.13",
-    "@types/node": "^20.16.10",
+    "@types/node": "^20.16.11",
     "@types/passport": "^1.0.16",
     "@types/passport-local": "^1.0.38",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
@@ -34,7 +34,7 @@
     "typescript": "^5.0.4"
   },
   "resolutions": {
-    "@types/node": "^20.16.10"
+    "@types/node": "^20.16.11"
   },
   "scripts": {
     "build": "rm -rf dist && tsc",
