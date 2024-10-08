@@ -15,9 +15,10 @@ RUN apt-get update && \
     apt-get install --yes --no-install-recommends git unzip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-RUN curl -f -L "https://getcomposer.org/download/2.2.6/composer.phar" -o /usr/local/bin/composer && \
-    echo "1d58486b891e59e9e064c0d54bb38538f74d6014f75481542c69ad84d4e97704 /usr/local/bin/composer" | sha256sum -c - && \
-    chmod 755 /usr/local/bin/composer
+ADD --checksum=sha256:930b376fbd2147a623ea7b704eb9d3b8b0d6072992207aa0535aa21f6f05378e \
+    --chmod=755 \
+    https://getcomposer.org/download/2.8.1/composer.phar \
+    /usr/local/bin/composer
 
 COPY composer.json composer.lock ./
 
