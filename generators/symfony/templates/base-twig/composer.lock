@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "928a2075dcbd7991fac08b4c3af2aa43",
+    "content-hash": "ab523b12cabf9666e3a280845a09c1ac",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -7895,7 +7895,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -7906,7 +7906,7 @@
         "ext-mbstring": "*",
         "ext-pdo_pgsql": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.2.2"
     },
