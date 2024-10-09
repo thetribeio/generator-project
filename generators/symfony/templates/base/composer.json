@@ -43,7 +43,7 @@
     },
     "config": {
         "platform": {
-            "php": "8.2.2"
+            "php": "8.3.12"
         },
         "preferred-install": {
             "*": "dist"
