@@ -14,7 +14,7 @@ jobs:
       - run: corepack enable
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.20.0
+          node-version: 18.20.4
           cache: yarn
       - run: yarn install --immutable
       - run: yarn lint
@@ -26,7 +26,7 @@ jobs:
       - run: corepack enable
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.20.0
+          node-version: 18.20.4
           cache: yarn
       - run: yarn install --immutable
       - run: yarn build
@@ -34,7 +34,7 @@ jobs:
   test-utils:
     strategy:
       matrix:
-        node-version: [18.20.0, 20.12.0]
+        node-version: [18.20.4, 20.18.0, 22.11.0]
     runs-on: ubuntu-22.04
     steps:
       - run: sudo apt update && sudo apt install ansible
@@ -64,7 +64,7 @@ jobs:
       - run: corepack enable
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.20.0
+          node-version: 18.20.4
           cache: yarn
       - run: yarn install --immutable
       - run: yarn test:generators --shard=${{ matrix.shard }}
@@ -76,7 +76,7 @@ jobs:
       - run: corepack enable
       - uses: actions/setup-node@v4.0.3
         with:
-          node-version: 20.12.0
+          node-version: 22.11.0
           cache: yarn
       - run: yarn install --immutable
       - name: Update Node version
