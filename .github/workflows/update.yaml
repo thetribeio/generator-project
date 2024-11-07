@@ -12,7 +12,7 @@ jobs:
       - run: corepack enable
       - uses: actions/setup-node@v4.0.3
         with:
-          node-version: 20.12.0
+          node-version: 22.11.0
           cache: yarn
       - run: yarn install --immutable
       - name: Update version
@@ -33,7 +33,7 @@ jobs:
       - run: corepack enable
       - uses: actions/setup-node@v4.0.3
         with:
-          node-version: 20.12.0
+          node-version: 22.11.0
           cache: yarn
       - run: yarn install --immutable
       - name: Update version
