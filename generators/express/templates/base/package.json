@@ -15,12 +15,12 @@
   },
   "devDependencies": {
     "@thetribe/eslint-config-typescript": "^0.5.1",
-    "@tsconfig/node20": "^20.1.4",
+    "@tsconfig/node22": "^22.0.0",
     "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.0",
     "@types/express-session": "^1.18.0",
     "@types/jest": "^29.5.14",
-    "@types/node": "^20.16.11",
+    "@types/node": "^22.9.0",
     "@types/passport": "^1.0.17",
     "@types/passport-local": "^1.0.38",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
@@ -34,7 +34,7 @@
     "typescript": "^5.0.4"
   },
   "resolutions": {
-    "@types/node": "^20.16.11"
+    "@types/node": "^22.9.0"
   },
   "scripts": {
     "build": "rm -rf dist && tsc",
