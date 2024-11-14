@@ -5,7 +5,7 @@
     "@sentry/node": "^7.119.1",
     "bcrypt": "^5.1.1",
     "express": "^5.0.1",
-    "express-session": "^1.18.0",
+    "express-session": "^1.18.1",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "pg": "^8.13.0",
