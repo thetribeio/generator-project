@@ -7,8 +7,9 @@ terraform {
     }
 }
 
-resource "scaleway_rdb_instance" "database" {
+resource scaleway_rdb_instance database {
     name           = "<%= projectName %>-${var.environment_name}"
+    project_id     = var.project_id
     node_type      = "db-dev-s"
     engine         = "PostgreSQL-13"
     is_ha_cluster  = true

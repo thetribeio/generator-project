@@ -17,23 +17,30 @@ terraform {
 }
 
 provider "scaleway" {
-    zone       = "fr-par-1"
-    region     = "fr-par"
-    access_key = var.scw_access_key
-    secret_key = var.scw_secret_key
-    project_id = "00000000-0000-0000-0000-000000000000" # TODO add project id
+    access_key      = var.scw_access_key
+    secret_key      = var.scw_secret_key
+    organization_id = "00000000-0000-0000-0000-000000000000" # TODO add the organization id here
+
+    region = "fr-par"
+    zone   = "fr-par-1"
+}
+
+resource scaleway_account_project main {
+    name = "<%= projectName %>-production"
 }
 
 module "server" {
     source = "../common/server"
 
     environment_name = "production"
+    project_id       = scaleway_account_project.main.id
 }
 
 module "database" {
     source = "../common/database"
 
     environment_name = "production"
+    project_id       = scaleway_account_project.main.id
     allowed_ips = {
         server = module.server.ip
     }
