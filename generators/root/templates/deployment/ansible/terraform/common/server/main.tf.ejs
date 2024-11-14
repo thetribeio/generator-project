@@ -7,8 +7,10 @@ terraform {
     }
 }
 
-resource "scaleway_instance_security_group" "server_security_group" {
-    name = "<%= projectName %>-${var.environment_name}"
+resource scaleway_instance_security_group server_security_group {
+    name       = "<%= projectName %>-${var.environment_name}"
+    project_id = var.project_id
+
     inbound_default_policy  = "drop"
     outbound_default_policy = "accept"
 
@@ -28,13 +30,15 @@ resource "scaleway_instance_security_group" "server_security_group" {
     }
 }
 
-resource "scaleway_instance_ip" "server_public_ip" {
+resource scaleway_instance_ip server_public_ip {
+    project_id = var.project_id
 }
 
-resource "scaleway_instance_server" "server_compute" {
+resource scaleway_instance_server server_compute {
     type              = "DEV1-S"
     image             = "ubuntu_noble"
     name              = "<%= projectName %>-${var.environment_name}"
+    project_id        = var.project_id
     security_group_id = scaleway_instance_security_group.server_security_group.id
     ip_id             = scaleway_instance_ip.server_public_ip.id
     tags              = ["<%= projectName %>", var.environment_name]

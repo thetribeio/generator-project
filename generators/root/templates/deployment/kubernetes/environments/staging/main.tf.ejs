@@ -26,15 +26,21 @@ terraform {
 }
 
 provider "scaleway" {
-    zone       = "fr-par-1"
-    region     = "fr-par"
-    access_key = var.scw_access_key
-    secret_key = var.scw_secret_key
-    project_id = "00000000-0000-0000-0000-000000000000" # TODO add project id
+    access_key      = var.scw_access_key
+    secret_key      = var.scw_secret_key
+    organization_id = "00000000-0000-0000-0000-000000000000" # TODO add the organization id here
+
+    region = "fr-par"
+    zone   = "fr-par-1"
 }
 
-data "scaleway_k8s_cluster" "staging" {
-    name = "staging"
+data scaleway_account_project main {
+    name = "default"
+}
+
+data scaleway_k8s_cluster staging {
+    name       = "staging"
+    project_id = data.scaleway_account_project.main
 }
 
 provider "kubernetes" {
@@ -76,6 +82,8 @@ module "deployment" {
     host       = "<%= domain %>"
     basic_auth = true
 <% } %>
-    rdb_name = "staging"
+    rdb_name       = "staging"
+    rdb_project_id = data.scaleway_account_project.main
+
     registry = "rg.fr-par.scw.cloud/thetribe-staging"
 }
