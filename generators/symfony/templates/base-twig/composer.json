@@ -9,7 +9,7 @@
         "ext-mbstring": "*",
         "ext-pdo_pgsql": "*",
         "doctrine/doctrine-bundle": "^2.13.0",
-        "doctrine/doctrine-migrations-bundle": "^3.2.2",
+        "doctrine/doctrine-migrations-bundle": "^3.3.1",
         "doctrine/orm": "^3.2.2",
         "sentry/sentry-symfony": "^4.7.0",
         "symfony/asset": "^6.2.7",
