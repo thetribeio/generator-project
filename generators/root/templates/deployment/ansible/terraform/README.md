@@ -16,7 +16,7 @@ You need first to configure the Scaleway credentials for the environment you wan
 
 First you need to create a Scaleway API key and secret [here](https://console.scaleway.com/project/credentials).
 
-You must then copy the `scaleway project id` in  `terraform/{environment}/main.tf`, as well as a bucket id.
+You must then copy the `scaleway project id` (you can find it [here](https://console.scaleway.com/project/settings)) in  `terraform/{environment}/main.tf`, as well as a bucket id.
 You can create or use an already existing bucket here [here](https://console.scaleway.com/object-storage/buckets).
 
 Then you need to go to the folder corresponding to the environment you want to configure and run

@@ -24,7 +24,7 @@ Note that you probably don't need to touch this file! Below is just explanations
 
 The `staging.py` and `production.py` are inventory scripts that automaticaly
 pulls servers informations from terraform outputs. To use them you need to
-[setup terraform](../terraform/README.md#Configuration) and 
+[setup terraform](../terraform/README.md#Configuration) and
 [create your environment](../terraform/README.md#creating-or-updating-an-environment).
 
 ## Roles
@@ -33,6 +33,8 @@ theTribe uses a roles library. An ansible role is like a function that contains
 predefined actions, so you don't have to rewrite everything everytime.
 
 This library is loaded into the project using the `role-lib` submodule.
+(if the `git submodule update --init` doesn't work, you can run `git submodule add https://github.com/thetribeio/ansible-roles.git roles-lib` in your ansible folder)
+
 
 Ansible will looks for roles in both the `roles`, and `roles-lib` folders.
 
@@ -78,6 +80,19 @@ What you should put in `group_vars/all.yaml`:
 
 What you should put in `groups_vars/staging.yaml`:
 - The variables that are specific to your `staging` remote server
+
+### Variables encryption
+
+To encrypt a variable, you can use :
+```
+ansible-vault encrypt_string 'variable_value' -n 'variable_name'
+```
+Then you just need to copy/paste the result in your group_vars file.
+
+To decrypt a variable in a group_vars file, you need to have yq installed on your machine ( `pip3 install yq` or you can use brew on mac). Then you can use the following command to decrypt your variable :
+```
+yq -r '.variable_name' group_vars/{your_file}.yaml | ansible-vault decrypt ; echo
+```
 
 ## Playbooks
 
