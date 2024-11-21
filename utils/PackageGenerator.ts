@@ -19,11 +19,15 @@ class PackageGenerator<T extends PackageGeneratorOptions = PackageGeneratorOptio
 
         this.argument('packageName', { type: String, required: true });
 
-        this.option('http-path', { type: String });
+        this.option('http-path', { type: String, default: '/' });
         this.option('path', { type: String });
 
         if (!/^[a-z0-9-]+$/.test(this.options.packageName)) {
             throw new Error('Package name can only contains lowercase numbers, numbers and dashes');
+        }
+
+        if (this.options['http-path'][0] !== '/') {
+            throw new Error('HTTP path must start with a slash');
         }
 
         if (this.options.path) {

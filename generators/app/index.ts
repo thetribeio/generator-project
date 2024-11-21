@@ -97,10 +97,10 @@ class AppGenerator extends BaseGenerator {
         for (const { type, name } of frontends) {
             switch (type) {
                 case FrontendType.React:
-                    this.composeWith(require.resolve('../react'), { arguments: [name, '--http-path=/'] });
+                    this.composeWith(require.resolve('../react'), { arguments: [name] });
                     break;
                 case FrontendType.NextJS:
-                    this.composeWith(require.resolve('../next-js'), { arguments: [name, '--http-path=/'] });
+                    this.composeWith(require.resolve('../next-js'), { arguments: [name] });
                     break;
                 case FrontendType.ReactAdmin:
                     this.composeWith(require.resolve('../react-admin'), [name, '--http-path=/admin/']);
