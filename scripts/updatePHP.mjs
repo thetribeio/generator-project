@@ -35,8 +35,8 @@ const lastMinor = lastVersion.split('.').slice(0, 2).join('.');
 // Update CircleCI config
 await replace(
     resolve(root, 'generators/symfony/templates/circleci.yaml.ejs'),
-    /image: circleci\/php:\d+\.\d+\.\d+/,
-    `image: circleci/php:${lastVersion}`,
+    /image: php:\d+\.\d+\.\d+/,
+    `image: php:${lastVersion}`,
 );
 
 // Update Dockerfiles
