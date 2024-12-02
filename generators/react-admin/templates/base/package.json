@@ -28,8 +28,8 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "jsdom": "^20.0.3",
     "typescript": "^5.0.4",
-    "vite": "^5.4.8",
-    "vitest": "^2.1.2"
+    "vite": "^5.4.11",
+    "vitest": "^2.1.7"
   },
   "scripts": {
     "build": "tsc -b && vite build",
