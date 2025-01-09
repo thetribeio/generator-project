@@ -119,4 +119,4 @@ if (updated) {
     }
 }
 
-console.log(`::set-output name=version::${lastVersion}`);
+console.log(`version=${lastVersion}`);

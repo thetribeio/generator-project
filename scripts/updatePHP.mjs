@@ -74,4 +74,4 @@ for (const path of [
     }
 }
 
-console.log(`::set-output name=version::${lastVersion}`);
+console.log(`version=${lastVersion}`);

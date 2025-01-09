@@ -53,7 +53,7 @@ jobs:
         shard: [1/3, 2/3, 3/3]
     runs-on: ubuntu-22.04
     steps:
-      - uses: azure/setup-helm@v1
+      - uses: azure/setup-helm@v4.2.0
         with:
           version: 3.8.0
       - uses: hashicorp/setup-terraform@v1
@@ -80,6 +80,6 @@ jobs:
           cache: yarn
       - run: yarn install --immutable
       - name: Update Node version
-        run: ./scripts/updateNode.mjs
+        run: ./scripts/updateNode.mjs >> $GITHUB_OUTPUT
       - name: Update PHP version
-        run: ./scripts/updatePHP.mjs
+        run: ./scripts/updatePHP.mjs >> $GITHUB_OUTPUT
