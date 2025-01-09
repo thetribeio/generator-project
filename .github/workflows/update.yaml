@@ -17,7 +17,7 @@ jobs:
       - run: yarn install --immutable
       - name: Update version
         id: update
-        run: ./scripts/updateNode.mjs
+        run: ./scripts/updateNode.mjs >> $GITHUB_OUTPUT
       - uses: peter-evans/create-pull-request@v3
         with:
           commit-message: Update Node to v${{ steps.update.outputs.version }}
@@ -38,7 +38,7 @@ jobs:
       - run: yarn install --immutable
       - name: Update version
         id: update
-        run: ./scripts/updatePHP.mjs
+        run: ./scripts/updatePHP.mjs >> $GITHUB_OUTPUT
       - uses: peter-evans/create-pull-request@v3
         with:
           commit-message: Update PHP to v${{ steps.update.outputs.version }}
