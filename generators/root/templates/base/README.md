@@ -6,7 +6,7 @@ Docker and docker-compose must be installed and running.
 
 ## Install
 
-Simply run the following script to initiate bootstrapping
+Simply run the following script to install dependencies
 
 ```
 ./script/bootstrap
@@ -22,6 +22,3 @@ Launch your containers by using :
 
 The project is available on localhost:80
 
-## Provision a new environment
-
-Check under `/environments` folder for Terraform information about provisionning
