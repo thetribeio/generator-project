@@ -41,6 +41,7 @@
     "lint": "eslint src --ext ts,tsx",
     "start": "nodemon --ext js,ts --watch src --exec ts-node src",
     "test": "jest",
-    "test:coverage": "yarn test --coverage"
+    "test:coverage": "yarn test --coverage",
+    "create-user": "ts-node src/infrastructure/cli/createUser.ts"
   }
 }

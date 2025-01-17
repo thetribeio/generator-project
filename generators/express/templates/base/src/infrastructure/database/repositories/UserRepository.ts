@@ -19,6 +19,10 @@ class DatabaseUserRepository implements UserRepository {
     findByEmail(email: string): Promise<User | null> {
         return this.#dataSource.manager.findOneBy(User, { email });
     }
+
+    save(user: User): Promise<void> {
+        return this.#dataSource.manager.save(user);
+    }
 }
 
 export default DatabaseUserRepository;
