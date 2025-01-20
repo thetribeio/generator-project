@@ -4,7 +4,7 @@ services:
             context: <%= packagePath %>/docker/node
             args:
                 UID: ${uid:-1000}
-        command: yarn start
+        command: yarn dev-server --host 0.0.0.0 --public http://localhost<%= httpPath %> --client-web-socket-url ws://localhost<%= httpPath %>ws
         depends_on:
             - <%= packageName %>-nginx
         volumes:

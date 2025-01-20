@@ -1,82 +1,62 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
+const Encore = require('@symfony/webpack-encore');
 
-const mode = process.env.NODE_ENV || 'development';
-const isDev = mode === 'development';
+// Manually configure the runtime environment if not already configured yet by the "encore" command.
+// It's useful when you use tools that rely on webpack.config.js file.
+if (!Encore.isRuntimeEnvironmentConfigured()) {
+    Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
+}
 
-module.exports = {
-    mode,
-    entry: {
-        base: './assets/base.js',
-        home: './assets/home.js',
-    },
-    output: {
-        path: `${__dirname}/public/assets/`,
-        filename: isDev ? '[name].js' : '[name].[contenthash].js',
-        publicPath: '<%= httpPath %>assets/',
-    },
-    module: {
-        strictExportPresence: true,
-        rules: [
-            {
-                test: /\.(css|scss)$/,
-                rules: [
-                    {
-                        use: {
-                            loader: MiniCssExtractPlugin.loader,
-                        },
-                    },
-                    {
-                        use: {
-                            loader: 'css-loader',
-                        },
-                    },
-                    {
-                        use: {
-                            loader: 'postcss-loader',
-                        },
-                    },
-                    {
-                        test: /\.scss$/,
-                        use: {
-                            loader: 'sass-loader',
-                        },
-                    },
-                ],
-            },
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                },
-            },
-            {
-                test: /\.(jpg|woff|woff2|ttf|eot|otf|svg)$/,
-                use: {
-                    loader: 'file-loader',
-                },
-            },
-        ],
-    },
-    plugins: [
-        new MiniCssExtractPlugin({
-            filename: isDev ? '[name].css' : '[name].[contenthash].css',
-            chunkFilename: isDev ? '[id].css' : '[id].[contenthash].css',
-        }),
-        new WebpackManifestPlugin({
-            fileName: `${__dirname}/var/manifest.json`,
-            writeToFileEmit: true,
-        }),
-    ],
-    devServer: {
-        allowedHosts: 'all',
+module.exports = Encore
+    // directory where compiled assets will be stored
+    .setOutputPath('public/build/')
+    // public path used by the web server to access the output path
+    .setPublicPath('<%= httpPath %>build')
+    .setManifestKeyPrefix('build/')
+
+    /*
+     * ENTRY CONFIG
+     *
+     * Each entry will result in one JavaScript file (e.g. app.js)
+     * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
+     */
+    .addEntry('base', './assets/base.js')
+    .addEntry('home', './assets/home.js')
+
+    // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
+    .splitEntryChunks()
+
+    // will require an extra script tag for runtime.js
+    // but, you probably want this, unless you're building a single-page app
+    .enableSingleRuntimeChunk()
+
+    /*
+     * FEATURE CONFIG
+     *
+     * Enable & configure other features below. For a full
+     * list of features, see:
+     * https://symfony.com/doc/current/frontend.html#adding-more-features
+     */
+    .cleanupOutputBeforeBuild()
+    .enableSourceMaps(!Encore.isProduction())
+    // enables hashed filenames (e.g. app.abc123.css)
+    .enableVersioning(Encore.isProduction())
+    .enableIntegrityHashes(Encore.isProduction())
+
+    // enables and configure @babel/preset-env polyfills
+    .configureBabelPresetEnv((config) => ({
+        ...config,
+        useBuiltIns: 'usage',
+        corejs: '3.38',
+    }))
+
+    // enables Sass/SCSS support
+    .enableSassLoader()
+
+    .configureDevServerOptions((options) => ({
+        ...options,
         static: false,
         proxy: {
             '<%= httpPath %>': 'http://<%= packageName %>-nginx',
         },
-        client: {
-            webSocketURL: 'auto://0.0.0.0:0<%= httpPath %>ws',
-        },
-    },
-};
+    }))
+    .getWebpackConfig();

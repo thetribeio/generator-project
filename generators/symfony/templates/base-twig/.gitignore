@@ -2,7 +2,7 @@
 /.php-cs-fixer.cache
 /node_modules/
 /phpunit.xml
-/public/assets/
+/public/build/
 /public/bundles/
 /var/
 /vendor/
