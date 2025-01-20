@@ -12,18 +12,18 @@
         "doctrine/doctrine-migrations-bundle": "^3.2.2",
         "doctrine/orm": "^3.3.1",
         "sentry/sentry-symfony": "^5.1.0",
-        "symfony/console": "^6.2.10",
-        "symfony/expression-language": "^6.2.7",
+        "symfony/console": "^6.4.17",
+        "symfony/expression-language": "^6.4.13",
         "symfony/flex": "^2.4.7",
-        "symfony/framework-bundle": "^6.2.10",
-        "symfony/http-client": "^6.2.10",
-        "symfony/intl": "^6.2.10",
-        "symfony/process": "^6.2.10",
-        "symfony/security-bundle": "^6.2.10",
-        "symfony/translation": "^6.2.8",
-        "symfony/validator": "^6.2.10",
-        "symfony/web-link": "^6.2.7",
-        "symfony/yaml": "^6.2.10"
+        "symfony/framework-bundle": "^6.4.17",
+        "symfony/http-client": "^6.4.17",
+        "symfony/intl": "^6.4.15",
+        "symfony/process": "^6.4.15",
+        "symfony/security-bundle": "^6.4.13",
+        "symfony/translation": "^6.4.13",
+        "symfony/validator": "^6.4.17",
+        "symfony/web-link": "^6.4.13",
+        "symfony/yaml": "^6.4.13"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.65.0",
@@ -32,13 +32,13 @@
         "phpstan/phpstan-deprecation-rules": "^1.2.1",
         "phpstan/phpstan-doctrine": "^1.5.7",
         "phpstan/phpstan-symfony": "^1.4.12",
-        "symfony/browser-kit": "^6.2.7",
-        "symfony/css-selector": "^6.2.7",
-        "symfony/debug-bundle": "^6.2.7",
-        "symfony/phpunit-bridge": "^6.2.7",
-        "symfony/stopwatch": "^6.2.7",
-        "symfony/twig-bundle": "^6.2.7",
-        "symfony/web-profiler-bundle": "^6.2.10",
+        "symfony/browser-kit": "^6.4.13",
+        "symfony/css-selector": "^6.4.13",
+        "symfony/debug-bundle": "^6.4.13",
+        "symfony/phpunit-bridge": "^6.4.16",
+        "symfony/stopwatch": "^6.4.13",
+        "symfony/twig-bundle": "^6.4.13",
+        "symfony/web-profiler-bundle": "^6.4.17",
         "thetribe/coding-standard": "^0.3.0"
     },
     "config": {
@@ -80,7 +80,8 @@
         "symfony/polyfill-php72": "1.31.0",
         "symfony/polyfill-php73": "1.31.0",
         "symfony/polyfill-php80": "1.31.0",
-        "symfony/polyfill-php81": "1.31.0"
+        "symfony/polyfill-php81": "1.31.0",
+        "symfony/polyfill-php83": "1.31.0"
     },
     "scripts": {
         "auto-scripts": {
