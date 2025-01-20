@@ -34,7 +34,7 @@ COPY package.json yarn.lock ./
 
 RUN yarn install --frozen-lockfile
 
-COPY ./.babelrc ./.browserslistrc ./postcss.config.js ./webpack.config.js ./
+COPY ./.browserslistrc ./postcss.config.js ./webpack.config.js ./
 COPY ./assets/ ./assets/
 
 ENV NODE_ENV=production
@@ -76,5 +76,5 @@ FROM nginx:1.21.6 as nginx
 COPY ./default.conf /etc/nginx/conf.d/
 
 <% if (twig) { %>
-COPY --from=webpack /srv/<%= packageName %>/public/assets/ /srv/<%= packageName %>/public/assets/
+COPY --from=webpack /srv/<%= packageName %>/public/build/ /srv/<%= packageName %>/public/build/
 <% } %>
