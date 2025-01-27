@@ -20,8 +20,8 @@ class DatabaseUserRepository implements UserRepository {
         return this.#dataSource.manager.findOneBy(User, { email });
     }
 
-    save(user: User): Promise<void> {
-        return this.#dataSource.manager.save(user);
+    async save(user: User): Promise<void> {
+        await this.#dataSource.manager.save(user);
     }
 }
 
