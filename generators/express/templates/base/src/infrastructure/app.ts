@@ -1,10 +1,11 @@
 import * as Sentry from '@sentry/node';
-import express, { RequestHandler } from 'express';
+import express, { NextFunction, RequestHandler, Request, Response } from 'express';
 import session from 'express-session';
 import auth from './auth';
 import authRouter from './routes/auth';
 import healthRouter from './routes/health';
 import usersRouter from './routes/users';
+import { InvalidRangeError } from './routes/utils/parseRange';
 
 const app = express();
 
@@ -32,6 +33,17 @@ app.use(auth.session());
 
 app.use('/', authRouter);
 app.use('/users/', usersRouter);
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    if (err instanceof InvalidRangeError) {
+        res.status(400);
+        res.send('Invalid range header');
+
+        return;
+    }
+
+    next(err);
+});
 
 app.use(Sentry.Handlers.errorHandler());
 
