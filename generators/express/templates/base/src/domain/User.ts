@@ -1,5 +1,6 @@
 import { randomUUID } from 'crypto';
 import bcrypt from 'bcrypt';
+import { PaginationData } from './Pagination';
 
 class User {
     id: string;
@@ -27,7 +28,7 @@ class User {
 }
 
 interface UserRepository {
-    all(): Promise<User[]>;
+    all(pagination: PaginationData<User>): Promise<{users: User[], total: number}>;
     findById(id: string): Promise<User | null>;
     findByEmail(email: string): Promise<User | null>;
     save(user: User): Promise<void>
