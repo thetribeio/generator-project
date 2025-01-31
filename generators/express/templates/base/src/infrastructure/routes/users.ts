@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { User } from '../../domain/User';
+import createUser from '../../useCases/createUser';
 import listUsers from '../../useCases/listUsers';
 import { userRepository } from '../database';
 import { mapUser } from '../mappers';
@@ -28,6 +29,15 @@ router.get('/', async (req: Request, res: Response) => {
     }
 
     res.json(users.map(mapUser));
+});
+
+router.post('/', async (req: Request, res: Response) => {
+    if (req.user) {
+        const user = await createUser(req.body)({ userRepository });
+        res.send(mapUser(user));
+    } else {
+        res.sendStatus(404);
+    }
 });
 
 export default router;
