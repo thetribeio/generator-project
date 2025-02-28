@@ -32,6 +32,7 @@
   },
   "scripts": {
     "build": "tsc -b && vite build",
+    "create-template": "sed --expression 's/<div id=\"root\"[^>]*>/<div id=\"root\" data-environment-name=\"$ENVIRONMENT_NAME\" data-sentry-dsn=\"$SENTRY_DSN\">/g' dist/index.html > dist/index.html.template",
     "dev": "vite",
     "lint": "eslint src --ext ts,tsx",
     "preview": "vite preview",

@@ -77,15 +77,6 @@ class CreateReactAppGenerator extends PackageGenerator {
 
         this.configureScripts('script');
     }
-
-    async install(): Promise<void> {
-        const { packagePath } = this.options;
-
-        if (this.config.get('deployment') === DeploymentChoice.Kubernetes) {
-            // Yeoman is loosing file permisions when writing
-            await this.spawnCommand('chmod', ['a+x', `${packagePath}/start.sh`]);
-        }
-    }
 }
 
 export default CreateReactAppGenerator;
