@@ -6,12 +6,12 @@ import dataSource from '../database/data-source';
     await dataSource.initialize();
     const args = process.argv.slice(2);
 
-    const [username, password] = args;
+    const [email, password] = args;
 
-    if (!username || !password) {
-        console.error('Usage: createUser [username] [password]');
+    if (!email || !password) {
+        console.error('Usage: createUser [email] [password]');
         process.exit(1);
     }
 
-    await createUser({ username, password })({ userRepository });
+    await createUser({ email, password })({ userRepository });
 })().catch((e) => console.error(e));
