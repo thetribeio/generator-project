@@ -8,7 +8,9 @@
       delegate_to: localhost
       register: packages
     - name: Include packages deployment
-      include_tasks: '{{ package.path }}/deployment_ci.yaml'
+      include_tasks: '{{ package.path }}/deployment.yaml'
       loop: '{{ packages.files }}'
       loop_control:
         loop_var: package
+  vars:
+    artifact_source: local
