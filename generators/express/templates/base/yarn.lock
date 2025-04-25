@@ -4791,30 +4791,30 @@ pause@0.0.1:
   resolved "https://registry.yarnpkg.com/pause/-/pause-0.0.1.tgz#1d408b3fdb76923b9543d96fb4c9dfd535d9cb5d"
   integrity sha1-HUCLP9t2kjuVQ9lvtMnf1TXZy10=
 
-pg-cloudflare@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/pg-cloudflare/-/pg-cloudflare-1.2.0.tgz#5b3a7a5cc98e1dce4dfadd2d1b9402665b711536"
-  integrity sha512-dhfTv9ZhBLHHjFjh1qeA/0xbaF9ax9fVp+jFCWEDR3Qtdj6oM+GybEewsvAjDkH1mu6dpiH2MSKSHmVDrZqrGA==
+pg-cloudflare@^1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/pg-cloudflare/-/pg-cloudflare-1.2.5.tgz#2e3649c38a7a9c74a7e5327c8098a2fd9af595bd"
+  integrity sha512-OOX22Vt0vOSRrdoUPKJ8Wi2OpE/o/h9T8X1s4qSkCedbNah9ei2W2765be8iMVxQUsvgT7zIAT2eIa9fs5+vtg==
 
-pg-connection-string@^2.8.0:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/pg-connection-string/-/pg-connection-string-2.8.0.tgz#1cd0dd526eb4ee9e91873d36e9aca2744b994174"
-  integrity sha512-cXWgKbPawDbp6bJaQGxO1wo+kSqPW3+TrXbFVitmH2HfD0+dJTssJ4beIFV1iT0zxtr1xEWS7nR9OZwtwvsqKA==
+pg-connection-string@^2.8.5:
+  version "2.8.5"
+  resolved "https://registry.yarnpkg.com/pg-connection-string/-/pg-connection-string-2.8.5.tgz#82cefd0269cb64a09603342d9b69e8392e6eb6cd"
+  integrity sha512-Ni8FuZ8yAF+sWZzojvtLE2b03cqjO5jNULcHFfM9ZZ0/JXrgom5pBREbtnAw7oxsxJqHw9Nz/XWORUEL3/IFow==
 
 pg-int8@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/pg-int8/-/pg-int8-1.0.1.tgz#943bd463bf5b71b4170115f80f8efc9a0c0eb78c"
   integrity sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw==
 
-pg-pool@^3.9.0:
-  version "3.9.0"
-  resolved "https://registry.yarnpkg.com/pg-pool/-/pg-pool-3.9.0.tgz#88885402d16efe19c4bc5ce113c90ed9df95387c"
-  integrity sha512-HXUNm1OUwUNdIj52oVbwqAOOmY18pBJiwHXP+t7XikvZuLbf2x9AZQFAg+V1If83TRoIxAuUzy6IxN52QDC/9A==
+pg-pool@^3.9.5:
+  version "3.9.5"
+  resolved "https://registry.yarnpkg.com/pg-pool/-/pg-pool-3.9.5.tgz#73ee76bacc51f4bef5f9928a107ff15c98275fae"
+  integrity sha512-DxyAlOgvUzRFpFAZjbCc8fUfG7BcETDHgepFPf724B0i08k9PAiZV1tkGGgQIL0jbMEuR9jW1YN7eX+WgXxCsQ==
 
-pg-protocol@^1.9.0:
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/pg-protocol/-/pg-protocol-1.9.0.tgz#d2a1f4289df6e969ff6c29753c05a4f88ca08911"
-  integrity sha512-6AkqYKbOwHVlDnXrOZlSkpvn9zBA4y87HGlrPhnSPLkcLRnTPcXm2C/CNrOkQB2T7QKYv+IzCcmW0K974n3z9Q==
+pg-protocol@^1.9.5:
+  version "1.9.5"
+  resolved "https://registry.yarnpkg.com/pg-protocol/-/pg-protocol-1.9.5.tgz#e544eff37d6ab79c26281d7c0b59ac9be4862686"
+  integrity sha512-DYTWtWpfd5FOro3UnAfwvhD8jh59r2ig8bPtc9H8Ds7MscE/9NYruUQWFAOuraRl29jwcT2kyMFQ3MxeaVjUhg==
 
 pg-types@^2.1.0:
   version "2.2.0"
@@ -4827,18 +4827,18 @@ pg-types@^2.1.0:
     postgres-date "~1.0.4"
     postgres-interval "^1.1.0"
 
-pg@^8.15.0:
-  version "8.15.0"
-  resolved "https://registry.yarnpkg.com/pg/-/pg-8.15.0.tgz#0ab219cffcfd51e3213a577346e081e9abb8a9c2"
-  integrity sha512-N4OXL0tOYKRVyeZMK0RCAbcfYIesMEOxMb6hIS6sYpkn/NzdyL1TB+YFtUjE2ote0otdRsPXu+SsjVrJc93Etw==
+pg@^8.15.5:
+  version "8.15.5"
+  resolved "https://registry.yarnpkg.com/pg/-/pg-8.15.5.tgz#2480970166f36ea0eb2dbbe17c01d6a2783cac94"
+  integrity sha512-EpAhHFQc+aH9VfeffWIVC+XXk6lmAhS9W1FxtxcPXs94yxhrI1I6w/zkWfIOII/OkBv3Be04X3xMOj0kQ78l6w==
   dependencies:
-    pg-connection-string "^2.8.0"
-    pg-pool "^3.9.0"
-    pg-protocol "^1.9.0"
+    pg-connection-string "^2.8.5"
+    pg-pool "^3.9.5"
+    pg-protocol "^1.9.5"
     pg-types "^2.1.0"
     pgpass "1.x"
   optionalDependencies:
-    pg-cloudflare "^1.2.0"
+    pg-cloudflare "^1.2.5"
 
 pgpass@1.x:
   version "1.0.4"
