@@ -33,6 +33,7 @@ jobs:
 
   test-utils:
     strategy:
+      fail-fast: false
       matrix:
         node-version: [18.20.4, 20.18.0, 22.11.0]
     runs-on: ubuntu-22.04
@@ -49,6 +50,7 @@ jobs:
 
   test-generators:
     strategy:
+      fail-fast: false
       matrix:
         shard: [1/3, 2/3, 3/3]
     runs-on: ubuntu-22.04
