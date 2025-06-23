@@ -6,7 +6,4 @@
     path: /home/<%= packageName %>
     artifact_file: '{{ playbook_dir }}/../<%= packagePath %>/archive.tar.gz'
     before_finalize:
-      - >
-        sed --in-place --expression='s#<div id="root"[^>]*>#<div id="root"
-        {%- for key, value in <%= varName(packageName) %>_data|dictsort %} data-{{ key }}="{{ value }}"{% endfor -%}
-        >#g' dist/index.html
+      - envsubst < index.html.template > index.html && rm index.html.template
