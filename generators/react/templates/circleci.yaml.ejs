@@ -47,7 +47,7 @@ jobs:
           at: ~/project
       - run: echo "export default '${CIRCLE_SHA1}';" > src/version.ts
       - run:
-          command: yarn build
+          command: yarn build && yarn create-template && rm dist/index.html
           environment:
             NODE_ENV: production
       - persist_to_workspace:
