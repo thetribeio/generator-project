@@ -1,0 +1,14 @@
+name: "Deinstantiate on delete"
+on:
+  delete:
+    type: branch
+
+jobs:
+  deinstantiate-create-react-app:
+    name: Deinstantiate create-react-app
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Delete branch
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git push origin --delete instantiate/create-react-app/${{ github.event.ref }}

@@ -1,0 +1,51 @@
+name: "Instantiate on push"
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  instantiate-create-react-app:
+    name: Instantiate create-react-app
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Extract branch name
+        id: branch
+        shell: bash
+        run: echo "::set-output name=branch::$(echo ${GITHUB_REF#refs/heads/})"
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Extract commit data
+        id: commit
+        shell: bash
+        run: |
+          echo "::set-output name=author_name::$(git show -s --format='%an' ${{ github.event.after }})"
+          echo "::set-output name=author_email::$(git show -s --format='%ae' ${{ github.event.after }})"
+          echo "::set-output name=subject::$(git show -s --format='%s' ${{ github.event.after }})"
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.15.1'
+
+      - name: Build generator
+        run: |
+          yarn install
+          yarn build
+
+      - name: Instantiate generator
+        run: |
+          git config --global url."https://github.com/".insteadOf "git@github.com:"
+          node .github/instantiate.mjs create-react-app /tmp/instantiate/create-react-app
+
+      - name: Commit and push
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git checkout -b instantiate/create-react-app/${{ steps.branch.outputs.branch }}
+          git add .
+          git config --global user.email "${{ steps.commit.outputs.author_email }}"
+          git config --global user.name "${{ steps.commit.outputs.author_name }}"
+          git commit --message 'Instantiate "${{ steps.commit.outputs.subject }}"'
+          git push --force origin instantiate/create-react-app/${{ steps.branch.outputs.branch }}
+        working-directory: /tmp/instantiate/create-react-app
