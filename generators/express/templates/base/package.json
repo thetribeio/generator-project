@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@thetribe/eslint-config-typescript": "^0.5.1",
-    "@tsconfig/node22": "^22.0.1",
+    "@tsconfig/node22": "^22.0.2",
     "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.2",
     "@types/express-session": "^1.18.1",
